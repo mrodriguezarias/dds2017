@@ -3,6 +3,7 @@ package tp1.model;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +32,7 @@ public class Database {
 		companies.add(0, new Company(""));
 		
 		periods = metrics.stream().map(metric -> metric.getPeriod()).distinct()
-				.sorted().map(year -> new Period(year)).collect(Collectors.toList());
+				.sorted(Collections.reverseOrder()).map(year -> new Period(year)).collect(Collectors.toList());
 		periods.add(0, new Period(0));
 	}
 	
