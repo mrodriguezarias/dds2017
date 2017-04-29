@@ -6,6 +6,9 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.uqbar.arena.widgets.tables.Table;
+import org.uqbar.arena.widgets.tables.Column;
+
 public class Util {
 	
 	public static File getResource(String name) {
@@ -28,5 +31,12 @@ public class Util {
 	
 	public static <T> List<T> filterList(List<T> list, Predicate<? super T> predicate) {
 		return list.stream().filter(predicate).collect(Collectors.toList());
+	}
+	
+	public static <T> void createColumn(String title, String property, int length, Table<T> table) {
+		Column<T> column = new Column<>(table);
+		column.setTitle(title);
+		column.setFixedSize(length);
+		column.bindContentsToProperty(property);
 	}
 }

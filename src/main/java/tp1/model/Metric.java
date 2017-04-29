@@ -1,39 +1,51 @@
 package tp1.model;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import org.uqbar.commons.utils.Dependencies;
+import org.uqbar.commons.utils.Observable;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import tp1.Util;
-
+@Observable
 public class Metric {
+	public enum Type {METRIC, INDICATOR};
 	
-	private static List<Metric> metrics;
-	
-	public String name;
-	public long value;
-	public String company;
-	public short period;
+	private Type type = Type.METRIC;
+	private String name;
+	private long value;
+	private String company;
+	private short period;
 	
 	@Override
 	public String toString() {
-		return String.format("%s for %s in %d: %,d", name, company, period, value);
+		return String.format("%s for %s in %d: %(,d", name, company, period, value);
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public long getValue() {
+		return value;
+	}
+
+	public String getCompany() {
+		return company;
+	}
+
+	public short getPeriod() {
+		return period;
 	}
 	
-	public static void loadMetrics() {
-		File file = Util.getResource("metrics.json");
-		
-		try {
-			metrics = Arrays.asList(new ObjectMapper().readValue(file, Metric[].class));
-		} catch (IOException e) {
-			throw new RuntimeException("Error al intentar crear la lista de cuentas");
-		}
+	public Type getType() {
+		return type;
 	}
 	
-	public static List<Metric> getMetrics() {
-		return metrics;
+	@Dependencies("value")
+	public String getValueString() {
+		return String.format("%(,d", value);
 	}
+	
+	@Dependencies("type")
+	public String getTypeString() {
+		return type == Type.INDICATOR ? "Indicador" : "Cuenta";
+	}
+	
 }
