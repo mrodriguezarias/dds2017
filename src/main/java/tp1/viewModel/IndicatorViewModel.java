@@ -1,6 +1,5 @@
 package tp1.viewModel;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +10,7 @@ import tp1.Util;
 import tp1.model.Company;
 import tp1.model.Database;
 import tp1.model.Indicator;
+import tp1.model.Parser;
 import tp1.model.Period;
 
 @Observable
@@ -22,9 +22,12 @@ public class IndicatorViewModel {
 	private List<Indicator> indicators;
 	private Indicator indicator;
 	
+	private String error;
+
 	public IndicatorViewModel(Company company, Period period) {
 		this.company = company;
 		this.period = period;
+		this.error = "";
 		
 		indicators = new ArrayList<>(Database.getInstance().getIndicators());
 		indicators.add(0, Indicator.EMPTY);
@@ -54,14 +57,26 @@ public class IndicatorViewModel {
 	
 	@Dependencies("indicator")
 	public String getValue() {
-		return indicator == Indicator.EMPTY ? "" :
-			Util.formatNumber(indicator.compute(company, period));
+		String result = "";
+		error = "";
+		if(indicator != Indicator.EMPTY) {
+			try {
+				double value = indicator.compute(company, period);
+				result = Util.formatNumber(value);
+			} catch (Parser.ParseFailedException e) {
+				error = e.getMessage();
+			}
+		}
+		return result;
 	}
 	
-	@Dependencies("indicator")
-	public Color getColour() {
-		return (indicator == Indicator.EMPTY || indicator.compute(company, period) < 0)
-				? Util.RED_COLOUR : Util.GREEN_COLOUR; 
+	public String getError() {
+		return error;
+	}
+	
+	@Dependencies("error")
+	public boolean getIsError() {
+		return !error.isEmpty();
 	}
 	
 	@Dependencies("indicator")

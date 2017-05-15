@@ -38,8 +38,11 @@ public class Indicator {
 		return formula;
 	}
 	
-	public long compute(Company company, Period period) {
-		return 0;
+	public double compute(Company company, Period period) throws Parser.ParseFailedException {
+		Parser parser = new Parser();
+		parser.setMetrics(Database.getInstance().getMetrics(company, period));
+		parser.setIndicators(Database.getInstance().getIndicators());
+		return parser.parse(getFormula());
 	}
 	
 }

@@ -6,6 +6,7 @@ import org.uqbar.arena.widgets.Selector;
 import org.uqbar.arena.windows.SimpleWindow;
 import org.uqbar.arena.windows.WindowOwner;
 
+import tp1.Util;
 import tp1.model.Company;
 import tp1.model.Indicator;
 import tp1.model.Period;
@@ -32,6 +33,7 @@ public class IndicatorView extends SimpleWindow<IndicatorViewModel> {
 		new Label(mainPanel).bindValueToProperty("description");
 		createFormulaSection(mainPanel);
 		createValueLabel(mainPanel);
+		createErrorLabel(mainPanel);
 	}
 	
 	private void createSelector(Panel panel) {
@@ -40,14 +42,20 @@ public class IndicatorView extends SimpleWindow<IndicatorViewModel> {
 		indicators.bindValueToProperty("indicator");
 	}
 	
-	private void createFormulaSection(Panel panel) {
-		new Label(panel).setFontSize(20).bindValueToProperty("formula");
+	private void createFormulaSection(Panel container) {
+		new Label(container).setFontSize(20).bindValueToProperty("formula");
 	}
 	
-	private void createValueLabel(Panel panel) {
-		Label value = new Label(panel);
+	private void createValueLabel(Panel container) {
+		Label value = new Label(container);
+		value.setForeground(Util.BLUE_COLOUR);
 		value.setFontSize(30).setWidth(300).bindValueToProperty("value");
-		value.bindForegroundToProperty("colour");
+	}
+	
+	private void createErrorLabel(Panel container) {
+		Label label = new Label(container);
+		label.setForeground(Util.RED_COLOUR);
+		label.bindValueToProperty("error");
 	}
 	
 	@Override

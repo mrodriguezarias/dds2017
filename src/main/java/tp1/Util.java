@@ -12,8 +12,9 @@ import org.uqbar.arena.widgets.tables.Column;
 
 public class Util {
 	
-	public static final Color GREEN_COLOUR = Color.getHSBColor(0.3f, 1.0f, 0.5f);
 	public static final Color RED_COLOUR = Color.getHSBColor(0.0f, 1.0f, 0.8f);
+	public static final Color GREEN_COLOUR = Color.getHSBColor(0.3f, 1.0f, 0.5f);
+	public static final Color BLUE_COLOUR = Color.getHSBColor(0.6f, 1.0f, 0.9f);
 	
 	public static File getResource(String name) {
 		ClassLoader classLoader = App.class.getClassLoader();
@@ -45,6 +46,14 @@ public class Util {
 	}
 	
 	public static String formatNumber(Number number) {
-		return String.format("%,d", number).replaceAll(",", " ");
+		String formatted;
+		try {
+			long value = (long) number;
+			formatted = String.format("%,d", value).replaceAll(",", " ");
+		} catch(ClassCastException e) {
+			double value = (double) number;
+			formatted = String.format("%g", value);
+		}
+		return formatted;
 	}
 }
