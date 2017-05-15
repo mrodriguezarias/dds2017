@@ -5,13 +5,12 @@ import org.uqbar.commons.utils.Observable;
 
 @Observable
 public class Metric {
-	public enum Type {METRIC, INDICATOR};
 	
-	private Type type = Type.METRIC;
 	private String name;
 	private long value;
 	private String company;
 	private short period;
+	private String description;
 	
 	@Override
 	public String toString() {
@@ -34,18 +33,13 @@ public class Metric {
 		return period;
 	}
 	
-	public Type getType() {
-		return type;
+	public String getDescription() {
+		return description;
 	}
 	
 	@Dependencies("value")
 	public String getValueString() {
 		return String.format("%(,d", value);
-	}
-	
-	@Dependencies("type")
-	public String getTypeString() {
-		return type == Type.INDICATOR ? "Indicador" : "Cuenta";
 	}
 	
 }

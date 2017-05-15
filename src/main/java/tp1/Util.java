@@ -1,5 +1,6 @@
 package tp1;
 
+import java.awt.Color;
 import java.io.File;
 import java.util.List;
 import java.util.function.Function;
@@ -10,6 +11,9 @@ import org.uqbar.arena.widgets.tables.Table;
 import org.uqbar.arena.widgets.tables.Column;
 
 public class Util {
+	
+	public static final Color GREEN_COLOUR = Color.getHSBColor(0.3f, 1.0f, 0.5f);
+	public static final Color RED_COLOUR = Color.getHSBColor(0.0f, 1.0f, 0.8f);
 	
 	public static File getResource(String name) {
 		ClassLoader classLoader = App.class.getClassLoader();
@@ -38,5 +42,9 @@ public class Util {
 		column.setTitle(title);
 		column.setFixedSize(length);
 		column.bindContentsToProperty(property);
+	}
+	
+	public static String formatNumber(Number number) {
+		return String.format("%,d", number).replaceAll(",", " ");
 	}
 }
