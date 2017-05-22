@@ -3,43 +3,76 @@ package tp1.model;
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
+import tp1.Util;
+
 @Observable
 public class Metric {
 	
-	private String name;
-	private long value;
-	private String company;
-	private short period;
-	private String description;
+	public enum Type { METRIC, INDICATOR };
 	
-	@Override
-	public String toString() {
-		return String.format("%s for %s in %d: %(,d", name, company, period, value);
+	protected Type type;
+	protected String name;
+	protected String description;
+	protected Company company;
+	protected Period period;
+	private double value;
+	
+	@JsonCreator
+	public Metric(
+			@JsonProperty("name") String name,
+			@JsonProperty("description") String description,
+			@JsonProperty("value") double value) {
+		this.type = Type.METRIC;
+		this.name = name;
+		this.description = description;
+		this.value = value;
+	}
+	
+	@JsonSetter("company")
+	private void setCompanySymbol(String symbol) {
+		this.company = new Company(symbol);
+	}
+	
+	@JsonSetter("period")
+	private void setPeriodYear(short year) {
+		this.period = new Period(year);
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public long getValue() {
+	public double getValue() {
 		return value;
 	}
 
 	public String getCompany() {
-		return company;
+		return company.getSymbol();
 	}
 
 	public short getPeriod() {
-		return period;
+		return period.getYear();
 	}
 	
 	public String getDescription() {
 		return description;
 	}
 	
-	@Dependencies("value")
-	public String getValueString() {
-		return String.format("%(,d", value);
+	public Type getType() {
+		return type;
 	}
 	
+	public String getTypeString() {
+		if(type == Type.INDICATOR) return "Indicador";
+		return "Cuenta";
+	}
+	
+	@Dependencies("value")
+	public String getValueString() {
+		return Util.significantDigits(getValue());
+	}
 }

@@ -11,8 +11,8 @@ import org.uqbar.arena.windows.WindowOwner;
 
 import tp1.Util;
 import tp1.model.Company;
-import tp1.model.Period;
 import tp1.model.Metric;
+import tp1.model.Period;
 import tp1.viewModel.MainViewModel;
 
 @SuppressWarnings("serial")
@@ -61,8 +61,9 @@ public class MainView extends SimpleWindow<MainViewModel> {
 
 		Util.createColumn("Empresa", "company", 60, table);
 		Util.createColumn("Período", "period", 60, table);
-		Util.createColumn("Nombre", "name", 80, table);
-		Util.createColumn("Valor", "valueString", 140, table);
+		Util.createColumn("Nombre", "name", 60, table);
+		Util.createColumn("Tipo", "typeString", 70, table);
+		Util.createColumn("Valor", "valueString", 100, table);
 	}
 
 	@Override

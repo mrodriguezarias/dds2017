@@ -2,15 +2,15 @@ package tp1.model;
 
 public class Period {
 	
-	public static final Period EMPTY = new Period(0);
+	public static final Period EMPTY = new Period((short)0);
 	
-	private int year;
+	private short year;
 	
-	public Period(int year) {
+	public Period(short year) {
 		this.year = year;
 	}
 	
-	public int getYear() {
+	public short getYear() {
 		return year;
 	}
 	

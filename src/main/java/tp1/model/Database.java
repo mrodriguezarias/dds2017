@@ -61,8 +61,12 @@ public class Database {
 		return periods;
 	}
 	
-	public List<Indicator> getIndicators() {
-		return indicators;
+	public List<Indicator> getIndicators(Company company, Period period) {
+		return Util.mapList(indicators, indicator -> {
+			indicator.setCompany(company);
+			indicator.setPeriod(period);
+			return indicator;
+		});
 	}
 	
 	@SuppressWarnings("unchecked")

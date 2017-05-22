@@ -29,7 +29,7 @@ public class IndicatorViewModel {
 		this.period = period;
 		this.error = "";
 		
-		indicators = new ArrayList<>(Database.getInstance().getIndicators());
+		indicators = new ArrayList<>(Database.getInstance().getIndicators(company, period));
 		indicators.add(0, Indicator.EMPTY);
 		indicator = indicators.get(0);
 	}
@@ -61,7 +61,7 @@ public class IndicatorViewModel {
 		error = "";
 		if(indicator != Indicator.EMPTY) {
 			try {
-				double value = indicator.compute(company, period);
+				double value = indicator.tryGetValue();
 				result = Util.formatNumber(value);
 			} catch (Parser.ParseFailedException e) {
 				error = e.getMessage();

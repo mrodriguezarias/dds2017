@@ -25,24 +25,24 @@ public class TestMetrics {
 	@Test
 	public void testList() {
 		assertFalse(metrics.isEmpty());
-		assertEquals(NUM_COMPANIES * NUM_METRIC_TYPES * NUM_PERIODS, metrics.size());
+		assertEquals(NUM_COMPANIES * NUM_METRIC_TYPES * NUM_PERIODS + 2 * NUM_PERIODS, metrics.size());
 		metrics.forEach(metric -> assertNotNull(metric));
 	}
 	
 	@Test
 	public void testApple() {
 		List<Metric> apple = Util.filterList(metrics, metric -> metric.getCompany().equals("AAPL"));
-		assertEquals(NUM_METRIC_TYPES * NUM_PERIODS, apple.size());
+		assertEquals(4 * NUM_PERIODS, apple.size());
 		
 		List<Metric> ebitda = Util.filterList(apple, metric -> metric.getName().equals("EBITDA"));
 		assertEquals(NUM_PERIODS, ebitda.size());
 		assertEquals(2016, ebitda.get(0).getPeriod());
-		assertEquals(71880000000l, ebitda.get(0).getValue());
+		assertEquals(71880000000., ebitda.get(0).getValue(), 0);
 		
 		List<Metric> fcf = Util.filterList(apple, metric -> metric.getName().equals("FCF"));
 		assertEquals(NUM_PERIODS, fcf.size());
 		assertEquals(2012, fcf.get(NUM_PERIODS-1).getPeriod());
-		assertEquals(42560000000l, fcf.get(NUM_PERIODS-1).getValue());
+		assertEquals(42560000000., fcf.get(NUM_PERIODS-1).getValue(), 0);
 	}
 	
 	@Test
@@ -53,12 +53,12 @@ public class TestMetrics {
 		List<Metric> ebitda = Util.filterList(amazon, metric -> metric.getName().equals("EBITDA"));
 		assertEquals(NUM_PERIODS, ebitda.size());
 		assertEquals(2016, ebitda.get(0).getPeriod());
-		assertEquals(12400000000l, ebitda.get(0).getValue());
+		assertEquals(12400000000., ebitda.get(0).getValue(), 0);
 		
 		List<Metric> fcf = Util.filterList(amazon, metric -> metric.getName().equals("FCF"));
 		assertEquals(NUM_PERIODS, fcf.size());
 		assertEquals(2012, fcf.get(NUM_PERIODS-1).getPeriod());
-		assertEquals(395000000l, fcf.get(NUM_PERIODS-1).getValue());
+		assertEquals(395000000., fcf.get(NUM_PERIODS-1).getValue(), 0);
 	}
 	
 	@Test
@@ -69,12 +69,12 @@ public class TestMetrics {
 		List<Metric> ebitda = Util.filterList(facebook, metric -> metric.getName().equals("EBITDA"));
 		assertEquals(NUM_PERIODS, ebitda.size());
 		assertEquals(2016, ebitda.get(0).getPeriod());
-		assertEquals(14860000000l, ebitda.get(0).getValue());
+		assertEquals(14860000000., ebitda.get(0).getValue(), 0);
 		
 		List<Metric> fcf = Util.filterList(facebook, metric -> metric.getName().equals("FCF"));
 		assertEquals(NUM_PERIODS, fcf.size());
 		assertEquals(2012, fcf.get(NUM_PERIODS-1).getPeriod());
-		assertEquals(377000000l, fcf.get(NUM_PERIODS-1).getValue());
+		assertEquals(377000000., fcf.get(NUM_PERIODS-1).getValue(), 0);
 	}
 	
 	@Test
@@ -85,12 +85,12 @@ public class TestMetrics {
 		List<Metric> ebitda = Util.filterList(alphabet, metric -> metric.getName().equals("EBITDA"));
 		assertEquals(NUM_PERIODS, ebitda.size());
 		assertEquals(2016, ebitda.get(0).getPeriod());
-		assertEquals(30290000000l, ebitda.get(0).getValue());
+		assertEquals(30290000000., ebitda.get(0).getValue(), 0);
 		
 		List<Metric> fcf = Util.filterList(alphabet, metric -> metric.getName().equals("FCF"));
 		assertEquals(NUM_PERIODS, fcf.size());
 		assertEquals(2012, fcf.get(NUM_PERIODS-1).getPeriod());
-		assertEquals(2780000000l, fcf.get(NUM_PERIODS-1).getValue());
+		assertEquals(2780000000., fcf.get(NUM_PERIODS-1).getValue(), 0);
 	}
 	
 	@Test
@@ -101,12 +101,12 @@ public class TestMetrics {
 		List<Metric> ebitda = Util.filterList(twitter, metric -> metric.getName().equals("EBITDA"));
 		assertEquals(NUM_PERIODS, ebitda.size());
 		assertEquals(2016, ebitda.get(0).getPeriod());
-		assertEquals(61310000l, ebitda.get(0).getValue());
+		assertEquals(61310000., ebitda.get(0).getValue(), 0);
 		
 		List<Metric> fcf = Util.filterList(twitter, metric -> metric.getName().equals("FCF"));
 		assertEquals(NUM_PERIODS, fcf.size());
 		assertEquals(2012, fcf.get(NUM_PERIODS-1).getPeriod());
-		assertEquals(-78530000l, fcf.get(NUM_PERIODS-1).getValue());
+		assertEquals(-78530000., fcf.get(NUM_PERIODS-1).getValue(), 0);
 	}
 
 }

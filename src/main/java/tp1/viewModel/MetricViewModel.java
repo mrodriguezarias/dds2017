@@ -7,6 +7,7 @@ import org.uqbar.commons.utils.Observable;
 
 import tp1.Util;
 import tp1.model.Metric;
+import tp1.model.Metric.Type;
 
 @Observable
 public class MetricViewModel {
@@ -18,7 +19,7 @@ public class MetricViewModel {
 	}
 	
 	public String title() {
-		return String.format("Cuenta %s de $%s en %d",
+		return String.format("%s %s de $%s en %d", metric.getTypeString(),
 				metric.getName(), metric.getCompany(), metric.getPeriod()); 
 	}
 	
@@ -30,6 +31,7 @@ public class MetricViewModel {
 
 	@Dependencies("metric")
 	public String getValue() {
+		if(metric.getType() == Type.INDICATOR) return metric.getValueString();
 		return Util.formatNumber(metric.getValue());
 	}
 
@@ -40,6 +42,7 @@ public class MetricViewModel {
 	
 	@Dependencies("metric")
 	public Color getColour() {
+		if(metric.getType() == Type.INDICATOR) return Util.BLUE_COLOUR;
 		return metric.getValue() < 0 ? Util.RED_COLOUR : Util.GREEN_COLOUR; 
 	}
 	

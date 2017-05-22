@@ -64,7 +64,7 @@ public class Parser {
 			sb.append("(");
 			Optional<Metric> metric = getMetric(var);
 			if(metric.isPresent()) {
-				sb.append(metric.get().getValue());
+				sb.append(String.format("%f", metric.get().getValue()));
 			} else {
 				Optional<Indicator> indicator = getIndicator(var);
 				if(!indicator.isPresent()) {

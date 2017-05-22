@@ -5,6 +5,7 @@ import java.util.List;
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
 
+import tp1.Util;
 import tp1.model.Company;
 import tp1.model.Period;
 import tp1.model.Metric;
@@ -71,7 +72,13 @@ public class MainViewModel {
 	}
 	
 	public void updateMetrics() {
-		metrics = Database.getInstance().getMetrics(selectedCompany, selectedPeriod);
+		List<Metric> metrics = Database.getInstance().getMetrics(selectedCompany, selectedPeriod);
+		if(getApplyIndicatorEnabled()) {
+			metrics.addAll(Util.filterList(
+					Database.getInstance().getIndicators(selectedCompany, selectedPeriod),
+					indicator -> !indicator.getValueString().isEmpty()));
+		}
+		this.metrics = metrics;
 	}
 	
 	public void viewMetric() {
