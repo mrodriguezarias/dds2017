@@ -1,5 +1,4 @@
 package tp1.model;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -14,29 +13,22 @@ public class Parser {
 		}
 	}
 
+	private String indicatorName;
+	private String formula;
 	private List<Metric> metrics;
 	private List<Indicator> indicators;
 
-	public Parser() {
-		this.metrics = new ArrayList<>();
-		this.indicators = new ArrayList<>();
-	}
-
-	public Parser(List<Metric> metrics, List<Indicator> indicators) {
-		this.metrics = metrics;
-		this.indicators = indicators;
-	}
-
-	public void setMetrics(List<Metric> metrics) {
-		this.metrics = metrics;
-	}
-
-	public void setIndicators(List<Indicator> indicators) {
-		this.indicators = indicators;
+	public Parser(Indicator indicator) {
+		Company company = indicator.getCompany();
+		Period period = indicator.getPeriod();
+		this.indicatorName = indicator.getName();
+		this.formula = indicator.getFormula();
+		this.metrics = Database.getInstance().getMetrics(company, period);
+		this.indicators = Database.getInstance().getIndicators(company, period);
 	}
 	
-	public double parse(final String string) throws ParseFailedException {
-		return eval(replaceVariables(string));
+	public double parse() throws ParseFailedException {
+		return eval(replaceVariables(formula));
 	}
 	
 	private Optional<Metric> getMetric(String name) {
@@ -68,13 +60,12 @@ public class Parser {
 			} else {
 				Optional<Indicator> indicator = getIndicator(var);
 				if(!indicator.isPresent()) {
-					throw new ParseFailedException(String.format("Variable '%s' no reconocida", var));
+					throw new ParseFailedException(String.format("variable '%s' no reconocida", var));
 				}
-				try {
-					sb.append(replaceVariables(indicator.get().getFormula()));
-				} catch(StackOverflowError e) {
-					throw new ParseFailedException("Límite de recursión alcanzado");					
+				if(indicator.get().getName().equals(indicatorName)) {
+					throw new ParseFailedException("definición recursiva");
 				}
+ 				sb.append(replaceVariables(indicator.get().getFormula()));
 			}
 			sb.append(")");
 		}
@@ -82,7 +73,7 @@ public class Parser {
 		return sb.toString();
 	}
 
-	// Source: http://stackoverflow.com/a/26227947
+	// Adapted from: http://stackoverflow.com/a/26227947
 	private double eval(final String text) throws ParseFailedException {
 		return new Object() {
 			int pos = -1, ch;
@@ -109,7 +100,7 @@ public class Parser {
 				double x = parseExpression();
 				if (pos < str.length()) {
 					throw new ParseFailedException(
-							String.format("Carácter '%c' inesperado", ch));
+							String.format("carácter '%c' inesperado", ch));
 				}
 				return x;
 			}
@@ -158,10 +149,12 @@ public class Parser {
 					else if (func.equals("sin")) x = Math.sin(Math.toRadians(x));
 					else if (func.equals("cos")) x = Math.cos(Math.toRadians(x));
 					else if (func.equals("tan")) x = Math.tan(Math.toRadians(x));
-					else throw new RuntimeException("Unknown function: " + func);
+					else throw new ParseFailedException(
+							String.format("función '%s' desconocida", func));
 				} else {
-					throw new ParseFailedException(
-							String.format("Carácter '%c' inesperado", ch));
+					String err = ch == -1 ? "final inesperado"
+							: String.format("carácter '%c' inesperado", ch);
+					throw new ParseFailedException(err);
 				}
 
 				if (eat('^')) x = Math.pow(x, parseFactor()); // exponentiation

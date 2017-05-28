@@ -15,8 +15,13 @@ public class Metric {
 	public enum Type { METRIC, INDICATOR };
 	
 	protected Type type;
+	
+	@JsonProperty
 	protected String name;
+	
+	@JsonProperty
 	protected String description;
+	
 	protected Company company;
 	protected Period period;
 	private double value;
@@ -50,12 +55,12 @@ public class Metric {
 		return value;
 	}
 
-	public String getCompany() {
-		return company.getSymbol();
+	public Company getCompany() {
+		return company;
 	}
 
-	public short getPeriod() {
-		return period.getYear();
+	public Period getPeriod() {
+		return period;
 	}
 	
 	public String getDescription() {

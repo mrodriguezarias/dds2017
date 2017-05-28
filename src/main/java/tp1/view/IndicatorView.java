@@ -33,7 +33,6 @@ public class IndicatorView extends SimpleWindow<IndicatorViewModel> {
 		new Label(mainPanel).bindValueToProperty("description");
 		createFormulaSection(mainPanel);
 		createValueLabel(mainPanel);
-		createErrorLabel(mainPanel);
 	}
 	
 	private void createSelector(Panel panel) {
@@ -50,12 +49,6 @@ public class IndicatorView extends SimpleWindow<IndicatorViewModel> {
 		Label value = new Label(container);
 		value.setForeground(Util.BLUE_COLOUR);
 		value.setFontSize(30).setWidth(300).bindValueToProperty("value");
-	}
-	
-	private void createErrorLabel(Panel container) {
-		Label label = new Label(container);
-		label.setForeground(Util.RED_COLOUR);
-		label.bindValueToProperty("error");
 	}
 	
 	@Override

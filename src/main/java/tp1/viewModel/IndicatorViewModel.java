@@ -6,11 +6,9 @@ import java.util.List;
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
 
-import tp1.Util;
 import tp1.model.Company;
 import tp1.model.Database;
 import tp1.model.Indicator;
-import tp1.model.Parser;
 import tp1.model.Period;
 
 @Observable
@@ -21,13 +19,10 @@ public class IndicatorViewModel {
 	
 	private List<Indicator> indicators;
 	private Indicator indicator;
-	
-	private String error;
 
 	public IndicatorViewModel(Company company, Period period) {
 		this.company = company;
 		this.period = period;
-		this.error = "";
 		
 		indicators = new ArrayList<>(Database.getInstance().getIndicators(company, period));
 		indicators.add(0, Indicator.EMPTY);
@@ -57,26 +52,7 @@ public class IndicatorViewModel {
 	
 	@Dependencies("indicator")
 	public String getValue() {
-		String result = "";
-		error = "";
-		if(indicator != Indicator.EMPTY) {
-			try {
-				double value = indicator.tryGetValue();
-				result = Util.formatNumber(value);
-			} catch (Parser.ParseFailedException e) {
-				error = e.getMessage();
-			}
-		}
-		return result;
-	}
-	
-	public String getError() {
-		return error;
-	}
-	
-	@Dependencies("error")
-	public boolean getIsError() {
-		return !error.isEmpty();
+		return indicator.getValueString();
 	}
 	
 	@Dependencies("indicator")

@@ -72,6 +72,7 @@ public class MainViewModel {
 	}
 	
 	public void updateMetrics() {
+		this.metrics = null;
 		List<Metric> metrics = Database.getInstance().getMetrics(selectedCompany, selectedPeriod);
 		if(getApplyIndicatorEnabled()) {
 			metrics.addAll(Util.filterList(

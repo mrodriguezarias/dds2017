@@ -6,6 +6,7 @@ import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
 
 import tp1.Util;
+import tp1.model.Indicator;
 import tp1.model.Metric;
 import tp1.model.Metric.Type;
 
@@ -19,13 +20,16 @@ public class MetricViewModel {
 	}
 	
 	public String title() {
-		return String.format("%s %s de $%s en %d", metric.getTypeString(),
+		return String.format("%s %s de $%s en %s", metric.getTypeString(),
 				metric.getName(), metric.getCompany(), metric.getPeriod()); 
 	}
 	
 	@Dependencies("metric")
 	public String getHeading() {
-		return String.format("%s(%s, %d)",
+		if(metric.getType() == Metric.Type.INDICATOR) {
+			return ((Indicator)metric).getFormula();
+		}
+		return String.format("%s(%s, %s)",
 				metric.getName(), metric.getCompany(), metric.getPeriod());
 	}
 

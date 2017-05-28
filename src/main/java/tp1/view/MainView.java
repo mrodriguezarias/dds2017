@@ -97,7 +97,7 @@ public class MainView extends SimpleWindow<MainViewModel> {
 		Button button = new Button(panel);
 		button.setCaption("Administrar indicadores");
 		button.onClick(() -> {
-			showInfo("TODO: ABM de indicadores");
+			new AdminView(this).open();
 		});
 	}
 
