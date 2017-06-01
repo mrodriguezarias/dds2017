@@ -9,7 +9,7 @@ import org.uqbar.arena.widgets.TextBox;
 import org.uqbar.arena.windows.SimpleWindow;
 import org.uqbar.arena.windows.WindowOwner;
 
-import tp1.Util;
+import tp1.model.Colour;
 import tp1.model.Indicator;
 import tp1.viewModel.AdminViewModel;
 
@@ -67,7 +67,7 @@ public class AdminView extends SimpleWindow<AdminViewModel> {
 	
 	private void createErrorLabel(Panel container) {
 		Label label = new Label(container);
-		label.setForeground(Util.RED_COLOUR);
+		label.setForeground(Colour.RED.getValue());
 		label.bindValueToProperty("error");
 	}
 	

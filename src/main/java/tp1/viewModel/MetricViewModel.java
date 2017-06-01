@@ -6,6 +6,7 @@ import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
 
 import tp1.Util;
+import tp1.model.Colour;
 import tp1.model.Indicator;
 import tp1.model.Metric;
 import tp1.model.Metric.Type;
@@ -46,8 +47,8 @@ public class MetricViewModel {
 	
 	@Dependencies("metric")
 	public Color getColour() {
-		if(metric.getType() == Type.INDICATOR) return Util.BLUE_COLOUR;
-		return metric.getValue() < 0 ? Util.RED_COLOUR : Util.GREEN_COLOUR; 
+		if(metric.getType() == Type.INDICATOR) return Colour.BLUE.getValue();
+		return metric.getValue() < 0 ? Colour.RED.getValue() : Colour.GREEN.getValue(); 
 	}
 	
 }

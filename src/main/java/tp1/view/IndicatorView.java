@@ -6,7 +6,7 @@ import org.uqbar.arena.widgets.Selector;
 import org.uqbar.arena.windows.SimpleWindow;
 import org.uqbar.arena.windows.WindowOwner;
 
-import tp1.Util;
+import tp1.model.Colour;
 import tp1.model.Company;
 import tp1.model.Indicator;
 import tp1.model.Period;
@@ -47,7 +47,7 @@ public class IndicatorView extends SimpleWindow<IndicatorViewModel> {
 	
 	private void createValueLabel(Panel container) {
 		Label value = new Label(container);
-		value.setForeground(Util.BLUE_COLOUR);
+		value.setForeground(Colour.BLUE.getValue());
 		value.setFontSize(30).setWidth(300).bindValueToProperty("value");
 	}
 	
