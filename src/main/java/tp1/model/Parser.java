@@ -96,6 +96,7 @@ public class Parser {
 				str = text.replaceAll("([0-9)])\\s+([0-9(])", "$1 * $2");
 				str = str.replaceAll("([0-9)])\\(", "$1 * (");
 				str = str.replaceAll("\\)([0-9(])", ") * $1");
+				str = str.replaceAll(",", ".");
 				nextChar();
 				double x = parseExpression();
 				if (pos < str.length()) {
