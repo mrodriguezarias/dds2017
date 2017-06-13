@@ -7,10 +7,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
-import tp1.Util;
 
 @Observable
-public class Metric {
+public class Metric implements Measure {
 	
 	public enum Type { METRIC, INDICATOR };
 	
@@ -23,7 +22,7 @@ public class Metric {
 	protected String description;
 	
 	protected Company company;
-	protected Period period;
+	protected short period;
 	private double value;
 	
 	@JsonCreator
@@ -38,20 +37,20 @@ public class Metric {
 	}
 	
 	@JsonSetter("company")
-	private void setCompanySymbol(String symbol) {
-		this.company = new Company(symbol);
+	private void setCompany(String name) {
+		this.company = new Company(name);
 	}
 	
 	@JsonSetter("period")
 	private void setPeriodYear(short year) {
-		this.period = new Period(year);
+		this.period = year;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public double getValue() {
+	public double getValue(Company company, short period) {
 		return value;
 	}
 
@@ -59,7 +58,7 @@ public class Metric {
 		return company;
 	}
 
-	public Period getPeriod() {
+	public short getPeriod() {
 		return period;
 	}
 	
@@ -78,6 +77,7 @@ public class Metric {
 	
 	@Dependencies("value")
 	public String getValueString() {
-		return Util.significantDigits(getValue());
+		return ""; //fixme
+		//return Util.significantDigits(getValue());
 	}
 }

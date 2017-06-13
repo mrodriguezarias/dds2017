@@ -6,9 +6,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import tp1.Util;
 import tp1.model.Parser.ParseFailedException;
 
-public class Indicator extends Metric implements Comparable<Indicator> {
+public class Indicator  implements Measure {
 	
-	public static final Indicator EMPTY = new Indicator("", "", "");
+	@JsonProperty
+	private String name;
+	
+	@JsonProperty
+	private String description;
+	
+	@JsonProperty
+	private String formula;
+	
+	@JsonProperty
+	private Expression expression;
 	
 	@SuppressWarnings("serial")
 	public class InvalidFormulaException extends Exception {
@@ -24,27 +34,16 @@ public class Indicator extends Metric implements Comparable<Indicator> {
 		}
 	}
 	
-	@JsonProperty
-	private String formula;
 	
 	@JsonCreator
 	public Indicator(
 			@JsonProperty("name") String name,
 			@JsonProperty("description") String description,
 			@JsonProperty("formula") String formula) {
-		super(name, description, 0);
-		this.type = Type.INDICATOR;
+		this.name = name;
+		this.description = description;
 		this.formula = formula;
-		this.company = Company.EMPTY;
-		this.period = Period.EMPTY;
-	}
-	
-	public void setCompany(Company company) {
-		this.company = company;
-	}
-	
-	public void setPeriod(Period period) {
-		this.period = period;
+		
 	}
 	
 	@Override
@@ -56,31 +55,31 @@ public class Indicator extends Metric implements Comparable<Indicator> {
 		return formula;
 	}
 	
+	public String getName(){
+		return name;		
+	}
+	
+	public String getDescription(){
+		return description;
+	}
 	public void update(String name, String description, String formula) {
 		this.name = name;
 		this.description = description;
 		this.formula = formula;
 	}
 	
-	public double tryGetValue() throws InvalidFormulaException {
-		try {
-			return new Parser(this).parse();
-		} catch (ParseFailedException e) {
-			throw new InvalidFormulaException(e.getMessage());
-		}
+	public double getValue(Company company, short period){
+		return expression.eval(company, period);		
 	}
-	
-	@Override
-	public String getValueString() {
+	/*public String getValueString() {
 		try {
 			return Util.significantDigits(tryGetValue());
 		} catch(InvalidFormulaException e) {
 			return "";
 		}
-	}
+	}*/
 	
-	@Override
-	public int hashCode() {
+		public int hashCode() {
 		return this.name.hashCode();
 	}
 	
@@ -90,9 +89,9 @@ public class Indicator extends Metric implements Comparable<Indicator> {
 				&& this.name.equals(((Indicator)obj).getName());
 	}
 
-	@Override
+	/*@Override
 	public int compareTo(Indicator other) {
 		return this.name.compareTo(other.getName());
-	}
+	}*/
 	
 }
