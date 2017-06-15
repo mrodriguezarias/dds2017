@@ -39,10 +39,12 @@ public class Indicator  implements Measure {
 	public Indicator(
 			@JsonProperty("name") String name,
 			@JsonProperty("description") String description,
-			@JsonProperty("formula") String formula) {
+			@JsonProperty("formula") String formula,
+			@JsonProperty("expression") Expression expression) {
 		this.name = name;
 		this.description = description;
 		this.formula = formula;
+		this.expression = expression; //testear
 		
 	}
 	

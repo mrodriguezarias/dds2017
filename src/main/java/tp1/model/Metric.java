@@ -21,7 +21,7 @@ public class Metric implements Measure {
 	@JsonProperty
 	protected String description;
 	
-	protected Company company;
+	protected String companyName;
 	protected short period;
 	private double value;
 	
@@ -38,7 +38,7 @@ public class Metric implements Measure {
 	
 	@JsonSetter("company")
 	private void setCompany(String name) {
-		this.company = new Company(name);
+		this.companyName = name;
 	}
 	
 	@JsonSetter("period")
@@ -54,8 +54,8 @@ public class Metric implements Measure {
 		return value;
 	}
 
-	public Company getCompany() {
-		return company;
+	public String getCompany() {
+		return companyName;
 	}
 
 	public short getPeriod() {
