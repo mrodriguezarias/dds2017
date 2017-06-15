@@ -57,13 +57,4 @@ public class Util {
 		String unit = index < 0 ? "" : " " + units[index]; 
 		return formatNumber(figure) + unit;
 	}
-	
-	public static Class<?> arrayType(Class<?> type) {
-		try {
-			return Class.forName("[L" + type.getName() + ";");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 }

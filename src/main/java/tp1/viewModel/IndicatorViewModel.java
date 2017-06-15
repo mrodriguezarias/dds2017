@@ -15,12 +15,12 @@ import tp1.model.Period;
 public class IndicatorViewModel {
 
 	private Company company;
-	private Period period;
+	private short period;
 	
 	private List<Indicator> indicators;
 	private Indicator indicator;
 
-	public IndicatorViewModel(Company company, Period period) {
+	public IndicatorViewModel(Company company, short period) {
 		this.company = company;
 		this.period = period;
 		

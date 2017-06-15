@@ -7,15 +7,15 @@ public class JsonIndicatorSource implements IndicatorSource{
 	
 	JsonCoder coder;
 	
-	public void init(String fileName){
-		
-		coder = new JsonCoder(fileName, Indicator.class );
+	public JsonIndicatorSource(String fileName){
+		coder = new JsonCoder(fileName, Indicator.class);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Indicator> load() {
 		
-		return coder.read();
+		return (List<Indicator>) coder.read();
 	}
 
 	@Override

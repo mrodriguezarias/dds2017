@@ -21,18 +21,26 @@ public class Metric implements Measure {
 	@JsonProperty
 	protected String description;
 	
+	@JsonProperty
 	protected String companyName;
+	@JsonProperty
 	protected short period;
+	@JsonProperty
 	private double value;
 	
 	@JsonCreator
 	public Metric(
 			@JsonProperty("name") String name,
 			@JsonProperty("description") String description,
-			@JsonProperty("value") double value) {
+			@JsonProperty("companyName") String companyName,
+			@JsonProperty("period") short period,
+			@JsonProperty("value") double value
+			) {
 		this.type = Type.METRIC;
 		this.name = name;
 		this.description = description;
+		this.companyName = companyName;
+		this.period = period;
 		this.value = value;
 	}
 	
@@ -45,17 +53,19 @@ public class Metric implements Measure {
 	private void setPeriodYear(short year) {
 		this.period = year;
 	}
-
+	
+	
+	
 	public String getName() {
 		return name;
 	}
-
+	
+	public String getCompanyName() {
+		return companyName;
+	}
+	
 	public double getValue(Company company, short period) {
 		return value;
-	}
-
-	public String getCompany() {
-		return companyName;
 	}
 
 	public short getPeriod() {

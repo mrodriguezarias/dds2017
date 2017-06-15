@@ -7,15 +7,15 @@ public class JsonCompanySource implements CompanySource{
 	public JsonCoder coder;
 	
 	
-	public void init(String fileName){
-		
+	public JsonCompanySource(String fileName){
 		coder = new JsonCoder(fileName, Company.class );
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Company> load() {
 		
-		return coder.read();
+		return (List<Company>) coder.read();
 	}
 
 }

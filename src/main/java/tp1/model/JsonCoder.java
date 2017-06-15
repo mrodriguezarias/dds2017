@@ -14,22 +14,20 @@ import tp1.Util;
 public class JsonCoder {
 	
 	String fileName;
-	Class type;
+	Class<?> type;
 	ObjectMapper mapper;
 	
-	public JsonCoder (String fileName, Class type){
+	public JsonCoder (String fileName, Class<?> type) {
 		this.fileName = fileName;
 		this.type = type;
 		
 	} 
 	
-	public void init (String filename, Class type){}
-	
-	public <type> List<type> read(){
+	public List<?> read() {
 		
 		try {
 			File file = Util.getResource(fileName);
-			type[] array = (type[]) mapper.readValue(file, Util.arrayType(type));
+			Object[] array = (Object[]) mapper.readValue(file, arrayType(type));
 			return Arrays.asList(array);
 		} catch(IOException e) {
 			String msg = "Error al intentar leer datos del archivo " + fileName;
@@ -39,7 +37,7 @@ public class JsonCoder {
 		
 	} 
 
-	public void write (Object list){
+	public void write (List<?> list) {
 		
 		try {
 			File file = Util.getResource(fileName);
@@ -49,6 +47,15 @@ public class JsonCoder {
 			System.out.println(e.getMessage());
 			throw new RuntimeException(msg);
 		}
+	}
+	
+	private Class<?> arrayType(Class<?> type) {
+		try {
+			return Class.forName("[L" + type.getName() + ";");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }
