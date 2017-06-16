@@ -40,21 +40,7 @@ public class Util {
 		column.bindContentsToProperty(property);
 	}
 	
-	public static String formatNumber(double number) {
-		String integer = String.format("%,d", (long) number).replaceAll(",", "\u2009");
-		String decimal = String.format("%f", Math.abs(number)).replaceFirst("[0-9]+\\.", ",")
-				.replaceFirst(",([0-9]*?)0+$", ",$1").replaceFirst(",0*$", "");
-		return integer + decimal;
-	}
 	
-	public static String significantDigits(double figure) {
-		String[] units = {"m", "M", "mM", "B", "mB", "T", "mT"};
-		int index = -1;
-		while(Math.abs(figure) > 1000) {
-			index++;
-			figure /= 1000;
-		}
-		String unit = index < 0 ? "" : " " + units[index]; 
-		return formatNumber(figure) + unit;
-	}
+	
+	
 }

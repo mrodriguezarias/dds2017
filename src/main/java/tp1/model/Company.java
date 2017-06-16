@@ -1,5 +1,6 @@
 package tp1.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -10,29 +11,36 @@ public class Company implements Comparable<Company> {
 	
 	private String name;
 	private String symbol;
-	public List<Metric> metrics;
+	private List<Metric> metrics;
 	
 	public Company(String name) {
 		this.name = name;
+		this.metrics = new ArrayList<>();
+	}
+	
+	public void addMetric(Metric metric) {
+		metrics.add(metric);
 	}
 	
 	public String getName() {
 		return name;
 	}
+	
+	public boolean hasMetric(String name) {
+		return metrics.stream().anyMatch(x -> x.getName().equals(name));
+	}
 
-	public Optional<Metric> getMetric(String name, short period){
-//		Metric metricValid = null;
-//		for (Metric metric : metrics){
-//			if(metric.getName().equals(name) && (metric.getPeriod() == period)){
-//				metricValid = metric;
-//			}
-//		}
-//		return metricValid;
-	Optional<Metric> metrica = metrics
-			.stream()
-			.filter(metric -> (metric.getName().equals(name) && (metric.getPeriod() == period)))
-			.findFirst();
-	return metrica;
+	public List<Metric> getMetrics() {
+		return metrics;
+	}
+
+	public Metric getMetric(String name, short period){
+
+		Metric metric = metrics.stream()
+		            .filter(x -> (x.getName().equals(name)) && (x.getPeriod() == (period)) )
+		            .findFirst()
+		            .orElse(null);
+		return metric;
 	
 	}
 	

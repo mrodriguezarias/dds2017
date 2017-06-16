@@ -67,6 +67,10 @@ public class Metric implements Measure {
 	public double getValue(Company company, short period) {
 		return value;
 	}
+	
+	public double getValue() {
+		return value;
+	}
 
 	public short getPeriod() {
 		return period;

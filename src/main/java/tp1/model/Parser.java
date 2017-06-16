@@ -1,8 +1,9 @@
 package tp1.model;
 import java.util.List;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import tp1.App;
 
 public class Parser {
 
@@ -27,48 +28,6 @@ public class Parser {
 		//		this.indicators = Database.getInstance().getIndicators(company, period);
 	}
 
-	private Optional<Metric> getMetric(String name) {
-		return metrics.stream()
-				.filter(metric -> metric.getName().equals(name)).findFirst();
-	}
-
-	private Optional<Indicator> getIndicator(String name) {
-		return indicators.stream()
-				.filter(indicator -> indicator.getName().equals(name)).findFirst();
-	}
-
-	private String replaceVariables(final String str) throws ParseFailedException {
-		//		Pattern pattern = Pattern.compile("[A-Z]+");
-		//		Matcher matcher = pattern.matcher(str);
-		//		StringBuffer sb = new StringBuffer(str.length());
-		//		int start = 0;
-		//		int end = 0;
-		//		while(matcher.find()) {
-		//			end = matcher.start();
-		//			sb.append(str.substring(start, end));
-		//			start = matcher.end();
-		//			String var = matcher.group();
-		//			end += var.length();
-		//			sb.append("(");
-		//			Optional<Metric> metric = getMetric(var);
-		//			if(metric.isPresent()) {
-		//				sb.append(String.format("%f", metric.get().getValue()));
-		//			} else {
-		//				Optional<Indicator> indicator = getIndicator(var);
-		//				if(!indicator.isPresent()) {
-		//					throw new ParseFailedException(String.format("variable '%s' no reconocida", var));
-		//				}
-		//				if(indicator.get().getName().equals(indicatorName)) {
-		//					throw new ParseFailedException("definición recursiva");
-		//				}
-		// 				sb.append(replaceVariables(indicator.get().getFormula()));
-		//			}
-		//			sb.append(")");
-		//		}
-		//		sb.append(str.substring(end));
-		//		return sb.toString();
-	}
-
 	private int pos = -1, ch;
 	private String str;
 
@@ -86,9 +45,8 @@ public class Parser {
 	}
 
 	public Expression parse(String formula) throws ParseFailedException {
-		str = formula.replaceAll("([0-9)])\\s+([0-9(])", "$1 * $2");
-		str = str.replaceAll("([0-9)])\\(", "$1 * (");
-		str = str.replaceAll("\\)([0-9(])", ") * $1");
+		addTimesOperator();
+		checkMeasure();
 		nextChar();
 		Expression x = parseExpression();
 		if (pos < str.length()) {
@@ -96,6 +54,29 @@ public class Parser {
 					String.format("carácter '%c' inesperado", ch));
 		}
 		return x;
+	}
+	
+	private void addTimesOperator() {
+		// Hace explícito el operador de multiplicación (*) en las expresiones donde estaba implícito.
+		// Por ejemplo: "3 (A + B)" lo convierte en "3 * (A + B)"
+		str = formula.replaceAll("([0-9)])\\s+([0-9(])", "$1 * $2");
+		str = str.replaceAll("([0-9)])\\(", "$1 * (");
+		str = str.replaceAll("\\)([0-9(])", ") * $1");
+	}
+
+	private void checkMeasure() throws ParseFailedException {
+		Pattern pattern = Pattern.compile("[A-Za-z]+");
+		Matcher matcher = pattern.matcher(str);
+		while(matcher.find()) {
+			String variable = matcher.group();
+			boolean isValid = App.companyRepository.all().stream().anyMatch(c -> c.hasMetric(variable));
+			if(!isValid) {
+				isValid = App.indicatorRepository.all().stream().anyMatch(i -> i.getName().equals(variable));
+			}
+			if(!isValid) {
+				throw new ParseFailedException(String.format("variable '%s' es inválida", variable));
+			}
+		}
 	}
 
 	// Grammar:
@@ -136,15 +117,17 @@ public class Parser {
 
 	private Expression parseFactor() throws ParseFailedException {
 		if (eat('+')) return parseFactor(); // unary plus
-		if (eat('-')) return ((Company company, short period) -> -1 * parseFactor().eval(company, period)); // unary minus
+		if (eat('-')) {
+			Expression factor = parseFactor();
+			return ((Company company, short period) -> -1 * factor.eval(company, period)); // unary minus
+		}
 
 		Expression x;
 		int startPos = this.pos;
 		if (eat('(')) { // parentheses
-		x = parseExpression();
-		eat(')');
-		
-		if(Character.isDigit(ch)) {
+			x = parseExpression();
+			eat(')');
+		} else if(Character.isDigit(ch)) {
 			while(Character.isDigit(ch)) {
 				nextChar();
 			}
@@ -163,44 +146,16 @@ public class Parser {
 					return metric.getValue();
 				}
 
-				Indicator indicator = IndicatorRepository.getInstance().getIndicator(name);
-				if(indicator != null) {
-					return indicator.getValue(company, period);
-				}
-
-				throw new RuntimeException("Variable no reconocida");
+				Indicator indicator = App.indicatorRepository.find(name);				
+				return indicator.getValue(company, period);
 			});
-		} 
+		} else {
+			String err = ch == -1 ? "final inesperado"
+					: String.format("carácter '%c' inesperado", ch);
+			throw new ParseFailedException(err);
+		}
+
+//		if (eat('^')) x = Math.pow(x.eval(company, period), parseFactor()); // exponentiation
 		return x;
 	}
-	//				double x;
-	//				int startPos = this.pos;
-	//				if (eat('(')) { // parentheses
-	//					x = parseExpression();
-	//					eat(')');
-	//				} else if ((ch >= '0' && ch <= '9') || ch == '.') { // numbers
-	//					while ((ch >= '0' && ch <= '9') || ch == '.') nextChar();
-	//					x = Double.parseDouble(str.substring(startPos, this.pos));
-	//				} else if (ch >= 'a' && ch <= 'z') { // functions
-	//					while (ch >= 'a' && ch <= 'z') nextChar();
-	//					String func = str.substring(startPos, this.pos);
-	//					x = parseFactor();
-	//					if (func.equals("sqrt")) x = Math.sqrt(x);
-	//					else if (func.equals("sin")) x = Math.sin(Math.toRadians(x));
-	//					else if (func.equals("cos")) x = Math.cos(Math.toRadians(x));
-	//					else if (func.equals("tan")) x = Math.tan(Math.toRadians(x));
-	//					else throw new ParseFailedException(
-	//							String.format("función '%s' desconocida", func));
-	//				} else {
-	//					String err = ch == -1 ? "final inesperado"
-	//							: String.format("carácter '%c' inesperado", ch);
-	//					throw new ParseFailedException(err);
-	//				}
-	//
-	//				if (eat('^')) x = Math.pow(x, parseFactor()); // exponentiation
-	//
-	//				return x;
-
-}
-
 }

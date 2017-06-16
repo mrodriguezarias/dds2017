@@ -33,6 +33,15 @@ public class IndicatorRepository {
 		this.save();
 	}
 	
+	public Indicator find(String name){
+		
+		Indicator indicator = indicators.stream()
+	            .filter(x -> x.getName().equals(name))
+	            .findFirst()
+	            .orElse(null);
+	return indicator;
+	}
+	
 	public void remove(Indicator indicator){
 		
 		indicators.remove(indicator);

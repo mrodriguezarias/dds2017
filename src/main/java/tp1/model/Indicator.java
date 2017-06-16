@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import tp1.Util;
 import tp1.model.Parser.ParseFailedException;
 
-public class Indicator  implements Measure {
+public class Indicator implements Measure {
 	
 	@JsonProperty
 	private String name;

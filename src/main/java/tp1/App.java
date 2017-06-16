@@ -11,8 +11,8 @@ import tp1.view.MainView;
 
 public class App extends Application {
 	
-	static public CompanyRepository companies;
-	static public IndicatorRepository indicators;
+	static public CompanyRepository companyRepository;
+	static public IndicatorRepository indicatorRepository;
 	
 	@Override
 	protected Window<?> createMainWindow() {
@@ -27,8 +27,8 @@ public class App extends Application {
 		JsonIndicatorSource indicatorSource = new JsonIndicatorSource(INDICATORS_FILE);
 		JsonCompanySource companySource = new JsonCompanySource(METRICS_FILE);
 		
-		companies = new CompanyRepository(companySource);
-		indicators = new IndicatorRepository(indicatorSource);
+		companyRepository = new CompanyRepository(companySource);
+		indicatorRepository = new IndicatorRepository(indicatorSource);
 		
 		
 		new App().start();

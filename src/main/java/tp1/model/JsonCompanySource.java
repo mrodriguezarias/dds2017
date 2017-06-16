@@ -1,6 +1,8 @@
 package tp1.model;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class JsonCompanySource implements CompanySource{
 	
@@ -8,14 +10,24 @@ public class JsonCompanySource implements CompanySource{
 	
 	
 	public JsonCompanySource(String fileName){
-		coder = new JsonCoder(fileName, Company.class );
+		coder = new JsonCoder(fileName, Metric.class );
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Company> load() {
 		
-		return (List<Company>) coder.read();
+		List<Metric> metrics = (List<Metric>) coder.read();
+		
+		List<Company> companies = metrics.stream().map(m -> m.getCompanyName()).distinct()
+		.map(name -> new Company(name)).collect(Collectors.toList());
+		
+		metrics.forEach(metric -> {
+			Company company = companies.stream().filter(c -> c.getName().equals(metric.getCompanyName())).findFirst().get();
+			company.addMetric(metric);
+		});
+		
+		return companies;
 	}
 
 }
