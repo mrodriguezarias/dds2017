@@ -12,7 +12,6 @@ import org.uqbar.arena.windows.WindowOwner;
 import tp1.Util;
 import tp1.model.Company;
 import tp1.model.Metric;
-import tp1.model.Period;
 import tp1.viewModel.MainViewModel;
 
 @SuppressWarnings("serial")
@@ -45,7 +44,7 @@ public class MainView extends SimpleWindow<MainViewModel> {
 		companyFilter.bindValueToProperty("selectedCompany");
 		
 		new Label(filterPanel).setWidth(15);
-		Selector<Period> periodFilter = new Selector<>(filterPanel);
+		Selector<Short> periodFilter = new Selector<>(filterPanel);
 		periodFilter.bindItemsToProperty("periods");
 		periodFilter.bindValueToProperty("selectedPeriod");
 		
@@ -59,7 +58,7 @@ public class MainView extends SimpleWindow<MainViewModel> {
 		table.bindItemsToProperty("metrics");
 		table.bindSelectionToProperty("selectedMetric");
 
-		Util.createColumn("Empresa", "company", 60, table);
+		Util.createColumn("Empresa", "companyName", 60, table);
 		Util.createColumn("Período", "period", 60, table);
 		Util.createColumn("Nombre", "name", 60, table);
 		Util.createColumn("Tipo", "typeString", 70, table);

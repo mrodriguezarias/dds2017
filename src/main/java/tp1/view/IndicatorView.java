@@ -6,16 +6,15 @@ import org.uqbar.arena.widgets.Selector;
 import org.uqbar.arena.windows.SimpleWindow;
 import org.uqbar.arena.windows.WindowOwner;
 
-import tp1.model.Colour;
 import tp1.model.Company;
 import tp1.model.Indicator;
-import tp1.model.Period;
+import tp1.viewModel.Colour;
 import tp1.viewModel.IndicatorViewModel;
 
 @SuppressWarnings("serial")
 public class IndicatorView extends SimpleWindow<IndicatorViewModel> {
 
-	public IndicatorView(WindowOwner parent, Company company, Period period) {
+	public IndicatorView(WindowOwner parent, Company company, short period) {
 		super(parent, new IndicatorViewModel(company, period));
 	}
 	

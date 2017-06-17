@@ -1,4 +1,4 @@
-package tp1.model;
+package tp1.viewModel;
 
 import java.awt.Color;
 

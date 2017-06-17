@@ -1,31 +1,28 @@
 package tp1.viewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
 
 import tp1.model.Company;
-import tp1.model.Database;
 import tp1.model.Indicator;
-import tp1.model.Period;
 
 @Observable
 public class IndicatorViewModel {
 
 	private Company company;
-	private Period period;
+	private short period;
 	
 	private List<Indicator> indicators;
 	private Indicator indicator;
 
-	public IndicatorViewModel(Company company, Period period) {
+	public IndicatorViewModel(Company company, short period) {
 		this.company = company;
 		this.period = period;
 		
-		indicators = new ArrayList<>(Database.getInstance().getIndicators(company, period));
-		indicators.add(0, Indicator.EMPTY);
+//		indicators = new ArrayList<>(Database.getInstance().getIndicators(company, period));
+//		indicators.add(0, Indicator.EMPTY);
 		indicator = indicators.get(0);
 	}
 	
@@ -52,7 +49,8 @@ public class IndicatorViewModel {
 	
 	@Dependencies("indicator")
 	public String getValue() {
-		return indicator.getValueString();
+		return "";
+//		return indicator.getValueString();
 	}
 	
 	@Dependencies("indicator")

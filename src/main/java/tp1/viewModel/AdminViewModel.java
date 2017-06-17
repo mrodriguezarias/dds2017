@@ -1,14 +1,10 @@
 package tp1.viewModel;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.uqbar.commons.utils.Observable;
 
-import tp1.model.Database;
 import tp1.model.Indicator;
-import tp1.model.Indicator.InvalidFormulaException;
 
 @Observable
 public class AdminViewModel {
@@ -24,8 +20,8 @@ public class AdminViewModel {
 	private Indicator indicator;
 	
 	public AdminViewModel() {
-		indicators = new ArrayList<>(Database.getInstance().getIndicators());
-		indicators.add(0, Indicator.EMPTY);
+//		indicators = new ArrayList<>(Database.getInstance().getIndicators());
+//		indicators.add(0, Indicator.EMPTY);
 		setCreateMode();
 	}
 	
@@ -35,7 +31,7 @@ public class AdminViewModel {
 
 	public void setIndicator(Indicator indicator) {
 		this.indicator = indicator;
-		isEditing = indicator != Indicator.EMPTY;
+//		isEditing = indicator != Indicator.EMPTY;
 		updateForm();
 	}
 
@@ -95,62 +91,63 @@ public class AdminViewModel {
 		indicator = indicators.get(0);
 	}
 	
-	private void updateIndicators() {
-		List<Indicator> newIndicators = indicators.subList(1, indicators.size());
-		Database.getInstance().setIndicators(newIndicators);
-	}
+//	private void updateIndicators() {
+//		List<Indicator> newIndicators = indicators.subList(1, indicators.size());
+//		Database.getInstance().setIndicators(newIndicators);
+//	}
 	
-	public void deleteIndicator() {
-		List<Indicator> newIndicators = new ArrayList<>(indicators);
-		newIndicators.remove(indicator);
-		setCreateMode();
-		indicators = newIndicators;
-		updateIndicators();
-	}
+//	public void deleteIndicator() {
+//		List<Indicator> newIndicators = new ArrayList<>(indicators);
+//		newIndicators.remove(indicator);
+//		setCreateMode();
+//		indicators = newIndicators;
+//		updateIndicators();
+//	}
 	
-	private void addIndicator(Indicator indicator) {
-		List<Indicator> newIndicators = new ArrayList<>(indicators); 
-		if(newIndicators.contains(indicator)) {
-			newIndicators.remove(indicator);
-		}
-		newIndicators.add(indicator);
-		Collections.sort(newIndicators);
-		indicators = newIndicators;
-		this.indicator = indicator;
-	}
+//	private void addIndicator(Indicator indicator) {
+//		List<Indicator> newIndicators = new ArrayList<>(indicators); 
+//		if(newIndicators.contains(indicator)) {
+//			newIndicators.remove(indicator);
+//		}
+//		newIndicators.add(indicator);
+//		Collections.sort(newIndicators);
+//		indicators = newIndicators;
+//		this.indicator = indicator;
+//	}
 	
 	public String saveChanges() {
-		this.name = name.toUpperCase();
-		Indicator newIndicator = new Indicator(name, description, formula);
-		
-		if(name.isEmpty() || formula.isEmpty()) {
-			String error = "Error: ";
-			error += name.isEmpty() ? "el nombre" : "la fórmula";
-			error += " no puede quedar vací";
-			error += name.isEmpty() ? "o." : "a.";
-			this.error = error;
-			return "";
-		}
-		
-		try {
-			newIndicator.tryGetValue();
-			
-			if(isEditing) {
-				indicator.update(name, description, formula);				
-			} else {
-				addIndicator(newIndicator);
-			}
-			
-			updateIndicators();
-			this.error = "";
-		} catch (InvalidFormulaException e) {
-			this.error = e.getMessage();
-			return "";
-		}
-		
-		String operation = isEditing ? "actualizado" : "creado";
-		this.isEditing = true;
-		return String.format("%s %s", name, operation);
+		return "";
+//		this.name = name.toUpperCase();
+//		Indicator newIndicator = new Indicator(name, description, formula);
+//		
+//		if(name.isEmpty() || formula.isEmpty()) {
+//			String error = "Error: ";
+//			error += name.isEmpty() ? "el nombre" : "la fórmula";
+//			error += " no puede quedar vací";
+//			error += name.isEmpty() ? "o." : "a.";
+//			this.error = error;
+//			return "";
+//		}
+//		
+//		try {
+//			newIndicator.tryGetValue();
+//			
+//			if(isEditing) {
+//				indicator.update(name, description, formula);				
+//			} else {
+//				addIndicator(newIndicator);
+//			}
+//			
+//			updateIndicators();
+//			this.error = "";
+//		} catch (InvalidFormulaException e) {
+//			this.error = e.getMessage();
+//			return "";
+//		}
+//		
+//		String operation = isEditing ? "actualizado" : "creado";
+//		this.isEditing = true;
+//		return String.format("%s %s", name, operation);
 	}
 	
 }

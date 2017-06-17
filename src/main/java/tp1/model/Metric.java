@@ -7,10 +7,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
-import tp1.Util;
 
 @Observable
-public class Metric {
+public class Metric implements Measure {
 	
 	public enum Type { METRIC, INDICATOR };
 	
@@ -22,44 +21,58 @@ public class Metric {
 	@JsonProperty
 	protected String description;
 	
-	protected Company company;
-	protected Period period;
+	@JsonProperty
+	protected String companyName;
+	@JsonProperty
+	protected short period;
+	@JsonProperty
 	private double value;
 	
 	@JsonCreator
 	public Metric(
 			@JsonProperty("name") String name,
 			@JsonProperty("description") String description,
-			@JsonProperty("value") double value) {
+			@JsonProperty("companyName") String companyName,
+			@JsonProperty("period") short period,
+			@JsonProperty("value") double value
+			) {
 		this.type = Type.METRIC;
 		this.name = name;
 		this.description = description;
+		this.companyName = companyName;
+		this.period = period;
 		this.value = value;
 	}
 	
 	@JsonSetter("company")
-	private void setCompanySymbol(String symbol) {
-		this.company = new Company(symbol);
+	private void setCompany(String name) {
+		this.companyName = name;
 	}
 	
 	@JsonSetter("period")
 	private void setPeriodYear(short year) {
-		this.period = new Period(year);
+		this.period = year;
 	}
-
+	
+	
+	
 	public String getName() {
 		return name;
 	}
-
+	
+	public String getCompanyName() {
+		return companyName;
+	}
+	
+	public double getValue(Company company, short period) {
+		return value;
+	}
+	
 	public double getValue() {
 		return value;
 	}
 
-	public Company getCompany() {
-		return company;
-	}
-
-	public Period getPeriod() {
+	public short getPeriod() {
 		return period;
 	}
 	
@@ -78,6 +91,7 @@ public class Metric {
 	
 	@Dependencies("value")
 	public String getValueString() {
-		return Util.significantDigits(getValue());
+		return ""; //fixme
+		//return Util.significantDigits(getValue());
 	}
 }

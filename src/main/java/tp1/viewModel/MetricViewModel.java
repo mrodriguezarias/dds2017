@@ -5,9 +5,6 @@ import java.awt.Color;
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
 
-import tp1.Util;
-import tp1.model.Colour;
-import tp1.model.Indicator;
 import tp1.model.Metric;
 import tp1.model.Metric.Type;
 
@@ -22,22 +19,23 @@ public class MetricViewModel {
 	
 	public String title() {
 		return String.format("%s %s de $%s en %s", metric.getTypeString(),
-				metric.getName(), metric.getCompany(), metric.getPeriod()); 
+				metric.getName(), metric.getCompanyName(), metric.getPeriod()); 
 	}
 	
 	@Dependencies("metric")
 	public String getHeading() {
-		if(metric.getType() == Metric.Type.INDICATOR) {
-			return ((Indicator)metric).getFormula();
-		}
+//		if(metric.getType() == Metric.Type.INDICATOR) {
+//			return ((Indicator)metric).getFormula();
+//		}
 		return String.format("%s(%s, %s)",
-				metric.getName(), metric.getCompany(), metric.getPeriod());
+				metric.getName(), metric.getCompanyName(), metric.getPeriod());
 	}
 
 	@Dependencies("metric")
 	public String getValue() {
-		if(metric.getType() == Type.INDICATOR) return metric.getValueString();
-		return Util.formatNumber(metric.getValue());
+		return "";
+//		if(metric.getType() == Type.INDICATOR) return metric.getValueString();
+//		return Util.formatNumber(metric.getValue());
 	}
 
 	@Dependencies("metric")

@@ -9,9 +9,9 @@ import org.uqbar.arena.widgets.TextBox;
 import org.uqbar.arena.windows.SimpleWindow;
 import org.uqbar.arena.windows.WindowOwner;
 
-import tp1.model.Colour;
 import tp1.model.Indicator;
 import tp1.viewModel.AdminViewModel;
+import tp1.viewModel.Colour;
 
 @SuppressWarnings("serial")
 public class AdminView extends SimpleWindow<AdminViewModel> {
@@ -55,7 +55,7 @@ public class AdminView extends SimpleWindow<AdminViewModel> {
 		Button deleteButton = new Button(container);
 		deleteButton.setCaption("╳");
 		deleteButton.bindEnabledToProperty("isEditing");
-		deleteButton.onClick(getModelObject()::deleteIndicator);
+//		deleteButton.onClick(getModelObject()::deleteIndicator);
 	}
 	
 	private void createFormRow(String label, String property, Panel container) {

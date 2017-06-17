@@ -5,11 +5,8 @@ import java.util.List;
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
 
-import tp1.Util;
 import tp1.model.Company;
-import tp1.model.Period;
 import tp1.model.Metric;
-import tp1.model.Database;
 
 @Observable
 public class MainViewModel {
@@ -20,17 +17,17 @@ public class MainViewModel {
 	private List<Company> companies;
 	private Company selectedCompany;
 	
-	private List<Period> periods;
-	private Period selectedPeriod;
+	private List<Short> periods;
+	private short selectedPeriod;
 	
 	public MainViewModel() {
-		metrics = Database.getInstance().getMetrics();
-		
-		companies = Database.getInstance().getCompanies();
-		selectedCompany = companies.get(0);
-		
-		periods = Database.getInstance().getPeriods();
-		selectedPeriod = periods.get(0);
+//		metrics = Database.getInstance().getMetrics();
+//		
+//		companies = Database.getInstance().getCompanies();
+//		selectedCompany = companies.get(0);
+//		
+//		periods = Database.getInstance().getPeriods();
+//		selectedPeriod = periods.get(0);
 	}
 	
 	public List<Metric> getMetrics() {
@@ -58,28 +55,28 @@ public class MainViewModel {
 		updateMetrics();
 	}
 	
-	public List<Period> getPeriods() {
+	public List<Short> getPeriods() {
 		return periods;
 	}
 	
-	public Period getSelectedPeriod() {
+	public short getSelectedPeriod() {
 		return selectedPeriod;
 	}
 	
-	public void setSelectedPeriod(Period selectedPeriod) {
+	public void setSelectedPeriod(short selectedPeriod) {
 		this.selectedPeriod = selectedPeriod;
 		updateMetrics();
 	}
 	
 	public void updateMetrics() {
-		this.metrics = null;
-		List<Metric> metrics = Database.getInstance().getMetrics(selectedCompany, selectedPeriod);
-		if(getApplyIndicatorEnabled()) {
-			metrics.addAll(Util.filterList(
-					Database.getInstance().getIndicators(selectedCompany, selectedPeriod),
-					indicator -> !indicator.getValueString().isEmpty()));
-		}
-		this.metrics = metrics;
+//		this.metrics = null;
+//		List<Metric> metrics = Database.getInstance().getMetrics(selectedCompany, selectedPeriod);
+//		if(getApplyIndicatorEnabled()) {
+//			metrics.addAll(Util.filterList(
+//					Database.getInstance().getIndicators(selectedCompany, selectedPeriod),
+//					indicator -> !indicator.getValueString().isEmpty()));
+//		}
+//		this.metrics = metrics;
 	}
 	
 	public void viewMetric() {
@@ -93,7 +90,8 @@ public class MainViewModel {
 	
 	@Dependencies({"selectedCompany", "selectedPeriod"})
 	public boolean getApplyIndicatorEnabled() {
-		return selectedCompany != Company.EMPTY && selectedPeriod != Period.EMPTY;
+		return true;
+//		return selectedCompany != Company.EMPTY && selectedPeriod != Period.EMPTY;
 	}
 
 }
