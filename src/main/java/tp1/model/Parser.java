@@ -51,6 +51,7 @@ public class Parser {
 		str = str.replaceAll("([0-9)])\\s+([0-9(])", "$1 * $2");
 		str = str.replaceAll("([0-9)])\\(", "$1 * (");
 		str = str.replaceAll("\\)([0-9(])", ") * $1");
+		str = str.replaceAll(",", ".");
 	}
 
 	private void checkMeasure() throws ParseFailedException {
@@ -116,8 +117,8 @@ public class Parser {
 		if (eat('(')) { // parentheses
 			x = parseExpression();
 			eat(')');
-		} else if(Character.isDigit(ch)) {
-			while(Character.isDigit(ch)) {
+		} else if(Character.isDigit(ch) || ch == '.') {
+			while(Character.isDigit(ch) || ch == '.') {
 					nextChar();
 			}
 			double number = Double.parseDouble(str.substring(startPos, this.pos));
