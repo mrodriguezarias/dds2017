@@ -30,6 +30,7 @@ public class Parser {
 	}
 
 	public Expression parse(String formula) throws ParseFailedException {
+		str = formula;
 		addTimesOperatorWhenImplicit();
 		checkMeasure();
 		nextChar();
