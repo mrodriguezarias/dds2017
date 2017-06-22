@@ -9,10 +9,10 @@ import tp1.model.Indicator;
 import tp1.model.IndicatorBuilder;
 import tp1.model.IndicatorBuilder.InvalidFormulaException;
 
-public class TestIndicator {
+public class IndicatorTest {
 
 	@Test
-	public void testValidIndicator() throws InvalidFormulaException {
+	public void testValidIndicator() throws Exception {
 		String name = "VI";
 		String description = "The golden ratio";
 		String formula = "1.61803398875";
@@ -30,7 +30,7 @@ public class TestIndicator {
 	}
 	
 	@Test(expected = InvalidFormulaException.class)
-	public void testInvalidIndicator() throws InvalidFormulaException {
+	public void testInvalidIndicator() throws Exception {
 		String name = "II";
 		String formula = "1:61803398875";
 
@@ -41,7 +41,7 @@ public class TestIndicator {
 	}
 	
 	@Test
-	public void testIndicatorGetValue() throws InvalidFormulaException {
+	public void testIndicatorGetValue() throws Exception {
 		String name = "name";
 		String description = "";
 		String formula = "1+2";

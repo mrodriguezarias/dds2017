@@ -30,9 +30,7 @@ public class Parser {
 	}
 
 	public Expression parse(String formula) throws ParseFailedException {
-		str = formula;
-		addTimesOperatorWhenImplicit();
-		checkMeasure();
+		str = addTimesOperatorWhenImplicit(checkAndBracketVariables(formula));
 		nextChar();
 		Expression x = parseExpression();
 		if (pos < str.length()) {
@@ -47,16 +45,21 @@ public class Parser {
 	 * en las expresiones donde estaba implícito.
 	 * Por ejemplo: "3 (A + B)" lo convierte en "3 * (A + B)"
 	 */
-	private void addTimesOperatorWhenImplicit() {
-		str = str.replaceAll("([0-9)])\\s+([0-9(])", "$1 * $2");
-		str = str.replaceAll("([0-9)])\\(", "$1 * (");
-		str = str.replaceAll("\\)([0-9(])", ") * $1");
-		str = str.replaceAll(",", ".");
+	private String addTimesOperatorWhenImplicit(String formula) {
+		formula = formula.replaceAll("([0-9)])\\s+([0-9(])", "$1 * $2");
+		formula = formula.replaceAll("([0-9)])\\(", "$1 * (");
+		formula = formula.replaceAll("\\)([0-9(])", ") * $1");
+		formula = formula.replaceAll(",", ".");
+		return formula;
 	}
 
-	private void checkMeasure() throws ParseFailedException {
-		Pattern pattern = Pattern.compile("[A-Za-z]+");
-		Matcher matcher = pattern.matcher(str);
+	/**
+	 * Verifica que existan las variables y las encierra entre paréntesis.
+	 */
+	private String checkAndBracketVariables(String formula) throws ParseFailedException {
+		String regex = "\\p{Alpha}\\w*";
+		Matcher matcher = Pattern.compile(regex).matcher(formula);
+
 		while(matcher.find()) {
 			String variable = matcher.group();
 			boolean isValid = App.companyRepository.all().stream().anyMatch(c -> c.hasMetric(variable));
@@ -67,6 +70,8 @@ public class Parser {
 				throw new ParseFailedException(String.format("variable '%s' inválida", variable));
 			}
 		}
+
+		return formula.replaceAll(regex, "($0)");
 	}
 
 	// Grammar:
@@ -118,16 +123,13 @@ public class Parser {
 			x = parseExpression();
 			eat(')');
 		} else if(Character.isDigit(ch) || ch == '.') {
-			while(Character.isDigit(ch) || ch == '.') {
-					nextChar();
-			}
+			while(Character.isDigit(ch) || ch == '.') nextChar();
 			double number = Double.parseDouble(str.substring(startPos, this.pos));
 			x = ((Company company, short period) -> number);
 
 		} else if(Character.isLetter(ch)) {
-			while(Character.isLetter(ch)) {
-				nextChar();
-			}
+			nextChar();
+			while(Character.isLetter(ch) || Character.isDigit(ch)) nextChar();
 			String name = str.substring(startPos, this.pos);
 
 			x = ((Company company, short period) -> {
@@ -149,7 +151,7 @@ public class Parser {
 			Expression b = parseFactor();
 			x = ((Company company, short period) -> Math.pow(a.eval(company, period), b.eval(company, period)));
 		}
-		
+
 		return x;
 	}
 }
