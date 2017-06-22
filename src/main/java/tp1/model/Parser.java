@@ -124,7 +124,12 @@ public class Parser {
 			eat(')');
 		} else if(Character.isDigit(ch) || ch == '.') {
 			while(Character.isDigit(ch) || ch == '.') nextChar();
-			double number = Double.parseDouble(str.substring(startPos, this.pos));
+			double number;
+			try {
+				number = Double.parseDouble(str.substring(startPos, this.pos));				
+			} catch(NumberFormatException e) {
+				throw new ParseFailedException("formato numérico inválido");
+			 }
 			x = ((Company company, short period) -> number);
 
 		} else if(Character.isLetter(ch)) {

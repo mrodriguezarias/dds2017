@@ -7,46 +7,41 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import tp1.Util;
+import tp1.App;
 
 public class JsonCoder {
-	
-	String fileName;
+
+	String filename;
 	Class<?> type;
 	ObjectMapper mapper;
-	
-	public JsonCoder (String fileName, Class<?> type) {
-		this.fileName = fileName;
+
+	public JsonCoder (String filename, Class<?> type) {
+		this.filename = filename;
 		this.type = type;
 		this.mapper = new ObjectMapper();
 	} 
-	
+
 	public List<?> read() {
-		
 		try {
-			File file = Util.getResource(fileName);
+			File file = getResource(filename);
 			Object[] array = (Object[]) mapper.readValue(file, arrayType(type));
 			return Arrays.asList(array);
 		} catch(IOException e) {
-			String msg = "Error al intentar leer datos del archivo " + fileName;
-			System.out.println(e.getMessage());
-			throw new RuntimeException(msg);
+			throw new RuntimeException(String.format("Error al intentar leer datos del archivo '%s' (%s)",
+					filename, e.getMessage()));
 		}
-		
 	} 
 
-	public void write (List<?> list) {
-		
+	public void write(List<?> list) {
 		try {
-			File file = Util.getResource(fileName);
+			File file = getResource(filename);
 			mapper.writeValue(file, list);
 		} catch(IOException e) {
-			String msg = "Error al intentar escribir datos en el archivo " + fileName;
-			System.out.println(e.getMessage());
-			throw new RuntimeException(msg);
+			throw new RuntimeException(String.format("Error al intentar escribir datos en el archivo '%s' (%s)",
+					filename, e.getMessage()));
 		}
 	}
-	
+
 	private Class<?> arrayType(Class<?> type) {
 		try {
 			return Class.forName("[L" + type.getName() + ";");
@@ -55,5 +50,18 @@ public class JsonCoder {
 		}
 		return null;
 	}
-	
+
+	private File getResource(String name) {
+		ClassLoader classLoader = App.class.getClassLoader();
+		File file;
+
+		try {
+			file = new File(classLoader.getResource(name).getFile());
+		} catch(NullPointerException e) {
+			String message = String.format("Error al intentar leer el recurso \"%s\"", name);
+			throw new RuntimeException(message);
+		}
+
+		return file;
+	}
 }

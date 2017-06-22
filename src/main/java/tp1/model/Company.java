@@ -3,12 +3,9 @@ package tp1.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Company implements Comparable<Company> {
-	
-	public static final Company EMPTY = new Company("");
+public class Company {
 	
 	private String name;
-	private String symbol;
 	private List<Metric> metrics;
 	
 	public Company(String name) {
@@ -16,12 +13,17 @@ public class Company implements Comparable<Company> {
 		this.metrics = new ArrayList<>();
 	}
 	
-	public void addMetric(Metric metric) {
-		metrics.add(metric);
+	public Company(String name, List<Metric> metrics) {
+		this.name = name;
+		this.metrics = metrics;
 	}
 	
 	public String getName() {
 		return name;
+	}
+	
+	public void addMetric(Metric metric) {
+		metrics.add(metric);
 	}
 	
 	public boolean hasMetric(String name) {
@@ -40,22 +42,5 @@ public class Company implements Comparable<Company> {
 		            .orElse(null);
 		return metric;
 	
-	}
-	
-	
-	@Override
-	public int hashCode() {
-		return this.getName().hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return this == obj || this.getClass() == obj.getClass()
-				&& this.symbol.equals(((Company)obj).getName());
-	}
-
-	@Override
-	public int compareTo(Company other) {
-		return this.getName().compareTo(other.getName());
 	}
 }

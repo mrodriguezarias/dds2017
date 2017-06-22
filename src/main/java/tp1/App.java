@@ -30,7 +30,6 @@ public class App extends Application {
 		companyRepository = new CompanyRepository(companySource);
 		indicatorRepository = new IndicatorRepository(indicatorSource);
 		
-		
 		new App().start();
 	}
 }

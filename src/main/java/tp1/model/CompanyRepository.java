@@ -13,11 +13,13 @@ public class CompanyRepository {
 		this.source = source;
 		companies = this.source.load();
 	}
-	public List<Company> all(){
-		
+	
+	public List<Company> all() {
 		return companies;
 	}
 	
-	
+	public Company find(String name) {
+		return companies.stream().filter(c -> c.getName().equals(name)).findFirst().orElse(null);
+	}
 	
 }

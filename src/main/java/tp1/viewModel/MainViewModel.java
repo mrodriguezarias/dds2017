@@ -1,58 +1,65 @@
 package tp1.viewModel;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
 
+import tp1.App;
 import tp1.model.Company;
-import tp1.model.Metric;
 
 @Observable
 public class MainViewModel {
 	
-	private List<Metric> metrics;
-	private Metric selectedMetric;
+	private List<MeasureComponent> measures;
+	private MeasureComponent selectedMeasure;
 	
-	private List<Company> companies;
-	private Company selectedCompany;
+	private List<String> companyNames;
+	private String selectedCompanyName;
 	
 	private List<Short> periods;
 	private short selectedPeriod;
 	
 	public MainViewModel() {
-//		metrics = Database.getInstance().getMetrics();
-//		
-//		companies = Database.getInstance().getCompanies();
-//		selectedCompany = companies.get(0);
-//		
-//		periods = Database.getInstance().getPeriods();
-//		selectedPeriod = periods.get(0);
+		List<Company> companies = App.companyRepository.all(); 
+		
+		companyNames = companies.stream().map(c -> c.getName())
+				.sorted().collect(Collectors.toList());
+		selectedCompanyName = companyNames.get(0);
+		
+		periods = companies.stream().map(c -> c.getMetrics())
+			.flatMap(l -> l.stream()).map(m -> m.getPeriod()).distinct()
+			.sorted(Collections.reverseOrder()).collect(Collectors.toList());
+		selectedPeriod = periods.get(0);
+		
+		updateMeasures();
 	}
 	
-	public List<Metric> getMetrics() {
-		return metrics;
+	public List<MeasureComponent> getMeasures() {
+		return measures;
 	}
 	
-	public Metric getSelectedMetric() {
-		return selectedMetric;
+	public MeasureComponent getSelectedMeasure() {
+		return selectedMeasure;
 	}
 	
-	public void setSelectedMetric(Metric selectedMetric) {
-		this.selectedMetric = selectedMetric;
+	public void setSelectedMeasure(MeasureComponent selectedMeasure) {
+		this.selectedMeasure = selectedMeasure;
 	}
 	
-	public List<Company> getCompanies() {
-		return companies;
+	public List<String> getCompanyNames() {
+		return companyNames;
 	}
 	
-	public Company getSelectedCompany() {
-		return selectedCompany;
+	public String getSelectedCompanyName() {
+		return selectedCompanyName;
 	}
 	
-	public void setSelectedCompany(Company selectedCompany) {
-		this.selectedCompany = selectedCompany;
-		updateMetrics();
+	public void setSelectedCompanyName(String selectedCompanyName) {
+		this.selectedCompanyName = selectedCompanyName;
+		updateMeasures();
 	}
 	
 	public List<Short> getPeriods() {
@@ -65,33 +72,28 @@ public class MainViewModel {
 	
 	public void setSelectedPeriod(short selectedPeriod) {
 		this.selectedPeriod = selectedPeriod;
-		updateMetrics();
+		updateMeasures();
 	}
 	
-	public void updateMetrics() {
-//		this.metrics = null;
-//		List<Metric> metrics = Database.getInstance().getMetrics(selectedCompany, selectedPeriod);
-//		if(getApplyIndicatorEnabled()) {
-//			metrics.addAll(Util.filterList(
-//					Database.getInstance().getIndicators(selectedCompany, selectedPeriod),
-//					indicator -> !indicator.getValueString().isEmpty()));
-//		}
-//		this.metrics = metrics;
+	public void updateMeasures() {
+		this.measures = null;
+		Company selectedCompany = App.companyRepository.find(selectedCompanyName);
+		
+		List<MeasureComponent> measures = selectedCompany.getMetrics().stream()
+				.filter(metric -> metric.getPeriod() == selectedPeriod)
+				.map(metric -> new MeasureComponent(metric, selectedCompany, selectedPeriod))
+				.collect(Collectors.toList());
+		
+//		List<MeasureComponent> indicators = App.indicatorRepository.all().stream()
+//				.map(indicator -> new MeasureComponent(indicator, selectedCompany, selectedPeriod))
+//				.collect(Collectors.toList());
+//		measures.addAll(indicators);
+		
+		this.measures = measures;
 	}
 	
-	public void viewMetric() {
-		System.out.println(selectedMetric);
-	}
-	
-	@Dependencies("selectedMetric")
+	@Dependencies("selectedMeasure")
 	public boolean getViewMetricEnabled() {
-		return selectedMetric != null;
+		return selectedMeasure != null;
 	}
-	
-	@Dependencies({"selectedCompany", "selectedPeriod"})
-	public boolean getApplyIndicatorEnabled() {
-		return true;
-//		return selectedCompany != Company.EMPTY && selectedPeriod != Period.EMPTY;
-	}
-
 }

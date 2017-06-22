@@ -47,15 +47,16 @@ public class AdminView extends SimpleWindow<AdminViewModel> {
 	private void createSelector(Panel container) {
 		Selector<Indicator> indicators = new Selector<>(container);
 		indicators.setWidth(225);
-		indicators.bindItemsToProperty("indicators");
-		indicators.bindValueToProperty("indicator");
+		indicators.allowNull(true);
+		indicators.bindItemsToProperty("indicatorNames");
+		indicators.bindValueToProperty("indicatorName");
 	}
 	
 	private void createDeleteButton(Panel container) {
 		Button deleteButton = new Button(container);
 		deleteButton.setCaption("╳");
 		deleteButton.bindEnabledToProperty("isEditing");
-//		deleteButton.onClick(getModelObject()::deleteIndicator);
+		deleteButton.onClick(getModelObject()::deleteIndicator);
 	}
 	
 	private void createFormRow(String label, String property, Panel container) {
@@ -88,7 +89,7 @@ public class AdminView extends SimpleWindow<AdminViewModel> {
 	@Override
 	public void close() {
 		MainView parentView = (MainView) getOwner();
-		parentView.getModelObject().updateMetrics();
+		parentView.getModelObject().updateMeasures();
 		super.close();
 	}
 }

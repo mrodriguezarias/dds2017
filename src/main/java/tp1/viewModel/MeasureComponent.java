@@ -1,10 +1,13 @@
 package tp1.viewModel;
 
+import org.uqbar.commons.utils.Observable;
+
 import tp1.model.Company;
 import tp1.model.Indicator;
 import tp1.model.Measure;
 import tp1.model.Metric;
 
+@Observable
 public class MeasureComponent {
 
 	private Measure measure;
@@ -12,20 +15,20 @@ public class MeasureComponent {
 	private short period;
 	private String type;
 	
-	public void init(Metric metric, Company company, short period){
-		this.measure = metric;
+	private MeasureComponent(Measure measure, Company company, short period) {
+		this.measure = measure;
 		this.company = company;
 		this.period = period;
-		this.type = "CUENTA";
-		
 	}
 	
-	public void init(Indicator indicator, Company company, short period){
-		this.measure = indicator;
-		this.company = company;
-		this.period = period;
-		this.type = "INDICADOR";
-		
+	public MeasureComponent(Metric metric, Company company, short period) {
+		this((Measure) metric, company, period);
+		this.type = "Cuenta";
+	}
+
+	public MeasureComponent(Indicator indicator, Company company, short period) {
+		this((Measure) indicator, company, period);
+		this.type = "Indicador";
 	}
 	
 	public Measure getMeasure() {
@@ -45,6 +48,10 @@ public class MeasureComponent {
 	}
 	
 	public String getMeasureName(){
+		return this.measure.getName();
+	}
+	
+	public String getName() {
 		return this.measure.getName();
 	}
 	

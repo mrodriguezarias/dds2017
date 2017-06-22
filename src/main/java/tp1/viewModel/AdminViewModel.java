@@ -1,10 +1,16 @@
 package tp1.viewModel;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.uqbar.commons.utils.Observable;
 
+import tp1.App;
 import tp1.model.Indicator;
+import tp1.model.IndicatorBuilder;
+import tp1.model.IndicatorBuilder.InvalidFormulaException;
 
 @Observable
 public class AdminViewModel {
@@ -16,27 +22,31 @@ public class AdminViewModel {
 	private String formula;
 	private String error;
 
-	private List<Indicator> indicators;
-	private Indicator indicator;
+	private List<String> indicatorNames;
+	private String indicatorName;
 	
 	public AdminViewModel() {
-//		indicators = new ArrayList<>(Database.getInstance().getIndicators());
-//		indicators.add(0, Indicator.EMPTY);
+		indicatorNames = App.indicatorRepository.all().stream().map(i -> i.getName())
+				.sorted().collect(Collectors.toList());
 		setCreateMode();
 	}
 	
-	public Indicator getIndicator() {
-		return indicator;
+	public String getIndicatorName() {
+		return indicatorName;
 	}
 
-	public void setIndicator(Indicator indicator) {
-		this.indicator = indicator;
-//		isEditing = indicator != Indicator.EMPTY;
+	public void setIndicatorName(String indicatorName) {
+		this.indicatorName = indicatorName;
+		isEditing = indicatorName != null;
 		updateForm();
 	}
 
-	public List<Indicator> getIndicators() {
-		return indicators;
+	public List<String> getIndicatorNames() {
+		return indicatorNames;
+	}
+	
+	public void setIndicatorNames(List<String> indicatorNames) {
+		this.indicatorNames = indicatorNames;
 	}
 	
 	public boolean getIsEditing() {
@@ -79,6 +89,8 @@ public class AdminViewModel {
 	}
 	
 	private void updateForm() {
+		Indicator indicator = App.indicatorRepository.find(indicatorName);
+		if(indicator == null) return;
 		this.name = indicator.getName();
 		this.description = indicator.getDescription();
 		this.formula = indicator.getFormula();
@@ -88,66 +100,74 @@ public class AdminViewModel {
 	public void setCreateMode() {
 		clearForm();
 		isEditing = false;
-		indicator = indicators.get(0);
+		indicatorName = null;
 	}
 	
-//	private void updateIndicators() {
-//		List<Indicator> newIndicators = indicators.subList(1, indicators.size());
-//		Database.getInstance().setIndicators(newIndicators);
-//	}
+	public void deleteIndicator() {
+		Indicator indicator = App.indicatorRepository.find(indicatorName);
+		indicatorNames.remove(indicatorName);
+		App.indicatorRepository.remove(indicator);
+		setCreateMode();
+	}
 	
-//	public void deleteIndicator() {
-//		List<Indicator> newIndicators = new ArrayList<>(indicators);
-//		newIndicators.remove(indicator);
-//		setCreateMode();
-//		indicators = newIndicators;
-//		updateIndicators();
-//	}
+	private void addIndicatorName(String name) {
+		List<String> names = new ArrayList<>(indicatorNames);
+		names.add(name);
+		Collections.sort(names);
+		indicatorNames = names;
+		indicatorName = name;
+	}
 	
-//	private void addIndicator(Indicator indicator) {
-//		List<Indicator> newIndicators = new ArrayList<>(indicators); 
-//		if(newIndicators.contains(indicator)) {
-//			newIndicators.remove(indicator);
-//		}
-//		newIndicators.add(indicator);
-//		Collections.sort(newIndicators);
-//		indicators = newIndicators;
-//		this.indicator = indicator;
-//	}
+	private void addIndicator(Indicator indicator) {
+		if(indicatorNames.contains(indicator.getName())) {
+			replaceIndicator(indicator);
+			return;
+		}
+		addIndicatorName(indicator.getName());
+		App.indicatorRepository.add(indicator);
+	}
+	
+	private void replaceIndicator(Indicator indicator) {
+		Indicator prev = App.indicatorRepository.find(indicatorName);
+		if(!indicatorName.equals(indicator.getName())) {
+			addIndicatorName(indicator.getName());
+			indicatorNames = indicatorNames.stream().filter(n -> !n.equals(prev.getName())).collect(Collectors.toList());
+		}
+		App.indicatorRepository.replace(prev, indicator);
+	}
 	
 	public String saveChanges() {
-		return "";
-//		this.name = name.toUpperCase();
-//		Indicator newIndicator = new Indicator(name, description, formula);
-//		
-//		if(name.isEmpty() || formula.isEmpty()) {
-//			String error = "Error: ";
-//			error += name.isEmpty() ? "el nombre" : "la fórmula";
-//			error += " no puede quedar vací";
-//			error += name.isEmpty() ? "o." : "a.";
-//			this.error = error;
-//			return "";
-//		}
-//		
-//		try {
-//			newIndicator.tryGetValue();
-//			
-//			if(isEditing) {
-//				indicator.update(name, description, formula);				
-//			} else {
-//				addIndicator(newIndicator);
-//			}
-//			
-//			updateIndicators();
-//			this.error = "";
-//		} catch (InvalidFormulaException e) {
-//			this.error = e.getMessage();
-//			return "";
-//		}
-//		
-//		String operation = isEditing ? "actualizado" : "creado";
-//		this.isEditing = true;
-//		return String.format("%s %s", name, operation);
+		if(name.isEmpty() || formula.isEmpty()) {
+			String error = "Error: ";
+			error += name.isEmpty() ? "el nombre" : "la fórmula";
+			error += " no puede quedar vací";
+			error += name.isEmpty() ? "o." : "a.";
+			this.error = error;
+			return "";
+		}
+		
+		IndicatorBuilder builder = new IndicatorBuilder();
+		builder.setName(name);
+		builder.setDescription(description);
+		builder.setFormula(formula);
+		
+		try {
+			Indicator indicator = builder.build();
+			
+			if(isEditing) {
+				replaceIndicator(indicator);
+			} else {
+				addIndicator(indicator);
+			}
+		} catch (InvalidFormulaException e) {
+			this.error = String.format("Error: %s.", e.getMessage());
+			return "";
+		}
+		
+		this.error = "";
+		String operation = isEditing ? "actualizado" : "creado";
+		this.isEditing = true;
+		return String.format("%s %s", name, operation);
 	}
 	
 }

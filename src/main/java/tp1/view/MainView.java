@@ -5,11 +5,11 @@ import org.uqbar.arena.widgets.Button;
 import org.uqbar.arena.widgets.Label;
 import org.uqbar.arena.widgets.Panel;
 import org.uqbar.arena.widgets.Selector;
+import org.uqbar.arena.widgets.tables.Column;
 import org.uqbar.arena.widgets.tables.Table;
 import org.uqbar.arena.windows.SimpleWindow;
 import org.uqbar.arena.windows.WindowOwner;
 
-import tp1.Util;
 import tp1.model.Company;
 import tp1.model.Metric;
 import tp1.viewModel.MainViewModel;
@@ -40,11 +40,13 @@ public class MainView extends SimpleWindow<MainViewModel> {
 		filterPanel.setLayout(new HorizontalLayout());
 
 		Selector<Company> companyFilter = new Selector<>(filterPanel);
-		companyFilter.bindItemsToProperty("companies");
-		companyFilter.bindValueToProperty("selectedCompany");
+		companyFilter.setWidth(120);
+		companyFilter.bindItemsToProperty("companyNames");
+		companyFilter.bindValueToProperty("selectedCompanyName");
 		
 		new Label(filterPanel).setWidth(15);
 		Selector<Short> periodFilter = new Selector<>(filterPanel);
+		periodFilter.setWidth(120);
 		periodFilter.bindItemsToProperty("periods");
 		periodFilter.bindValueToProperty("selectedPeriod");
 		
@@ -55,14 +57,21 @@ public class MainView extends SimpleWindow<MainViewModel> {
 	private void createTable(Panel mainPanel) {
 		Table<Metric> table = new Table<>(mainPanel, Metric.class);
 		table.setNumberVisibleRows(16);
-		table.bindItemsToProperty("metrics");
-		table.bindSelectionToProperty("selectedMetric");
+		table.bindItemsToProperty("measures");
+		table.bindSelectionToProperty("selectedMeasure");
 
-		Util.createColumn("Empresa", "companyName", 60, table);
-		Util.createColumn("Período", "period", 60, table);
-		Util.createColumn("Nombre", "name", 60, table);
-		Util.createColumn("Tipo", "typeString", 70, table);
-		Util.createColumn("Valor", "valueString", 100, table);
+		createColumn("Empresa", "companyName", 60, table);
+		createColumn("Período", "period", 60, table);
+		createColumn("Nombre", "name", 60, table);
+		createColumn("Tipo", "type", 70, table);
+		createColumn("Valor", "value", 100, table);
+	}
+	
+	private <T> void createColumn(String title, String property, int length, Table<T> table) {
+		Column<T> column = new Column<>(table);
+		column.setTitle(title);
+		column.setFixedSize(length);
+		column.bindContentsToProperty(property);
 	}
 
 	@Override
@@ -77,17 +86,16 @@ public class MainView extends SimpleWindow<MainViewModel> {
 		button.bindEnabledToProperty("viewMetricEnabled");
 		button.setAsDefault();
 		button.onClick(() -> {
-			new MetricView(this, getModelObject().getSelectedMetric()).open();
+//			new MetricView(this, getModelObject().getSelectedMeasure()).open();
 		});
 	}
 	
 	private void createIndicatorButton(Panel panel) {
 		Button button = new Button(panel);
 		button.setCaption("Aplicar indicador…");
-		button.bindEnabledToProperty("applyIndicatorEnabled");
 		button.onClick(() -> {
-			new IndicatorView(this, getModelObject().getSelectedCompany(),
-					getModelObject().getSelectedPeriod()).open();
+//			new IndicatorView(this, getModelObject().getSelectedCompany(),
+//					getModelObject().getSelectedPeriod()).open();
 		});
 	}
 	
