@@ -63,6 +63,14 @@ public class MeasureComponent {
 		return significantDigits(this.measure.getValue(company, period));
 	}
 	
+	public String getFullValue() {
+		return formatNumber(this.measure.getValue(company, period));
+	}
+	
+	public double getDoubleValue() {
+		return this.measure.getValue(company, period);
+	}
+	
 	private String significantDigits(double figure) {
 		String[] units = {"m", "M", "mM", "B", "mB", "T", "mT"};
 		int index = -1;

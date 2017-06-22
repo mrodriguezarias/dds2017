@@ -1,60 +1,64 @@
 package tp1.viewModel;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
 
+import tp1.App;
 import tp1.model.Company;
 import tp1.model.Indicator;
 
 @Observable
 public class IndicatorViewModel {
 
-	private Company company;
+	private String companyName;
 	private short period;
 	
-	private List<Indicator> indicators;
-	private Indicator indicator;
+	private List<String> indicatorNames;
+	private String indicatorName;
 
-	public IndicatorViewModel(Company company, short period) {
-		this.company = company;
+	public IndicatorViewModel(String companyName, short period) {
+		this.companyName = companyName;
 		this.period = period;
 		
-//		indicators = new ArrayList<>(Database.getInstance().getIndicators(company, period));
-//		indicators.add(0, Indicator.EMPTY);
-		indicator = indicators.get(0);
+		indicatorNames = App.indicatorRepository.all().stream().map(i -> i.getName()).collect(Collectors.toList());
 	}
 	
 	public String title() {
-		return String.format("Aplicar indicador a $%s en %s", company, period);
+		return String.format("Aplicar indicador a $%s en %s", companyName, period);
 	}
 
-	public Indicator getIndicator() {
-		return indicator;
+	public String getIndicatorName() {
+		return indicatorName;
 	}
 
-	public void setIndicator(Indicator indicator) {
-		this.indicator = indicator;
+	public void setIndicatorName(String indicatorName) {
+		this.indicatorName = indicatorName;
 	}
 
-	public List<Indicator> getIndicators() {
-		return indicators;
+	public List<String> getIndicatorNames() {
+		return indicatorNames;
 	}
 	
-	@Dependencies("indicator")
+	@Dependencies("indicatorName")
 	public String getDescription() {
+		Indicator indicator = App.indicatorRepository.find(indicatorName);
 		return indicator.getDescription();
 	}
 	
-	@Dependencies("indicator")
+	@Dependencies("indicatorName")
 	public String getValue() {
-		return "";
-//		return indicator.getValueString();
+		Indicator indicator = App.indicatorRepository.find(indicatorName);
+		Company company = App.companyRepository.find(companyName);
+		MeasureComponent component = new MeasureComponent(indicator, company, period);
+		return component.getFullValue();
 	}
 	
-	@Dependencies("indicator")
+	@Dependencies("indicatorName")
 	public String getFormula() {
+		Indicator indicator = App.indicatorRepository.find(indicatorName);
 		return indicator.getFormula();
 	}
 

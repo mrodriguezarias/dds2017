@@ -5,14 +5,14 @@ import org.uqbar.arena.widgets.Panel;
 import org.uqbar.arena.windows.SimpleWindow;
 import org.uqbar.arena.windows.WindowOwner;
 
-import tp1.model.Metric;
-import tp1.viewModel.MetricViewModel;
+import tp1.viewModel.MeasureComponent;
+import tp1.viewModel.MeasureViewModel;
 
 @SuppressWarnings("serial")
-public class MetricView extends SimpleWindow<MetricViewModel> {
+public class MeasureView extends SimpleWindow<MeasureViewModel> {
 
-	public MetricView(WindowOwner parent, Metric metric) {
-		super(parent, new MetricViewModel(metric));
+	public MeasureView(WindowOwner parent, MeasureComponent measure) {
+		super(parent, new MeasureViewModel(measure));
 	}
 	
 	@Override

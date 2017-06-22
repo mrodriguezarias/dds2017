@@ -86,7 +86,7 @@ public class MainView extends SimpleWindow<MainViewModel> {
 		button.bindEnabledToProperty("viewMetricEnabled");
 		button.setAsDefault();
 		button.onClick(() -> {
-//			new MetricView(this, getModelObject().getSelectedMeasure()).open();
+			new MeasureView(this, getModelObject().getSelectedMeasure()).open();
 		});
 	}
 	
@@ -94,8 +94,8 @@ public class MainView extends SimpleWindow<MainViewModel> {
 		Button button = new Button(panel);
 		button.setCaption("Aplicar indicador…");
 		button.onClick(() -> {
-//			new IndicatorView(this, getModelObject().getSelectedCompany(),
-//					getModelObject().getSelectedPeriod()).open();
+			new IndicatorView(this, getModelObject().getSelectedCompanyName(),
+					getModelObject().getSelectedPeriod()).open();
 		});
 	}
 	
