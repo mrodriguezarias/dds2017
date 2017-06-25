@@ -1,6 +1,9 @@
-package tp1.model;
+package tp1.model.repositories;
 
 import java.util.List;
+
+import tp1.model.Company;
+import tp1.model.repositories.sources.CompanySource;
 
 public class CompanyRepository {
 

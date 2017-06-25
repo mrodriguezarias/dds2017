@@ -19,7 +19,7 @@ public class JsonCoder {
 		this.filename = filename;
 		this.type = type;
 		this.mapper = new ObjectMapper();
-	} 
+	}
 
 	public List<?> read() {
 		try {

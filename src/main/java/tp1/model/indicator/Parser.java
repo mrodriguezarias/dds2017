@@ -1,8 +1,12 @@
-package tp1.model;
+package tp1.model.indicator;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import tp1.App;
+import tp1.model.Company;
+import tp1.model.Metric;
 
 public class Parser {
 
@@ -13,31 +17,67 @@ public class Parser {
 		}
 	}
 
+	private final String VAR_REGEX = "\\p{Alpha}\\w*";
+	
 	private int pos = -1, ch;
 	private String str;
-
-	private void nextChar() {
-		ch = (++pos < str.length()) ? str.charAt(pos) : -1;
+	
+	public Formula parse(String formula) throws ParseFailedException {
+		Expression expression = getExpressionFromFormula(formula);
+		Set<String> metrics = getMetricsUsedByFormula(formula);
+		return new Formula(formula, expression, metrics);
 	}
-
-	private boolean eat(int charToEat) {
-		while (ch == ' ') nextChar();
-		if (ch == charToEat) {
-			nextChar();
-			return true;
-		}
-		return false;
-	}
-
-	public Expression parse(String formula) throws ParseFailedException {
+	
+	Expression getExpressionFromFormula(String formula) throws ParseFailedException {
 		str = addTimesOperatorWhenImplicit(checkAndBracketVariables(formula));
 		nextChar();
-		Expression x = parseExpression();
+		Expression expression = parseExpression();
 		if (pos < str.length()) {
 			throw new ParseFailedException(
 					String.format("carácter '%c' inesperado", ch));
 		}
-		return x;
+		return expression;
+	}
+	
+	private boolean isMetric(String variable) {
+		return App.companyRepository.all().stream().anyMatch(c -> c.hasMetric(variable));
+	}
+	
+	private boolean isIndicator(String variable) {
+		return App.indicatorRepository.all().stream().anyMatch(i -> i.getName().equals(variable));
+	}
+	
+	private Set<String> getMetricsUsedByFormula(String formula) {
+		Set<String> metrics = new HashSet<>();
+		Matcher matcher = Pattern.compile(VAR_REGEX).matcher(formula);
+
+		while(matcher.find()) {
+			String variable = matcher.group();
+			if(isMetric(variable)) {
+				metrics.add(variable);
+			} else if(isIndicator(variable)) {
+				metrics.addAll(getMetricsUsedByFormula(App.indicatorRepository.find(variable).getFormula().asString()));
+			}
+		}
+		
+		return metrics;
+	}
+
+	/**
+	 * Verifica que existan las variables y las encierra entre paréntesis.
+	 */
+	private String checkAndBracketVariables(String formula) throws ParseFailedException {
+		Matcher matcher = Pattern.compile(VAR_REGEX).matcher(formula);
+
+		while(matcher.find()) {
+			String variable = matcher.group();
+			if(!isMetric(variable) && !isIndicator(variable)) {
+				throw new ParseFailedException(String.format("variable '%s' inválida", variable));
+			}
+		}
+
+		formula = formula.replaceAll(VAR_REGEX, "($0)");
+		return formula;
 	}
 
 	/** 
@@ -53,25 +93,17 @@ public class Parser {
 		return formula;
 	}
 
-	/**
-	 * Verifica que existan las variables y las encierra entre paréntesis.
-	 */
-	private String checkAndBracketVariables(String formula) throws ParseFailedException {
-		String regex = "\\p{Alpha}\\w*";
-		Matcher matcher = Pattern.compile(regex).matcher(formula);
+	private void nextChar() {
+		ch = (++pos < str.length()) ? str.charAt(pos) : -1;
+	}
 
-		while(matcher.find()) {
-			String variable = matcher.group();
-			boolean isValid = App.companyRepository.all().stream().anyMatch(c -> c.hasMetric(variable));
-			if(!isValid) {
-				isValid = App.indicatorRepository.all().stream().anyMatch(i -> i.getName().equals(variable));
-			}
-			if(!isValid) {
-				throw new ParseFailedException(String.format("variable '%s' inválida", variable));
-			}
+	private boolean eat(int charToEat) {
+		while (ch == ' ') nextChar();
+		if (ch == charToEat) {
+			nextChar();
+			return true;
 		}
-
-		return formula.replaceAll(regex, "($0)");
+		return false;
 	}
 
 	// Grammar:

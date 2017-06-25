@@ -6,14 +6,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import tp1.model.Company;
-import tp1.model.CompanyRepository;
-import tp1.model.Expression;
-import tp1.model.Indicator;
-import tp1.model.IndicatorBuilder;
-import tp1.model.IndicatorBuilder.InvalidFormulaException;
-import tp1.model.IndicatorRepository;
+import tp1.model.repositories.CompanyRepository;
+import tp1.model.repositories.IndicatorRepository;
 import tp1.model.Metric;
-import tp1.model.Parser;
+import tp1.model.indicator.Expression;
+import tp1.model.indicator.Indicator;
+import tp1.model.indicator.IndicatorBuilder;
+import tp1.model.indicator.Parser;
+import tp1.model.indicator.IndicatorBuilder.InvalidFormulaException;
 
 public class ParserTest {
 	
@@ -59,31 +59,32 @@ public class ParserTest {
 	
 	@Test
 	public void testFormulaWithBasicArithmetic() throws Exception {
-		double result = parser.parse("75 + 3,1 (0,2 - 12) / 4").eval(null, (short) 0);
+		double result = parser.parse("75 + 3,1 (0,2 - 12) / 4").asExpression().eval(null, (short) 0);
 		assertEquals(65.855, result, DELTA);
 	}
 	
 	@Test
 	public void testFormulaWithMetrics() throws Exception {
-		double result = parser.parse("2 M2 / (M3 + 7.3)").eval(company, (short) 2010);
+		double result = parser.parse("2 M2 / (M3 + 7.3)").asExpression().eval(company, (short) 2010);
 		assertEquals(3.0656032147, result, DELTA);
 	}
 	
 	@Test
 	public void testFormulaWithIndicators() throws Exception {
-		double result = parser.parse("5 I3 - 3 I1").eval(company, (short) 2010);
+		Expression expression = parser.parse("5 I3 - 3 I1").asExpression();
+		double result = expression.eval(company, (short) 2010);
 		assertEquals(-10824426.9999956487, result, DELTA);
 	}
 	
 	@Test
 	public void testFormulaWithMetricsAndIndicators() throws Exception {
-		double result = parser.parse("M1 I2 / (20 M2)").eval(company, (short) 2010);
+		double result = parser.parse("M1 I2 / (20 M2)").asExpression().eval(company, (short) 2010);
 		assertEquals(0.7018301452, result, DELTA);
 	}
 	
 	@Test(timeout = 500)
 	public void testFormulaEvaluation() throws Exception {
-		Expression expression = parser.parse("7 M1");
+		Expression expression = parser.parse("7 M1").asExpression();
 		for(int i = 0; i < 1000000; i++) {
 			short period = (short) (2009 + i % 2);
 			double result = expression.eval(company, period);

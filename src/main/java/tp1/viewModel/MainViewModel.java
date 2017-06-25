@@ -84,10 +84,11 @@ public class MainViewModel {
 				.map(metric -> new MeasureComponent(metric, selectedCompany, selectedPeriod))
 				.collect(Collectors.toList());
 		
-//		List<MeasureComponent> indicators = App.indicatorRepository.all().stream()
-//				.map(indicator -> new MeasureComponent(indicator, selectedCompany, selectedPeriod))
-//				.collect(Collectors.toList());
-//		measures.addAll(indicators);
+		List<MeasureComponent> indicators = App.indicatorRepository.all().stream()
+				.filter(indicator -> indicator.getFormula().isValidForContext(selectedCompany, selectedPeriod))
+				.map(indicator -> new MeasureComponent(indicator, selectedCompany, selectedPeriod))
+				.collect(Collectors.toList());
+		measures.addAll(indicators);
 		
 		this.measures = measures;
 	}

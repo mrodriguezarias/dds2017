@@ -5,9 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import tp1.model.Company;
-import tp1.model.Indicator;
-import tp1.model.IndicatorBuilder;
-import tp1.model.IndicatorBuilder.InvalidFormulaException;
+import tp1.model.indicator.Indicator;
+import tp1.model.indicator.IndicatorBuilder;
+import tp1.model.indicator.IndicatorBuilder.InvalidFormulaException;
 
 public class IndicatorTest {
 
@@ -26,7 +26,7 @@ public class IndicatorTest {
 
 		assertEquals(name, indicator.getName());
 		assertEquals(description, indicator.getDescription());
-		assertEquals(formula, indicator.getFormula());
+		assertEquals(formula, indicator.getFormula().asString());
 	}
 	
 	@Test(expected = InvalidFormulaException.class)

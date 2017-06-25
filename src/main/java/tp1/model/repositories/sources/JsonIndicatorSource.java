@@ -1,7 +1,9 @@
-package tp1.model;
+package tp1.model.repositories.sources;
 
 import java.util.List;
-import tp1.model.Indicator;
+
+import tp1.model.JsonCoder;
+import tp1.model.indicator.Indicator;
 
 public class JsonIndicatorSource implements IndicatorSource{
 	

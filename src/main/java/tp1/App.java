@@ -3,10 +3,10 @@ package tp1;
 import org.uqbar.arena.Application;
 import org.uqbar.arena.windows.Window;
 
-import tp1.model.CompanyRepository;
-import tp1.model.IndicatorRepository;
-import tp1.model.JsonCompanySource;
-import tp1.model.JsonIndicatorSource;
+import tp1.model.repositories.CompanyRepository;
+import tp1.model.repositories.IndicatorRepository;
+import tp1.model.repositories.sources.JsonCompanySource;
+import tp1.model.repositories.sources.JsonIndicatorSource;
 import tp1.view.MainView;
 
 public class App extends Application {

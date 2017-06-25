@@ -2,6 +2,7 @@ package tp1.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Company {
 	
@@ -33,14 +34,15 @@ public class Company {
 	public List<Metric> getMetrics() {
 		return metrics;
 	}
-
-	public Metric getMetric(String name, short period){
-
-		Metric metric = metrics.stream()
-		            .filter(x -> (x.getName().equals(name)) && (x.getPeriod() == (period)) )
-		            .findFirst()
-		            .orElse(null);
-		return metric;
 	
+	public List<Metric> getMetrics(short period) {
+		return metrics.stream().filter(m -> m.getPeriod() == period).collect(Collectors.toList());
+	}
+
+	public Metric getMetric(String name, short period) {
+		Metric metric = metrics.stream()
+		            .filter(x -> x.getName().equals(name) && x.getPeriod() == period)
+		            .findFirst().orElse(null);
+		return metric;
 	}
 }

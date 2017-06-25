@@ -1,4 +1,6 @@
-package tp1.model;
+package tp1.model.indicator;
+
+import tp1.model.Company;
 
 @FunctionalInterface
 public interface Expression {

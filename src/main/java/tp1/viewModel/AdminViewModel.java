@@ -8,9 +8,9 @@ import java.util.stream.Collectors;
 import org.uqbar.commons.utils.Observable;
 
 import tp1.App;
-import tp1.model.Indicator;
-import tp1.model.IndicatorBuilder;
-import tp1.model.IndicatorBuilder.InvalidFormulaException;
+import tp1.model.indicator.Indicator;
+import tp1.model.indicator.IndicatorBuilder;
+import tp1.model.indicator.IndicatorBuilder.InvalidFormulaException;
 
 @Observable
 public class AdminViewModel {
@@ -93,7 +93,7 @@ public class AdminViewModel {
 		if(indicator == null) return;
 		this.name = indicator.getName();
 		this.description = indicator.getDescription();
-		this.formula = indicator.getFormula();
+		this.formula = indicator.getFormula().asString();
 		this.error = "";
 	}
 	

@@ -3,9 +3,9 @@ package tp1.viewModel;
 import org.uqbar.commons.utils.Observable;
 
 import tp1.model.Company;
-import tp1.model.Indicator;
 import tp1.model.Measure;
 import tp1.model.Metric;
+import tp1.model.indicator.Indicator;
 
 @Observable
 public class MeasureComponent {
@@ -83,7 +83,10 @@ public class MeasureComponent {
 	}
 	
 	private String formatNumber(double number) {
-		String integer = String.format("%,d", (long) number).replaceAll(",", "\u2009");
+		long intval = (long) number;
+		String intformat = intval / 1000 < 10 ? "%d" : "%,d";
+		String integer = String.format(intformat, intval).replaceAll(",", "\u2009");
+		
 		String decimal = String.format("%f", Math.abs(number)).replaceFirst("[0-9]+\\.", ",")
 				.replaceFirst(",([0-9]*?)0+$", ",$1").replaceFirst(",0*$", "");
 		return integer + decimal;

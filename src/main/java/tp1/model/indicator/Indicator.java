@@ -1,9 +1,11 @@
-package tp1.model;
+package tp1.model.indicator;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import tp1.model.Parser.ParseFailedException;
+import tp1.model.Company;
+import tp1.model.Measure;
+import tp1.model.indicator.Formula.InvalidForContextException;
 
 public class Indicator implements Measure {
 
@@ -14,9 +16,7 @@ public class Indicator implements Measure {
 	private String description;
 
 	@JsonProperty
-	private String formula;
-
-	private Expression expression;
+	private Formula formula;
 
 	@SuppressWarnings("serial")
 	public class InvalidFormulaException extends Exception {
@@ -33,28 +33,16 @@ public class Indicator implements Measure {
 	}
 
 	@JsonCreator
-	private Indicator(
+	public Indicator(
 			@JsonProperty("name") String name,
 			@JsonProperty("description") String description,
-			@JsonProperty("formula") String formula) {
+			@JsonProperty("formula") Formula formula) {
 		this.name = name;
 		this.description = description;
 		this.formula = formula;
-		try {
-			this.expression = new Parser().parse(formula);
-		} catch (ParseFailedException e) {
-			e.printStackTrace();
-		}
 	}
 
-	public Indicator(String name, String description, String formula, Expression expression) {
-		this.name = name;
-		this.description = description;
-		this.formula = formula;
-		this.expression = expression;
-	}
-
-	public String getFormula() {
+	public Formula getFormula() {
 		return formula;
 	}
 
@@ -66,13 +54,14 @@ public class Indicator implements Measure {
 		return description;
 	}
 
-	public void update(String name, String description, String formula) {
-		this.name = name;
-		this.description = description;
-		this.formula = formula;
-	}
-
 	public double getValue(Company company, short period) {
-		return expression.eval(company, period);
+		try {
+			return formula.eval(company, period);
+		} catch (InvalidForContextException e) {
+			/*
+			 * Esta excepción puede ignorarse en este contexto porque no debería pasar nunca.
+			 */
+			return 0;
+		}
 	}
 }

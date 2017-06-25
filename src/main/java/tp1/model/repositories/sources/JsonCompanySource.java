@@ -1,8 +1,12 @@
-package tp1.model;
+package tp1.model.repositories.sources;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import tp1.model.Company;
+import tp1.model.JsonCoder;
+import tp1.model.Metric;
 
 public class JsonCompanySource implements CompanySource{
 	

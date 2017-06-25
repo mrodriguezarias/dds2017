@@ -9,7 +9,7 @@ import org.uqbar.arena.widgets.TextBox;
 import org.uqbar.arena.windows.SimpleWindow;
 import org.uqbar.arena.windows.WindowOwner;
 
-import tp1.model.Indicator;
+import tp1.model.indicator.Indicator;
 import tp1.viewModel.AdminViewModel;
 import tp1.viewModel.Colour;
 

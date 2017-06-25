@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tp1.model.Company;
-import tp1.model.CompanySource;
+import tp1.model.repositories.sources.CompanySource;
 
 public class TestCompanySource implements CompanySource {
 

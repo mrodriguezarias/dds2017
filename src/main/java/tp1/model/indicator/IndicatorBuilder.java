@@ -1,6 +1,6 @@
-package tp1.model;
+package tp1.model.indicator;
 
-import tp1.model.Parser.ParseFailedException;
+import tp1.model.indicator.Parser.ParseFailedException;
 
 public class IndicatorBuilder {
 	@SuppressWarnings("serial")
@@ -12,32 +12,32 @@ public class IndicatorBuilder {
 	
 	String name;
 	String description;
-	String formula;
+	String formulaAsString;
 	
-	public void setName(String name){
+	public void setName(String name) {
 		this.name = name;
 	}
 	
-	public void setDescription(String description){
+	public void setDescription(String description) {
 		this.description = description;
 	}
 	
-	public void setFormula(String formula){
-		this.formula = formula;
+	public void setFormula(String formula) {
+		this.formulaAsString = formula;
 	}
 
 
 	public Indicator build() throws InvalidFormulaException {
 		Parser parser = new Parser();
-		Expression expression = null;
+		Formula formula = null;
 		
 		try {
-			expression = parser.parse(formula);
+			formula = parser.parse(formulaAsString);
 		} catch (ParseFailedException e) {
 			throw new InvalidFormulaException(e.getMessage());
 		}
 		
-		Indicator indicator = new Indicator(name, description, formula, expression);
+		Indicator indicator = new Indicator(name, description, formula);
 		return indicator;
 	}
 }

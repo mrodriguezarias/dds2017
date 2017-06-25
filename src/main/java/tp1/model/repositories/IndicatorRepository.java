@@ -1,7 +1,10 @@
-package tp1.model;
+package tp1.model.repositories;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import tp1.model.indicator.Indicator;
+import tp1.model.repositories.sources.IndicatorSource;
 
 public class IndicatorRepository {
 

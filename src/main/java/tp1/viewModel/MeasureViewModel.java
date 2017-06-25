@@ -5,7 +5,7 @@ import java.awt.Color;
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
 
-import tp1.model.Indicator;
+import tp1.model.indicator.Indicator;
 
 @Observable
 public class MeasureViewModel {
@@ -22,14 +22,14 @@ public class MeasureViewModel {
 	}
 	
 	private boolean isIndicator() {
-		return measure.getType().equals("Indicator");
+		return measure.getType().equals("Indicador");
 	}
 	
 	@Dependencies("measure")
 	public String getHeading() {
 		if(isIndicator()) {
 			Indicator indicator = ((Indicator) measure.getMeasure());
-			return indicator.getFormula();
+			return indicator.getFormula().asString();
 		}
 		return String.format("%s(%s, %s)",
 				measure.getName(), measure.getCompanyName(), measure.getPeriod());
