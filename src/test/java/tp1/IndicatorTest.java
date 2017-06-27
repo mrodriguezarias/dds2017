@@ -4,10 +4,10 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import tp1.model.Company;
-import tp1.model.indicator.Indicator;
-import tp1.model.indicator.IndicatorBuilder;
-import tp1.model.indicator.IndicatorBuilder.InvalidFormulaException;
+import tp1.modelo.Empresa;
+import tp1.modelo.indicador.Indicador;
+import tp1.modelo.indicador.ConstructorDelIndicador;
+import tp1.modelo.indicador.ConstructorDelIndicador.ExcepciónDeFórmulaInválida;
 
 public class IndicatorTest {
 
@@ -17,27 +17,27 @@ public class IndicatorTest {
 		String description = "The golden ratio";
 		String formula = "1.61803398875";
 
-		IndicatorBuilder indicatorBuilder = new IndicatorBuilder();
-		indicatorBuilder.setName(name);
-		indicatorBuilder.setDescription(description);
-		indicatorBuilder.setFormula(formula);
+		ConstructorDelIndicador indicatorBuilder = new ConstructorDelIndicador();
+		indicatorBuilder.establecerNombre(name);
+		indicatorBuilder.establecerDescripción(description);
+		indicatorBuilder.establecerFórmula(formula);
 
-		Indicator indicator = indicatorBuilder.build();
+		Indicador indicator = indicatorBuilder.construir();
 
-		assertEquals(name, indicator.getName());
-		assertEquals(description, indicator.getDescription());
-		assertEquals(formula, indicator.getFormula().asString());
+		assertEquals(name, indicator.obtenerNombre());
+		assertEquals(description, indicator.obtenerDescripción());
+		assertEquals(formula, indicator.obtenerFórmula().comoCadenaDeCaracteres());
 	}
 	
-	@Test(expected = InvalidFormulaException.class)
+	@Test(expected = ExcepciónDeFórmulaInválida.class)
 	public void testInvalidIndicator() throws Exception {
 		String name = "II";
 		String formula = "1:61803398875";
 
-		IndicatorBuilder indicatorBuilder = new IndicatorBuilder();
-		indicatorBuilder.setName(name);
-		indicatorBuilder.setFormula(formula);
-		indicatorBuilder.build();
+		ConstructorDelIndicador indicatorBuilder = new ConstructorDelIndicador();
+		indicatorBuilder.establecerNombre(name);
+		indicatorBuilder.establecerFórmula(formula);
+		indicatorBuilder.construir();
 	}
 	
 	@Test
@@ -46,16 +46,16 @@ public class IndicatorTest {
 		String description = "";
 		String formula = "1+2";
 		
-		Company company = new Company("CompanyName");
+		Empresa company = new Empresa("CompanyName");
 
-		IndicatorBuilder indicatorBuilder = new IndicatorBuilder();
-		indicatorBuilder.setName(name);
-		indicatorBuilder.setDescription(description);
-		indicatorBuilder.setFormula(formula);
+		ConstructorDelIndicador indicatorBuilder = new ConstructorDelIndicador();
+		indicatorBuilder.establecerNombre(name);
+		indicatorBuilder.establecerDescripción(description);
+		indicatorBuilder.establecerFórmula(formula);
 
-		Indicator indicator = indicatorBuilder.build();
+		Indicador indicator = indicatorBuilder.construir();
 		
-		double result = indicator.getValue(company, (short) 1929);
+		double result = indicator.obtenerValor(company, (short) 1929);
 
 		assertEquals(3.0, result, 0.0);
 	}

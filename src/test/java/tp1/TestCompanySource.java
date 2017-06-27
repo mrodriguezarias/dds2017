@@ -3,15 +3,15 @@ package tp1;
 import java.util.ArrayList;
 import java.util.List;
 
-import tp1.model.Company;
-import tp1.model.repositories.sources.CompanySource;
+import tp1.modelo.Empresa;
+import tp1.modelo.repositorios.fuentes.FuenteDeLaEmpresa;
 
-public class TestCompanySource implements CompanySource {
+public class TestCompanySource implements FuenteDeLaEmpresa {
 
 	@Override
-	public List<Company> load() {
-		List<Company> companies = new ArrayList<>();
-		companies.add(new Company("TestCompany"));
+	public List<Empresa> cargar() {
+		List<Empresa> companies = new ArrayList<>();
+		companies.add(new Empresa("TestCompany"));
 		return companies;
 	}
 }
