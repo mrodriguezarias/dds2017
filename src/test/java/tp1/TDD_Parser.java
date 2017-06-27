@@ -12,12 +12,16 @@ public class TDD_Parser {
 		for (i=0; i< formula.length(); i++){ //recorro el string
 			char caracter = formula.charAt(i);
 			 switch (caracter) {
+			 	case ' ':
+			 	break; //ignora espacios
 			 	case '+': 
 	            return	Double.parseDouble(termino) + evaluar(formula.substring(i+1));
 	            case '-':
 	            return Double.parseDouble(termino) - evaluar(formula.substring(i+1));
 //	            case '*':
+//	            return	Double.parseDouble(termino) + evaluar(formula.substring(i+1));
 //	            case '/':
+//	            return	Double.parseDouble(termino) + evaluar(formula.substring(i+1));
 	            default: 
 	            termino = termino + caracter; 
 	            break;
@@ -37,7 +41,7 @@ public class TDD_Parser {
 	
 	@Test
 	public void dosYDosSonCuatroTest() {
-		String formula =  "2+2";
+		String formula =  " 2 + 2 ";
 		Double resultado = evaluar(formula);
 		assertEquals(4, resultado, 0.0);
 		
