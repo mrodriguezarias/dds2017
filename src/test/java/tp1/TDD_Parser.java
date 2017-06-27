@@ -35,7 +35,6 @@ public class TDD_Parser {
 		
 	}
 	
-	
 	@Test
 	public void dosYDosSonCuatroTest() {
 		String formula =  "2+2";
@@ -49,6 +48,20 @@ public class TDD_Parser {
 		String formula =  "8-1";
 		Double resultado = evaluar(formula);
 		assertEquals(7, resultado, 0.0);
+	}
+	
+	@Test
+	public void TresMasTresMasTres() {
+		String formula =  "3+3+3";
+		Double resultado = evaluar(formula);
+		assertEquals(9, resultado, 0.0);
+	}
+	
+	@Test
+	public void cuatroMasDosMenosOnce() {
+		String formula =  "4+2-11";
+		Double resultado = evaluar(formula);
+		assertEquals(-5, resultado, 0.0);
 	}
 	
 }
