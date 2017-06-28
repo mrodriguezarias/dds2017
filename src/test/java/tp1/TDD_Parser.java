@@ -8,6 +8,7 @@ public class TDD_Parser {
 
 	public double evaluar(String formula){
 		/*-- Este metodo evaula una formula sin errores, es decir que se debe chequear antes por errores --*/
+		
 		int i;
 		String termino = "";
 		String subtermino = ""; //un termino dentro de un parentesis
@@ -21,8 +22,9 @@ public class TDD_Parser {
 			case '-':
 				return evaluar(termino) - evaluar(formula.substring(i+1));
 			case '(':
-				while((caracter = formula.charAt(++i))!=')'){ subtermino += caracter;}
-				termino += String.valueOf(evaluar(subtermino));
+				subtermino = saltearParentesis(formula.substring(i));
+				termino += subtermino;
+				i+= subtermino.length() -1;
 				break;
 				
 			default: 
@@ -45,17 +47,50 @@ public class TDD_Parser {
 			case '*':
 				return evaluar(termino) * evaluar(formula.substring(i+1));
 			case '(':
-				while((caracter = formula.charAt(++i))!=')'){ subtermino += caracter;}
-				termino += String.valueOf(evaluar(subtermino));
+				subtermino = saltearParentesis(formula.substring(i));
+				termino += subtermino;
+				i+= subtermino.length() -1;
 				break;
 			default: 
 				termino += caracter; 
 				break;
-			}
-			 
+			} 
+		}
+		
+		/*--- A este punto llega una formula entre (), Ej: "(8+3*4)" --*/
+		
+		if(formula.charAt(0) == '('){
+			// entrada: "(8+3*4)" evaluo: "8+3*4" 
+			return evaluar(formula.substring(1, formula.length()-1));  
 		}
 		
 		return Double.parseDouble(termino); //para los casos donde solo hay un numero ej: formula = "7"
+	}
+	
+	public String saltearParentesis(String subformula){
+		//-- dado un string retorna la cadena hasta donde cierra ')'
+		//-- Ej: (7*3-(11-1)/2)+44 --> (7*3-(11-1)/2)  
+		int i =1;
+		String termino = "(";
+		String subtermino;
+		for (i=1; i< subformula.length(); i++){
+			char caracter = subformula.charAt(i);
+			switch (caracter) {
+			case '(':
+				subtermino = saltearParentesis(subformula.substring(i));
+				termino += subtermino;
+				i+= subtermino.length()-1;
+				break;
+			case ')':
+				termino += caracter;
+				System.out.println(termino);
+				return termino;
+			default: 
+				termino += caracter; 
+				break;
+			}
+		}
+		return "";
 	}
 	
 	@Test
@@ -115,8 +150,6 @@ public class TDD_Parser {
 		assertEquals(9, resultado, 0.0);
 	}
 	
-	/* Test que deberia pasar */
-	
 	@Test
 	public void formulaConParentestisSimple() {
 		String formula =  "(8+3*4)/2-5";
@@ -125,12 +158,25 @@ public class TDD_Parser {
 	}
 	
 	/*-- Test que deberia pasar --*/
-//	@Test
-//	public void formulaConParentestisDoble() {
-//		String formula =  "((8+3)*4)/2-5";
-//		Double resultado = evaluar(formula);
-//		assertEquals(17, resultado, 0.0);
-//	}
+	@Test
+	public void formulaConParentestisDoble() {
+		String formula =  "((8+3)*4)/2-5";
+		Double resultado = evaluar(formula);
+		assertEquals(17, resultado, 0.0);
+	}
 	
-	
+	@Test
+	public void formulaCompleja() {
+		String formula =  "(((7*3)-(1+2))/(2 +11))*3 +7+4*1";
+		Double resultado = evaluar(formula);
+		assertEquals(15.154, resultado, 0.001);
+	}
+
+	@Test
+	public void otraFormulaCompleja() {
+		String formula =  "(((7*3)-(1+2))/(2 +11))*3 +7+4*1 + 0.07";
+		Double resultado = evaluar(formula);
+		assertEquals(15.224, resultado, 0.001);
+	}
 }
+
