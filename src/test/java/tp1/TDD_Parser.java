@@ -57,13 +57,15 @@ public class TDD_Parser {
 			} 
 		}
 		
-		/*--- A este punto llega una formula entre (), Ej: "(8+3*4)" --*/
-		
+
+		if (termino == "")return 0;
+		/*--- A este punto llega una formula entre (), Ej: "(8+3*4)" --*/	
 		if(formula.charAt(0) == '('){
 			// entrada: "(8+3*4)" evaluo: "8+3*4" 
 			return evaluar(formula.substring(1, formula.length()-1));  
 		}
 		
+
 		return Double.parseDouble(termino); //para los casos donde solo hay un numero ej: formula = "7"
 	}
 	
@@ -98,6 +100,13 @@ public class TDD_Parser {
 		String formula =  "7";
 		Double resultado = evaluar(formula);
 		assertEquals(7, resultado, 0.0);	
+	}
+	
+	@Test
+	public void menosSieteEsMenosSiete() {
+		String formula =  "-7";
+		Double resultado = evaluar(formula);
+		assertEquals(-7, resultado, 0.0);	
 	}
 	
 	@Test
