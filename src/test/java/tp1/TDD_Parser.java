@@ -8,66 +8,57 @@ public class TDD_Parser {
 
 	public double evaluar(String formula){
 		/*-- Este metodo evaula una formula sin errores, es decir que se debe chequear antes por errores --*/
+
+		Double resultado = null;
 		
+		if(formula.equals("")) return 0.0; //para operadores unarios El: -"7" => "0-7"
+		
+		resultado = separarEnTerminosSegunOperador(formula, '+');
+		if (resultado != null) return resultado;
+		
+		resultado = separarEnTerminosSegunOperador(formula, '-');
+		if (resultado != null) return resultado;
+		
+		resultado = separarEnTerminosSegunOperador(formula, '*');
+		if (resultado != null) return resultado;
+		
+		resultado = separarEnTerminosSegunOperador(formula, '/');
+		if (resultado != null) return resultado;
+		
+		resultado = evaluarFormulaEnterParentesis(formula); // A este punto solo llega una entre ()
+		if (resultado != null) return resultado;
+		
+		return Double.parseDouble(formula); //para los casos donde solo hay un numero ej: formula = "7"
+	}
+	
+	
+	public Double separarEnTerminosSegunOperador(String formula, char operador){
 		int i;
 		String termino = "";
 		String subtermino = ""; //un termino dentro de un parentesis
-		for (i=0; i< formula.length(); i++){ //recorro el string para separar terminos por + y -
+		
+		for (i=0; i< formula.length(); i++){ //recorro el string para separar segun operador
 			char caracter = formula.charAt(i);
-			switch (caracter) {
-			case ' ':
-				break; //ignora espacios
-			case '+': 
-				return evaluar(termino) + evaluar(formula.substring(i+1));
-			case '-':
-				return evaluar(termino) - evaluar(formula.substring(i+1));
-			case '(':
+			if (caracter == '('){
 				subtermino = saltearParentesis(formula.substring(i));
 				termino += subtermino;
 				i+= subtermino.length() -1;
-				break;
-				
-			default: 
-				termino += caracter; 
-				break;
+				continue;
 			}
+			if(caracter == operador){
+				switch (operador) {
+				case ' ': break; //ignora espacios
+				case '+': return evaluar(termino) + evaluar(formula.substring(i+1));
+				case '-': return evaluar(termino) - evaluar(formula.substring(i+1));
+				case '/': return evaluar(termino) / evaluar(formula.substring(i+1));
+				case '*': return evaluar(termino) * evaluar(formula.substring(i+1));			
+				}
+			}
+			termino += caracter;
 	      }
-		
-		/*-- A este punto llega una formula solo si no tiene sumas ni restas --*/	
-		
-		termino = ""; //reseteo el "termino" para recorrer el string nuevamente
-
-		for (i=0; i< formula.length(); i++){
-			char caracter = formula.charAt(i);
-			switch (caracter) {
-			case ' ':
-				break;
-			case '/': 
-				return evaluar(termino) / evaluar(formula.substring(i+1));
-			case '*':
-				return evaluar(termino) * evaluar(formula.substring(i+1));
-			case '(':
-				subtermino = saltearParentesis(formula.substring(i));
-				termino += subtermino;
-				i+= subtermino.length() -1;
-				break;
-			default: 
-				termino += caracter; 
-				break;
-			} 
-		}
-		
-
-		if (termino == "")return 0;
-		/*--- A este punto llega una formula entre (), Ej: "(8+3*4)" --*/	
-		if(formula.charAt(0) == '('){
-			// entrada: "(8+3*4)" evaluo: "8+3*4" 
-			return evaluar(formula.substring(1, formula.length()-1));  
-		}
-		
-
-		return Double.parseDouble(termino); //para los casos donde solo hay un numero ej: formula = "7"
+		return null; //si no encontro el operador en la formula
 	}
+	
 	
 	public String saltearParentesis(String subformula){
 		//-- dado un string retorna la cadena hasta donde cierra ')'
@@ -93,6 +84,15 @@ public class TDD_Parser {
 			}
 		}
 		return "";
+	}
+	
+	public Double evaluarFormulaEnterParentesis (String formula){
+		// entrada: "(8+3*4)" evaluo: "8+3*4"
+		if(formula.charAt(0) == '('){
+			 
+			return evaluar(formula.substring(1, formula.length()-1));  
+		}
+		return null; // la formula no estaba entre parentesis
 	}
 	
 	@Test
