@@ -1,6 +1,7 @@
 package tp1.modelo;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,6 +9,8 @@ public class Empresa {
 	
 	private String nombre;
 	private List<Cuenta> cuentas;
+	private Metodologia metodologia; // Strategy, va cambiando según la metodología que querramos aplicar
+	private int anioFundacion;
 	
 	public Empresa(String nombre) {
 		this.nombre = nombre;
@@ -44,5 +47,22 @@ public class Empresa {
 		            .filter(x -> x.obtenerNombre().equals(nombre) && x.obtenerPeríodo() == período)
 		            .findFirst().orElse(null);
 		return cuenta;
+	}
+	
+	public boolean sosMejorQue(Empresa otraEmpresa)	{
+		return this.metodologia.esMejor(this, otraEmpresa);
+	}
+	
+	public boolean convieneInvertir()	{
+		return this.metodologia.convieneInvertir(this);
+	}
+	
+	public void setMetodologia(Metodologia metodologia)	{
+		this.metodologia = metodologia;
+	}
+	
+	public int getLongevidad()	{
+		int anioActual = Calendar.getInstance().get(Calendar.YEAR);
+		return anioActual - this.anioFundacion;
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import tp1.modelo.indicador.Indicador;
 import tp1.modelo.repositorios.fuentes.FuenteDelIndicador;
+import tp1.modelo.repositorios.fuentes.FuenteJsonDelIndicador;
 
 public class RepositorioDelIndicador {
 
@@ -16,6 +17,11 @@ public class RepositorioDelIndicador {
 		this.fuente = fuente;
 		indicadores = new ArrayList<>(fuente.cargar());
 	}
+	
+	public RepositorioDelIndicador(String nombreDelArchivo) {
+		List<Indicador> indicadores = new FuenteJsonDelIndicador(nombreDelArchivo).cargar();
+		this.indicadores.addAll(indicadores);
+	}
 
 	public List<Indicador> todos() {
 
@@ -25,6 +31,7 @@ public class RepositorioDelIndicador {
 	public Indicador encontrar(String nombre) {
 		return indicadores.stream().filter(x -> x.obtenerNombre().equals(nombre)).findFirst().orElse(null);
 	}
+
 
 	public void agregar(Indicador indicador) {
 		indicadores.add(indicador);
