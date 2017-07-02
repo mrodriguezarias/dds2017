@@ -26,7 +26,7 @@ public class IndicatorTest {
 
 		assertEquals(name, indicator.getName());
 		assertEquals(description, indicator.getDescription());
-		assertEquals(formula, indicator.getFormula().asString());
+		assertEquals(formula, indicator.getFormula());
 	}
 	
 	@Test(expected = InvalidFormulaException.class)

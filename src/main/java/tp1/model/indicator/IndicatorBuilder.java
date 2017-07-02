@@ -29,15 +29,15 @@ public class IndicatorBuilder {
 
 	public Indicator build() throws InvalidFormulaException {
 		Parser parser = new Parser();
-		Formula formula = null;
+		Calculable calculable = null;
 		
 		try {
-			formula = parser.parse(formulaAsString);
+			calculable = parser.obtenerCalculable(formulaAsString);
 		} catch (ParseFailedException e) {
 			throw new InvalidFormulaException(e.getMessage());
 		}
 		
-		Indicator indicator = new Indicator(name, description, formula);
+		Indicator indicator = new Indicator(name, description, formulaAsString);
 		return indicator;
 	}
 }

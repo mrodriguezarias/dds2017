@@ -93,7 +93,7 @@ public class AdminViewModel {
 		if(indicator == null) return;
 		this.name = indicator.getName();
 		this.description = indicator.getDescription();
-		this.formula = indicator.getFormula().asString();
+		this.formula = indicator.getFormula();
 		this.error = "";
 	}
 	

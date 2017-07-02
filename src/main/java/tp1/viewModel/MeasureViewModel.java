@@ -29,7 +29,7 @@ public class MeasureViewModel {
 	public String getHeading() {
 		if(isIndicator()) {
 			Indicator indicator = ((Indicator) measure.getMeasure());
-			return indicator.getFormula().asString();
+			return indicator.getFormula();
 		}
 		return String.format("%s(%s, %s)",
 				measure.getName(), measure.getCompanyName(), measure.getPeriod());

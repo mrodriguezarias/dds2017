@@ -10,6 +10,7 @@ public class TDD_Parser {
 		/*-- Este metodo evaula una formula sin errores, es decir que se debe chequear antes por errores --*/
 
 		Double resultado = null;
+		formula = formula.replace(" ","" ); //eliminar espacios
 		
 		if(formula.equals("")) return 0.0; //para operadores unarios El: -"7" => "0-7"
 		
@@ -76,7 +77,6 @@ public class TDD_Parser {
 				break;
 			case ')':
 				termino += caracter;
-				System.out.println(termino);
 				return termino;
 			default: 
 				termino += caracter; 

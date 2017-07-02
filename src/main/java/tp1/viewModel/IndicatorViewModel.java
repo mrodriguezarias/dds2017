@@ -25,7 +25,7 @@ public class IndicatorViewModel {
 		
 		Company company = App.companyRepository.find(companyName);
 		this.indicatorNames = App.indicatorRepository.all().stream()
-				.filter(i -> i.getFormula().isValidForContext(company, period))
+				.filter(i -> i.isValidForContext(company, period))
 				.map(i -> i.getName()).collect(Collectors.toList());
 	}
 	
@@ -62,7 +62,7 @@ public class IndicatorViewModel {
 	@Dependencies("indicatorName")
 	public String getFormula() {
 		Indicator indicator = App.indicatorRepository.find(indicatorName);
-		return indicator.getFormula().asString();
+		return indicator.getFormula();
 	}
 
 }

@@ -1,6 +1,4 @@
 package tp1.model.indicator;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,26 +17,116 @@ public class Parser {
 
 	private final String VAR_REGEX = "\\p{Alpha}\\w*";
 	
-	private int pos = -1, ch;
-	private String str;
-	
-	public Formula parse(String formula) throws ParseFailedException {
-		Expression expression = getExpressionFromFormula(formula);
-		Set<String> metrics = getMetricsUsedByFormula(formula);
-		return new Formula(formula, expression, metrics);
-	}
-	
-	Expression getExpressionFromFormula(String formula) throws ParseFailedException {
-		str = addTimesOperatorWhenImplicit(checkAndBracketVariables(formula));
-		nextChar();
-		Expression expression = parseExpression();
-		if (pos < str.length()) {
-			throw new ParseFailedException(
-					String.format("carácter '%c' inesperado", ch));
+	public Calculable obtenerCalculable(String formula) throws ParseFailedException {
+		/*-- Este metodo evaula una formula sin errores, es decir que se debe chequear antes por errores --*/
+		int i;
+		Calculable calculable = null;
+		String listaOperadores = "+-*/"; // <-- agregar aca los oepradores a parsear en orden de precedencia
+		
+		formula = addTimesOperatorWhenImplicit(checkAndBracketVariables(formula));
+		formula = formula.replace(" ","" ); //eliminar espacios
+		
+		if(formula.equals(""))return new CalculableNumerico(0.0); //para operadores unarios El: -"7" => "0-7"
+		
+		for (i=0; i<listaOperadores.length(); i++ ){
+			calculable = evaluarTerminosSegunOperador(formula, listaOperadores.charAt(i));
+			if (calculable != null) return calculable;			
 		}
-		return expression;
+		
+		calculable = evaluarFormulaEnterParentesis(formula); // A este punto solo llega una entre ()
+		if (calculable != null) return calculable;
+		
+		return crearCalculableSimple(formula);
+
 	}
 	
+	private Calculable crearCalculableSimple(String formula) {
+		
+		if(esCuenta(formula)) return new CalculableCuenta(formula);
+		if(esIndicador(formula)) return App.indicatorRepository.find(formula); 
+		return new CalculableNumerico(Double.parseDouble(formula));
+	}
+
+	private boolean esCuenta(String variable) {
+		return App.companyRepository.all().stream().anyMatch(c -> c.hasMetric(variable));
+	}
+	
+	private boolean esIndicador(String variable) {
+		return App.indicatorRepository.all().stream().anyMatch(i -> i.getName().equals(variable));
+	}
+
+	public Calculable evaluarTerminosSegunOperador(String formula, char operador) throws ParseFailedException{
+		int i;
+		String termino = "";
+		String subtermino = ""; //un termino dentro de un parentesis
+		
+		for (i=0; i< formula.length(); i++){ //recorro el string para separar segun operador
+			char caracter = formula.charAt(i);
+			if (caracter == '('){
+				subtermino = saltearParentesis(formula.substring(i));
+				termino += subtermino;
+				i+= subtermino.length() -1;
+				continue;
+			}
+			if(caracter == operador){
+				switch (operador) {
+				case ' ': break; //ignora espacios
+				case '+': 
+				return new CalculableOperador(obtenerCalculable(termino),
+											  obtenerCalculable(formula.substring(i+1)), '+');
+				case '-': 
+				return new CalculableOperador(obtenerCalculable(termino),
+											  obtenerCalculable(formula.substring(i+1)), '-');
+				case '/':
+				return new CalculableOperador(obtenerCalculable(termino),
+											  obtenerCalculable(formula.substring(i+1)), '/');
+				case '*':
+				return new CalculableOperador(obtenerCalculable(termino),
+											  obtenerCalculable(formula.substring(i+1)), '*');
+				}
+			}
+			termino += caracter;
+	      }
+		return null; //si no encontro el operador en la formula
+	}
+	
+	public String saltearParentesis(String subformula){
+		//-- Dado un string retorna la cadena hasta donde cierra ')'
+		//-- Ej: (7*3-(11-1)/2)+44 --> (7*3-(11-1)/2)  
+		int i =1;
+		String termino = "(";
+		String subtermino;
+		for (i=1; i< subformula.length(); i++){
+			char caracter = subformula.charAt(i);
+			switch (caracter) {
+			case '(':
+				subtermino = saltearParentesis(subformula.substring(i));
+				termino += subtermino;
+				i+= subtermino.length()-1;
+				break;
+			case ')':
+				termino += caracter;
+//				System.out.println(termino);
+				return termino;
+			default: 
+				termino += caracter; 
+				break;
+			}
+		}
+		return "";
+	}
+	
+	public Calculable evaluarFormulaEnterParentesis (String formula) throws ParseFailedException{
+		// entrada: "(8+3*4)" evaluo: "8+3*4"
+		if(formula.charAt(0) == '('){
+			return obtenerCalculable(formula.substring(1, formula.length()-1));  
+		}
+		return null; // la formula no estaba entre parentesis
+	}
+	
+	
+	
+	/*Lo que estaba antes*/
 	private boolean isMetric(String variable) {
 		return App.companyRepository.all().stream().anyMatch(c -> c.hasMetric(variable));
 	}
@@ -47,21 +135,6 @@ public class Parser {
 		return App.indicatorRepository.all().stream().anyMatch(i -> i.getName().equals(variable));
 	}
 	
-	private Set<String> getMetricsUsedByFormula(String formula) {
-		Set<String> metrics = new HashSet<>();
-		Matcher matcher = Pattern.compile(VAR_REGEX).matcher(formula);
-
-		while(matcher.find()) {
-			String variable = matcher.group();
-			if(isMetric(variable)) {
-				metrics.add(variable);
-			} else if(isIndicator(variable)) {
-				metrics.addAll(getMetricsUsedByFormula(App.indicatorRepository.find(variable).getFormula().asString()));
-			}
-		}
-		
-		return metrics;
-	}
 
 	/**
 	 * Verifica que existan las variables y las encierra entre paréntesis.
@@ -76,7 +149,6 @@ public class Parser {
 			}
 		}
 
-		formula = formula.replaceAll(VAR_REGEX, "($0)");
 		return formula;
 	}
 
@@ -91,104 +163,5 @@ public class Parser {
 		formula = formula.replaceAll("\\)([0-9(])", ") * $1");
 		formula = formula.replaceAll(",", ".");
 		return formula;
-	}
-
-	private void nextChar() {
-		ch = (++pos < str.length()) ? str.charAt(pos) : -1;
-	}
-
-	private boolean eat(int charToEat) {
-		while (ch == ' ') nextChar();
-		if (ch == charToEat) {
-			nextChar();
-			return true;
-		}
-		return false;
-	}
-
-	// Grammar:
-	// expression = term | expression `+` term | expression `-` term
-	// term = factor | term `*` factor | term `/` factor
-	// factor = `+` factor | `-` factor | `(` expression `)`
-	//        | number | functionName factor | factor `^` factor
-
-	private Expression parseExpression() throws ParseFailedException {
-		Expression x = parseTerm();
-		while(true) {
-			if(eat('+')) {
-				Expression a = x, b = parseTerm();
-				x = ((Company company, short period) -> a.eval(company, period) + b.eval(company, period));
-			} else if(eat('-')) {
-				Expression a = x, b = parseTerm();
-				x = ((Company company, short period) -> a.eval(company, period) - b.eval(company, period));
-			} else {
-				return x;
-			}
-		}
-	}
-
-	private Expression parseTerm() throws ParseFailedException {
-		Expression x = parseFactor();
-		while(true) {
-			if(eat('*')) {
-				Expression a = x, b = parseFactor();
-				x = ((Company company, short period) -> a.eval(company, period) * b.eval(company, period));
-			} else if(eat('/')) {
-				Expression a = x, b = parseFactor();
-				x = ((Company company, short period) -> a.eval(company, period) / b.eval(company, period));
-			} else {
-				return x;
-			}
-		}
-	}
-
-	private Expression parseFactor() throws ParseFailedException {
-		if (eat('+')) return parseFactor(); // unary plus
-		if (eat('-')) {
-			Expression a = parseFactor();
-			return ((Company company, short period) -> -1 * a.eval(company, period)); // unary minus
-		}
-
-		Expression x;
-		int startPos = this.pos;
-		if (eat('(')) { // parentheses
-			x = parseExpression();
-			eat(')');
-		} else if(Character.isDigit(ch) || ch == '.') {
-			while(Character.isDigit(ch) || ch == '.') nextChar();
-			double number;
-			try {
-				number = Double.parseDouble(str.substring(startPos, this.pos));				
-			} catch(NumberFormatException e) {
-				throw new ParseFailedException("formato numérico inválido");
-			 }
-			x = ((Company company, short period) -> number);
-
-		} else if(Character.isLetter(ch)) {
-			nextChar();
-			while(Character.isLetter(ch) || Character.isDigit(ch)) nextChar();
-			String name = str.substring(startPos, this.pos);
-
-			x = ((Company company, short period) -> {
-				Metric metric = company.getMetric(name, period);
-				if(metric != null) {
-					return metric.getValue();
-				}
-
-				Indicator indicator = App.indicatorRepository.find(name);				
-				return indicator.getValue(company, period);
-			});
-		} else {
-			String err = ch == -1 ? "final inesperado" : String.format("carácter '%c' inesperado", ch);
-			throw new ParseFailedException(err);
-		}
-
-		if (eat('^')) { // exponentiation
-			Expression a = x;
-			Expression b = parseFactor();
-			x = ((Company company, short period) -> Math.pow(a.eval(company, period), b.eval(company, period)));
-		}
-
-		return x;
 	}
 }

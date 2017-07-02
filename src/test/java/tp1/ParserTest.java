@@ -9,7 +9,7 @@ import tp1.model.Company;
 import tp1.model.repositories.CompanyRepository;
 import tp1.model.repositories.IndicatorRepository;
 import tp1.model.Metric;
-import tp1.model.indicator.Expression;
+import tp1.model.indicator.Calculable;
 import tp1.model.indicator.Indicator;
 import tp1.model.indicator.IndicatorBuilder;
 import tp1.model.indicator.Parser;
@@ -59,35 +59,41 @@ public class ParserTest {
 	
 	@Test
 	public void testFormulaWithBasicArithmetic() throws Exception {
-		double result = parser.parse("75 + 3,1 (0,2 - 12) / 4").asExpression().eval(null, (short) 0);
+		Calculable formula;
+		double result;
+		formula = parser.obtenerCalculable("75 + 3,1 (0,2 - 12) / 4");
+		result = formula.calcular(company, (short) 0);
 		assertEquals(65.855, result, DELTA);
 	}
 	
 	@Test
 	public void testFormulaWithMetrics() throws Exception {
-		double result = parser.parse("2 M2 / (M3 + 7.3)").asExpression().eval(company, (short) 2010);
+		Calculable formula;
+		double result;
+		formula = parser.obtenerCalculable("2*M2 / (M3 + 7.3)");
+		result = formula.calcular(company, (short) 2010);
 		assertEquals(3.0656032147, result, DELTA);
 	}
 	
 	@Test
 	public void testFormulaWithIndicators() throws Exception {
-		Expression expression = parser.parse("5 I3 - 3 I1").asExpression();
-		double result = expression.eval(company, (short) 2010);
+		Calculable calculable = parser.obtenerCalculable("5* I3 - 3 *I1");
+		double result = calculable.calcular(company, (short) 2010);
 		assertEquals(-10824426.9999956487, result, DELTA);
 	}
 	
 	@Test
 	public void testFormulaWithMetricsAndIndicators() throws Exception {
-		double result = parser.parse("M1 I2 / (20 M2)").asExpression().eval(company, (short) 2010);
+		double result = parser.obtenerCalculable("M1 *I2 / (20 *M2)").calcular(company, (short) 2010);
 		assertEquals(0.7018301452, result, DELTA);
 	}
 	
-	@Test(timeout = 500)
+	@Test(timeout = 3000)
 	public void testFormulaEvaluation() throws Exception {
-		Expression expression = parser.parse("7 M1").asExpression();
+		Calculable formula = parser.obtenerCalculable("7*M1");
 		for(int i = 0; i < 1000000; i++) {
 			short period = (short) (2009 + i % 2);
-			double result = expression.eval(company, period);
+			double result = formula.calcular(company, period);
 			assertEquals(7 * company.getMetric("M1", period).getValue(), result, DELTA);
 		}
 	}
