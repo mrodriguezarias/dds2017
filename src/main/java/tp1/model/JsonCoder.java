@@ -2,9 +2,12 @@ package tp1.model;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import tp1.App;
@@ -19,6 +22,26 @@ public class JsonCoder {
 		this.filename = filename;
 		this.type = type;
 		this.mapper = new ObjectMapper();
+	}
+	
+	public List<String> obtenerCampo(String campo){
+		List<String> nombres = new ArrayList<String>();
+	
+		try{
+			File file = getResource(filename);
+			ObjectMapper mapper = new ObjectMapper();
+			JsonNode rootArray = mapper.readTree(file);
+	
+			for(JsonNode root : rootArray){
+				nombres.add(root.path(campo).asText());
+//				System.out.println(root.path(campo).asText()); //fixme borrar
+			}
+		} catch (JsonProcessingException e) {
+		e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return nombres;
 	}
 
 	public List<?> read() {

@@ -43,7 +43,7 @@ public class Parser {
 	private Calculable crearCalculableSimple(String formula) {
 		
 		if(esCuenta(formula)) return new CalculableCuenta(formula);
-		if(esIndicador(formula)) return App.indicatorRepository.find(formula); 
+		if(esIndicador(formula)) return new CalcuableIndicador(formula); 
 		return new CalculableNumerico(Double.parseDouble(formula));
 	}
 
@@ -52,7 +52,7 @@ public class Parser {
 	}
 	
 	private boolean esIndicador(String variable) {
-		return App.indicatorRepository.all().stream().anyMatch(i -> i.getName().equals(variable));
+		return App.indicatorRepository.existeIndicador(variable);
 	}
 
 	public Calculable evaluarTerminosSegunOperador(String formula, char operador) throws ParseFailedException{

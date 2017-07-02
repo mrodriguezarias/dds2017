@@ -17,4 +17,10 @@ public class TestIndicatorSource implements IndicatorSource {
 	public void save(List<Indicator> indicators) {
 		
 	}
+
+	@Override
+	public List<String> obtenerNombres() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

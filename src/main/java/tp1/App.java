@@ -29,6 +29,7 @@ public class App extends Application {
 		
 		companyRepository = new CompanyRepository(companySource);
 		indicatorRepository = new IndicatorRepository(indicatorSource);
+		indicatorRepository.createIndicators();
 		
 		new App().start();
 	}

@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import tp1.model.Company;
@@ -82,6 +83,7 @@ public class Indicator implements Measure,Calculable {
 		return calculable.calcular(company, period); //fixme reemplazar alguno de los 2 metodos :s
 	}
 
+	@JsonIgnore
 	@Override
 	public Set<String> getCuentas() {
 		return calculable.getCuentas(); //fixme: quedarse con uno

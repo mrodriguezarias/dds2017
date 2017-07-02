@@ -1,7 +1,9 @@
 package tp1.model.repositories.sources;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import tp1.model.Company;
@@ -29,7 +31,6 @@ public class JsonCompanySource implements CompanySource{
 					.collect(Collectors.toList());
 			companies.add(new Company(companyName, companyMetrics));
 		});
-		
 		return companies;
 	}
 

@@ -8,5 +8,7 @@ public interface IndicatorSource {
 
 	public List<Indicator> load();
 	
+	public List<String> obtenerNombres();
+	
 	public void save(List<Indicator> indicators);
 }

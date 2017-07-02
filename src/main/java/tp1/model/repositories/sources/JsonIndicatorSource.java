@@ -25,6 +25,11 @@ public class JsonIndicatorSource implements IndicatorSource{
 		
 		coder.write(indicators);		
 	}
+
+	@Override
+	public List<String> obtenerNombres() {
+		return coder.obtenerCampo("name");
+	}
 	
 
 }
