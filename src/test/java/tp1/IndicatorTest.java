@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import tp1.model.Company;
+import tp1.model.Empresa;
 import tp1.model.indicator.Indicator;
 import tp1.model.indicator.IndicatorBuilder;
 import tp1.model.indicator.IndicatorBuilder.InvalidFormulaException;
@@ -46,7 +46,7 @@ public class IndicatorTest {
 		String description = "";
 		String formula = "1+2";
 		
-		Company company = new Company("CompanyName");
+		Empresa company = new Empresa("CompanyName");
 
 		IndicatorBuilder indicatorBuilder = new IndicatorBuilder();
 		indicatorBuilder.setName(name);

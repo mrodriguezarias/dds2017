@@ -3,7 +3,7 @@ package tp1.model.indicator;
 import java.util.Set;
 
 import tp1.App;
-import tp1.model.Company;
+import tp1.model.Empresa;
 
 public class CalcuableIndicador implements Calculable {
 
@@ -14,7 +14,7 @@ public class CalcuableIndicador implements Calculable {
 	}
 	
 	@Override
-	public double calcular(Company company, short period) {
+	public double calcular(Empresa company, short period) {
 		Indicator indicador = App.indicatorRepository.find(nombreIndicador);
 		return indicador.calcular(company, period);
 	}

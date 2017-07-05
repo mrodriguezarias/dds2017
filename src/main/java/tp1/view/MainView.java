@@ -10,8 +10,8 @@ import org.uqbar.arena.widgets.tables.Table;
 import org.uqbar.arena.windows.SimpleWindow;
 import org.uqbar.arena.windows.WindowOwner;
 
-import tp1.model.Company;
-import tp1.model.Metric;
+import tp1.model.Empresa;
+import tp1.model.Cuenta;
 import tp1.viewModel.MainViewModel;
 
 @SuppressWarnings("serial")
@@ -39,7 +39,7 @@ public class MainView extends SimpleWindow<MainViewModel> {
 		Panel filterPanel = new Panel(mainPanel);
 		filterPanel.setLayout(new HorizontalLayout());
 
-		Selector<Company> companyFilter = new Selector<>(filterPanel);
+		Selector<Empresa> companyFilter = new Selector<>(filterPanel);
 		companyFilter.setWidth(120);
 		companyFilter.bindItemsToProperty("companyNames");
 		companyFilter.bindValueToProperty("selectedCompanyName");
@@ -55,7 +55,7 @@ public class MainView extends SimpleWindow<MainViewModel> {
 	}
 
 	private void createTable(Panel mainPanel) {
-		Table<Metric> table = new Table<>(mainPanel, Metric.class);
+		Table<Cuenta> table = new Table<>(mainPanel, Cuenta.class);
 		table.setNumberVisibleRows(16);
 		table.bindItemsToProperty("measures");
 		table.bindSelectionToProperty("selectedMeasure");

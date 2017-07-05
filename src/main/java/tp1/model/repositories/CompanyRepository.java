@@ -2,14 +2,14 @@ package tp1.model.repositories;
 
 import java.util.List;
 
-import tp1.model.Company;
+import tp1.model.Empresa;
 import tp1.model.repositories.sources.CompanySource;
 
 public class CompanyRepository {
 
 	CompanySource source;
 	
-	List<Company> companies;
+	List<Empresa> companies;
 	
 	public CompanyRepository(CompanySource source){
 		
@@ -17,11 +17,11 @@ public class CompanyRepository {
 		companies = this.source.load();
 	}
 	
-	public List<Company> all() {
+	public List<Empresa> all() {
 		return companies;
 	}
 	
-	public Company find(String name) {
+	public Empresa find(String name) {
 		return companies.stream().filter(c -> c.getName().equals(name)).findFirst().orElse(null);
 	}
 	

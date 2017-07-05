@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Company {
+public class Empresa {
 	
 	private String name;
-	private List<Metric> metrics;
+	private List<Cuenta> metrics;
 	
-	public Company(String name) {
+	public Empresa(String name) {
 		this.name = name;
 		this.metrics = new ArrayList<>();
 	}
 	
-	public Company(String name, List<Metric> metrics) {
+	public Empresa(String name, List<Cuenta> metrics) {
 		this.name = name;
 		this.metrics = metrics;
 	}
@@ -23,7 +23,7 @@ public class Company {
 		return name;
 	}
 	
-	public void addMetric(Metric metric) {
+	public void addMetric(Cuenta metric) {
 		metrics.add(metric);
 	}
 	
@@ -31,16 +31,16 @@ public class Company {
 		return metrics.stream().anyMatch(x -> x.getName().equals(name));
 	}
 
-	public List<Metric> getMetrics() {
+	public List<Cuenta> getMetrics() {
 		return metrics;
 	}
 	
-	public List<Metric> getMetrics(short period) {
+	public List<Cuenta> getMetrics(short period) {
 		return metrics.stream().filter(m -> m.getPeriod() == period).collect(Collectors.toList());
 	}
 
-	public Metric getMetric(String name, short period) {
-		Metric metric = metrics.stream()
+	public Cuenta getMetric(String name, short period) {
+		Cuenta metric = metrics.stream()
 		            .filter(x -> x.getName().equals(name) && x.getPeriod() == period)
 		            .findFirst().orElse(null);
 		return metric;

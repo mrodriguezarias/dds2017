@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 
 
 @Observable
-public class Metric implements Measure {
+public class Cuenta implements Measure {
 	
 	public enum Type { METRIC, INDICATOR };
 	
@@ -29,7 +29,7 @@ public class Metric implements Measure {
 	private double value;
 	
 	@JsonCreator
-	public Metric(
+	public Cuenta(
 			@JsonProperty("name") String name,
 			@JsonProperty("description") String description,
 			@JsonProperty("companyName") String companyName,
@@ -64,7 +64,7 @@ public class Metric implements Measure {
 		return companyName;
 	}
 	
-	public double getValue(Company company, short period) {
+	public double getValue(Empresa company, short period) {
 		return value;
 	}
 	

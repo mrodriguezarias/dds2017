@@ -6,6 +6,6 @@ public interface Measure {
 	
 	public String getDescription();
 	
-	public double getValue(Company company, short period);
+	public double getValue(Empresa company, short period);
 
 }

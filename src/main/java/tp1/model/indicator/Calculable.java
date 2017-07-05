@@ -2,10 +2,10 @@ package tp1.model.indicator;
 
 import java.util.Set;
 
-import tp1.model.Company;
+import tp1.model.Empresa;
 
 
 public interface Calculable {
-	double calcular(Company company, short period);
+	double calcular(Empresa company, short period);
 	Set<String> getCuentas();
 }

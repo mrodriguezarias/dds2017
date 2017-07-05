@@ -3,7 +3,7 @@ package tp1.model.indicator;
 import java.util.Collections;
 import java.util.Set;
 
-import tp1.model.Company;
+import tp1.model.Empresa;
 
 public class CalculableNumerico implements Calculable{
 	
@@ -14,7 +14,7 @@ public class CalculableNumerico implements Calculable{
 	}
 
 	@Override
-	public double calcular(Company Empresa, short periodo) {
+	public double calcular(Empresa Empresa, short periodo) {
 		return numero;
 	}
 

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import tp1.model.Company;
+import tp1.model.Empresa;
 import tp1.model.Measure;
 import tp1.model.indicator.Parser.ParseFailedException;
 
@@ -66,7 +66,7 @@ public class Indicator implements Measure,Calculable {
 		return description;
 	}
 
-	public double getValue(Company company, short period) { //fixme: arreglar esto
+	public double getValue(Empresa company, short period) { //fixme: arreglar esto
 		if(!isValidForContext(company, period)) {
 			try {
 				throw new InvalidForContextException();
@@ -79,7 +79,7 @@ public class Indicator implements Measure,Calculable {
 	}
 
 	@Override
-	public double calcular(Company company, short period) {
+	public double calcular(Empresa company, short period) {
 		return calculable.calcular(company, period); //fixme reemplazar alguno de los 2 metodos :s
 	}
 
@@ -89,7 +89,7 @@ public class Indicator implements Measure,Calculable {
 		return calculable.getCuentas(); //fixme: quedarse con uno
 	}
 	
-	public boolean isValidForContext(Company company, short period) {
+	public boolean isValidForContext(Empresa company, short period) {
 		return company.getMetrics(period).stream()
 				.map(m -> m.getName()).collect(Collectors.toSet())
 				.containsAll(calculable.getCuentas());

@@ -6,30 +6,30 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import tp1.model.Company;
+import tp1.model.Empresa;
 import tp1.model.JsonCoder;
-import tp1.model.Metric;
+import tp1.model.Cuenta;
 
 public class JsonCompanySource implements CompanySource{
 	
 	public JsonCoder coder;
 	
 	public JsonCompanySource(String fileName) {
-		coder = new JsonCoder(fileName, Metric.class);
+		coder = new JsonCoder(fileName, Cuenta.class);
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Company> load() {
-		List<Metric> metrics = (List<Metric>) coder.read();
+	public List<Empresa> load() {
+		List<Cuenta> metrics = (List<Cuenta>) coder.read();
 		
 		List<String> companyNames = metrics.stream().map(m -> m.getCompanyName()).distinct().collect(Collectors.toList());
-		List<Company> companies = new ArrayList<>();
+		List<Empresa> companies = new ArrayList<>();
 		
 		companyNames.forEach(companyName -> {
-			List<Metric> companyMetrics = metrics.stream().filter(m -> m.getCompanyName().equals(companyName))
+			List<Cuenta> companyMetrics = metrics.stream().filter(m -> m.getCompanyName().equals(companyName))
 					.collect(Collectors.toList());
-			companies.add(new Company(companyName, companyMetrics));
+			companies.add(new Empresa(companyName, companyMetrics));
 		});
 		return companies;
 	}

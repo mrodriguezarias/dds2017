@@ -3,8 +3,8 @@ package tp1.model.indicator;
 import java.util.HashSet;
 import java.util.Set;
 
-import tp1.model.Company;
-import tp1.model.Metric;
+import tp1.model.Empresa;
+import tp1.model.Cuenta;
 
 public class CalculableCuenta implements Calculable {
 
@@ -15,8 +15,8 @@ public class CalculableCuenta implements Calculable {
 	}
 	
 	@Override
-	public double calcular(Company Empresa, short periodo) {
-		Metric cuenta;
+	public double calcular(Empresa Empresa, short periodo) {
+		Cuenta cuenta;
 		cuenta = Empresa.getMetric(nombreCuenta, periodo);
 		return cuenta.getValue(Empresa, periodo);
 	}

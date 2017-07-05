@@ -5,10 +5,10 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import tp1.model.Company;
+import tp1.model.Empresa;
 import tp1.model.repositories.CompanyRepository;
 import tp1.model.repositories.IndicatorRepository;
-import tp1.model.Metric;
+import tp1.model.Cuenta;
 import tp1.model.indicator.Calculable;
 import tp1.model.indicator.Indicator;
 import tp1.model.indicator.IndicatorBuilder;
@@ -19,10 +19,10 @@ public class ParserTest {
 	
 	private static final double DELTA = 1e-10;
 	private Parser parser = new Parser();
-	private Company company;
+	private Empresa company;
 	
 	private void createMetric(String name, short period, double value) {
-		Metric metric = new Metric(name, "", company.getName(), period, value);
+		Cuenta metric = new Cuenta(name, "", company.getName(), period, value);
 		company.addMetric(metric);
 	}
 	

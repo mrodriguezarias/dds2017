@@ -3,7 +3,7 @@ package tp1.model.indicator;
 import java.util.Set;
 import java.util.HashSet;
 
-import tp1.model.Company;
+import tp1.model.Empresa;
 
 public class CalculableOperador implements Calculable {
 
@@ -19,7 +19,7 @@ public class CalculableOperador implements Calculable {
 	
 	
 	@Override
-	public double calcular(Company Empresa, short periodo) {	
+	public double calcular(Empresa Empresa, short periodo) {	
 		switch (operador){
 		case '+': return (vIzquierda.calcular(Empresa, periodo) + vDerecha.calcular(Empresa, periodo));
 		case '-': return (vIzquierda.calcular(Empresa, periodo) - vDerecha.calcular(Empresa, periodo));

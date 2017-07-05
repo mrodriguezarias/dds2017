@@ -2,31 +2,31 @@ package tp1.viewModel;
 
 import org.uqbar.commons.utils.Observable;
 
-import tp1.model.Company;
+import tp1.model.Empresa;
 import tp1.model.Measure;
-import tp1.model.Metric;
+import tp1.model.Cuenta;
 import tp1.model.indicator.Indicator;
 
 @Observable
 public class MeasureComponent {
 
 	private Measure measure;
-	private Company company;
+	private Empresa company;
 	private short period;
 	private String type;
 	
-	private MeasureComponent(Measure measure, Company company, short period) {
+	private MeasureComponent(Measure measure, Empresa company, short period) {
 		this.measure = measure;
 		this.company = company;
 		this.period = period;
 	}
 	
-	public MeasureComponent(Metric metric, Company company, short period) {
+	public MeasureComponent(Cuenta metric, Empresa company, short period) {
 		this((Measure) metric, company, period);
 		this.type = "Cuenta";
 	}
 
-	public MeasureComponent(Indicator indicator, Company company, short period) {
+	public MeasureComponent(Indicator indicator, Empresa company, short period) {
 		this((Measure) indicator, company, period);
 		this.type = "Indicador";
 	}

@@ -8,7 +8,7 @@ import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
 
 import tp1.App;
-import tp1.model.Company;
+import tp1.model.Empresa;
 
 @Observable
 public class MainViewModel {
@@ -23,7 +23,7 @@ public class MainViewModel {
 	private short selectedPeriod;
 	
 	public MainViewModel() {
-		List<Company> companies = App.companyRepository.all(); 
+		List<Empresa> companies = App.companyRepository.all(); 
 		
 		companyNames = companies.stream().map(c -> c.getName())
 				.sorted().collect(Collectors.toList());
@@ -77,7 +77,7 @@ public class MainViewModel {
 	
 	public void updateMeasures() {
 		this.measures = null;
-		Company selectedCompany = App.companyRepository.find(selectedCompanyName);
+		Empresa selectedCompany = App.companyRepository.find(selectedCompanyName);
 		
 		List<MeasureComponent> measures = selectedCompany.getMetrics().stream()
 				.filter(metric -> metric.getPeriod() == selectedPeriod)

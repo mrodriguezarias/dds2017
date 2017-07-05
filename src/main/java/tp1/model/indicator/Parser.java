@@ -3,8 +3,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import tp1.App;
-import tp1.model.Company;
-import tp1.model.Metric;
+import tp1.model.Empresa;
+import tp1.model.Cuenta;
 
 public class Parser {
 

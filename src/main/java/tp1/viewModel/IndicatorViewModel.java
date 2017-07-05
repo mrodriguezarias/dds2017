@@ -7,7 +7,7 @@ import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
 
 import tp1.App;
-import tp1.model.Company;
+import tp1.model.Empresa;
 import tp1.model.indicator.Indicator;
 
 @Observable
@@ -23,7 +23,7 @@ public class IndicatorViewModel {
 		this.companyName = companyName;
 		this.period = period;
 		
-		Company company = App.companyRepository.find(companyName);
+		Empresa company = App.companyRepository.find(companyName);
 		this.indicatorNames = App.indicatorRepository.all().stream()
 				.filter(i -> i.isValidForContext(company, period))
 				.map(i -> i.getName()).collect(Collectors.toList());
@@ -54,7 +54,7 @@ public class IndicatorViewModel {
 	@Dependencies("indicatorName")
 	public String getValue() {
 		Indicator indicator = App.indicatorRepository.find(indicatorName);
-		Company company = App.companyRepository.find(companyName);
+		Empresa company = App.companyRepository.find(companyName);
 		MeasureComponent component = new MeasureComponent(indicator, company, period);
 		return component.getFullValue();
 	}
