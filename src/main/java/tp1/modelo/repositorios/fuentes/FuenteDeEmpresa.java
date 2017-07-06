@@ -4,7 +4,7 @@ import java.util.List;
 
 import tp1.modelo.Empresa;
 
-public interface FuenteDeLaEmpresa {
+public interface FuenteDeEmpresa {
 
 	public List<Empresa> cargar();
 }

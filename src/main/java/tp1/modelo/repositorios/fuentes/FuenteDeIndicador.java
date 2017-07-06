@@ -4,7 +4,7 @@ import java.util.List;
 
 import tp1.modelo.indicador.Indicador;
 
-public interface FuenteDelIndicador {
+public interface FuenteDeIndicador {
 
 	public List<Indicador> cargar();
 	

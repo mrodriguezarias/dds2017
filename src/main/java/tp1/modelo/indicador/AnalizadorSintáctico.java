@@ -4,8 +4,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import tp1.Aplicación;
 import tp1.modelo.Empresa;
+import tp1.modelo.repositorios.Repositorios;
 import tp1.modelo.Cuenta;
 
 public class AnalizadorSintáctico {
@@ -40,11 +40,11 @@ public class AnalizadorSintáctico {
 	}
 	
 	private boolean esCuenta(String variable) {
-		return Aplicación.repositorioDeEmpresas.todos().stream().anyMatch(c -> c.tieneCuenta(variable));
+		return Repositorios.obtenerRepositorioDeEmpresas().todos().stream().anyMatch(c -> c.tieneCuenta(variable));
 	}
 	
 	private boolean esIndicador(String variable) {
-		return Aplicación.repositorioDeIndicadores.todos().stream().anyMatch(i -> i.obtenerNombre().equals(variable));
+		return Repositorios.obtenerRepositorioDeIndicadores().contiene(variable);
 	}
 	
 	private Set<String> obtenerCuentasUsadasPorFórmula(String formula) {
@@ -56,7 +56,7 @@ public class AnalizadorSintáctico {
 			if(esCuenta(variable)) {
 				cuentas.add(variable);
 			} else if(esIndicador(variable)) {
-				cuentas.addAll(obtenerCuentasUsadasPorFórmula(Aplicación.repositorioDeIndicadores.encontrar(variable).obtenerFórmula().comoCadenaDeCaracteres()));
+				cuentas.addAll(obtenerCuentasUsadasPorFórmula(Repositorios.obtenerRepositorioDeIndicadores().encontrar(variable).obtenerFórmula().comoCadenaDeCaracteres()));
 			}
 		}
 		
@@ -175,7 +175,7 @@ public class AnalizadorSintáctico {
 					return metric.obtenerValor();
 				}
 
-				Indicador indicator = Aplicación.repositorioDeIndicadores.encontrar(nombre);				
+				Indicador indicator = Repositorios.obtenerRepositorioDeIndicadores().encontrar(nombre);				
 				return indicator.obtenerValor(empresa, período);
 			});
 		} else {

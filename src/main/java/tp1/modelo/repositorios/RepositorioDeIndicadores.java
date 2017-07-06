@@ -4,21 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tp1.modelo.indicador.Indicador;
-import tp1.modelo.repositorios.fuentes.FuenteDelIndicador;
+import tp1.modelo.repositorios.fuentes.FuenteDeIndicador;
 import tp1.modelo.repositorios.fuentes.FuenteJsonDelIndicador;
 
-public class RepositorioDelIndicador {
+public class RepositorioDeIndicadores {
 
-	private FuenteDelIndicador fuente;
+	private FuenteDeIndicador fuente;
 
 	public List<Indicador> indicadores;
 
-	public RepositorioDelIndicador(FuenteDelIndicador fuente) {
+	public RepositorioDeIndicadores(FuenteDeIndicador fuente) {
 		this.fuente = fuente;
 		indicadores = new ArrayList<>(fuente.cargar());
 	}
 	
-	public RepositorioDelIndicador(String nombreDelArchivo) {
+	public RepositorioDeIndicadores(String nombreDelArchivo) {
 		List<Indicador> indicadores = new FuenteJsonDelIndicador(nombreDelArchivo).cargar();
 		this.indicadores.addAll(indicadores);
 	}
@@ -29,9 +29,12 @@ public class RepositorioDelIndicador {
 	}
 	
 	public Indicador encontrar(String nombre) {
-		return indicadores.stream().filter(x -> x.obtenerNombre().equals(nombre)).findFirst().orElse(null);
+		return indicadores.stream().filter(i -> i.obtenerNombre().equals(nombre)).findFirst().orElse(null);
 	}
-
+	
+	public boolean contiene(String nombre) {
+		return indicadores.size() == 0 || indicadores.stream().anyMatch(i -> i.obtenerNombre().equals(nombre));
+	}
 
 	public void agregar(Indicador indicador) {
 		indicadores.add(indicador);
@@ -44,8 +47,8 @@ public class RepositorioDelIndicador {
 		guardar();
 	}
 
-	public void remove(Indicador indicator) {
-		indicadores.remove(indicator);
+	public void remover(Indicador indicador) {
+		indicadores.remove(indicador);
 		guardar();
 	}
 

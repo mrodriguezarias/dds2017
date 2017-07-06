@@ -3,15 +3,15 @@ package tp1.modelo.repositorios;
 import java.util.List;
 
 import tp1.modelo.Empresa;
-import tp1.modelo.repositorios.fuentes.FuenteDeLaEmpresa;
+import tp1.modelo.repositorios.fuentes.FuenteDeEmpresa;
 
-public class RepositorioDeLaEmpresa {
+public class RepositorioDeEmpresas {
 
-	FuenteDeLaEmpresa fuente;
+	FuenteDeEmpresa fuente;
 	
 	List<Empresa> empresas;
 	
-	public RepositorioDeLaEmpresa(FuenteDeLaEmpresa fuente){
+	public RepositorioDeEmpresas(FuenteDeEmpresa fuente){
 		
 		this.fuente = fuente;
 		empresas = this.fuente.cargar();

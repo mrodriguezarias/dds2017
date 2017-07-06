@@ -2,7 +2,7 @@ package tp1.modelo.indicador;
 
 import tp1.modelo.indicador.AnalizadorSintáctico.ExcepciónDeAnálisisFallido;
 
-public class ConstructorDelIndicador {
+public class ConstructorDeIndicador {
 	@SuppressWarnings("serial")
 	public class ExcepciónDeFórmulaInválida extends Exception {
 		public ExcepciónDeFórmulaInválida(String mensaje) {

@@ -8,7 +8,7 @@ import tp1.modelo.Empresa;
 import tp1.modelo.CodificadorJson;
 import tp1.modelo.Cuenta;
 
-public class FuenteJsonDeLaEmpresa implements FuenteDeLaEmpresa{
+public class FuenteJsonDeLaEmpresa implements FuenteDeEmpresa{
 	
 	public CodificadorJson codificador;
 	

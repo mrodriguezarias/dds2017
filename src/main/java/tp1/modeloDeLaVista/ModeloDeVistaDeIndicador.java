@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
 
-import tp1.Aplicación;
 import tp1.modelo.Empresa;
 import tp1.modelo.indicador.Indicador;
+import tp1.modelo.repositorios.Repositorios;
 
 @Observable
 public class ModeloDeVistaDeIndicador {
@@ -23,8 +23,8 @@ public class ModeloDeVistaDeIndicador {
 		this.nombreDeLaEmpresa = nombreDeLaEmpresa;
 		this.período = período;
 		
-		Empresa empresa = Aplicación.repositorioDeEmpresas.encontrar(nombreDeLaEmpresa);
-		this.nombresDeLosIndicadores = Aplicación.repositorioDeIndicadores.todos().stream()
+		Empresa empresa = Repositorios.obtenerRepositorioDeEmpresas().encontrar(nombreDeLaEmpresa);
+		this.nombresDeLosIndicadores = Repositorios.obtenerRepositorioDeIndicadores().todos().stream()
 				.filter(i -> i.obtenerFórmula().esVálidaParaContexto(empresa, período))
 				.map(i -> i.obtenerNombre()).collect(Collectors.toList());
 	}
@@ -47,21 +47,21 @@ public class ModeloDeVistaDeIndicador {
 	
 	@Dependencies("nombreDelIndicador")
 	public String getDescripción() {
-		Indicador indicador = Aplicación.repositorioDeIndicadores.encontrar(nombreDelIndicador);
+		Indicador indicador = Repositorios.obtenerRepositorioDeIndicadores().encontrar(nombreDelIndicador);
 		return indicador.obtenerDescripción();
 	}
 	
 	@Dependencies("nombreDelIndicador")
 	public String getValor() {
-		Indicador indicador = Aplicación.repositorioDeIndicadores.encontrar(nombreDelIndicador);
-		Empresa empresa = Aplicación.repositorioDeEmpresas.encontrar(nombreDeLaEmpresa);
+		Indicador indicador = Repositorios.obtenerRepositorioDeIndicadores().encontrar(nombreDelIndicador);
+		Empresa empresa = Repositorios.obtenerRepositorioDeEmpresas().encontrar(nombreDeLaEmpresa);
 		ComponenteDeMedida componente = new ComponenteDeMedida(indicador, empresa, período);
 		return componente.getValorCompleto();
 	}
 	
 	@Dependencies("nombreDelIndicador")
 	public String getFórmula() {
-		Indicador indicador = Aplicación.repositorioDeIndicadores.encontrar(nombreDelIndicador);
+		Indicador indicador = Repositorios.obtenerRepositorioDeIndicadores().encontrar(nombreDelIndicador);
 		return indicador.obtenerFórmula().comoCadenaDeCaracteres();
 	}
 

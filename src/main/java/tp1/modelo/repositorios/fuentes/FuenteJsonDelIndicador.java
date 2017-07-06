@@ -5,7 +5,7 @@ import java.util.List;
 import tp1.modelo.CodificadorJson;
 import tp1.modelo.indicador.Indicador;
 
-public class FuenteJsonDelIndicador implements FuenteDelIndicador{
+public class FuenteJsonDelIndicador implements FuenteDeIndicador{
 	
 	CodificadorJson codificador;
 	

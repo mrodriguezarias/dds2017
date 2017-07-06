@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
 
-import tp1.Aplicación;
 import tp1.modelo.Empresa;
+import tp1.modelo.repositorios.Repositorios;
 
 @Observable
 public class ModeloDeVistaPrincipal {
@@ -23,7 +23,7 @@ public class ModeloDeVistaPrincipal {
 	private short períodoSeleccionado;
 	
 	public ModeloDeVistaPrincipal() {
-		List<Empresa> empresas = Aplicación.repositorioDeEmpresas.todos(); 
+		List<Empresa> empresas = Repositorios.obtenerRepositorioDeEmpresas().todos(); 
 		
 		nombresDeLasEmpresas = empresas.stream().map(c -> c.obtenerNombre())
 				.sorted().collect(Collectors.toList());
@@ -77,14 +77,14 @@ public class ModeloDeVistaPrincipal {
 	
 	public void actualizarMedidas() {
 		this.medidas = null;
-		Empresa empresaSeleccionada = Aplicación.repositorioDeEmpresas.encontrar(nombreDeLaEmpresaSeleccionada);
+		Empresa empresaSeleccionada = Repositorios.obtenerRepositorioDeEmpresas().encontrar(nombreDeLaEmpresaSeleccionada);
 		
 		List<ComponenteDeMedida> medidas = empresaSeleccionada.obtenerCuentas().stream()
 				.filter(cuenta -> cuenta.obtenerPeríodo() == períodoSeleccionado)
 				.map(cuenta -> new ComponenteDeMedida(cuenta, empresaSeleccionada, períodoSeleccionado))
 				.collect(Collectors.toList());
 		
-		List<ComponenteDeMedida> indicadores = Aplicación.repositorioDeIndicadores.todos().stream()
+		List<ComponenteDeMedida> indicadores = Repositorios.obtenerRepositorioDeIndicadores().todos().stream()
 				.filter(indicador -> indicador.obtenerFórmula().esVálidaParaContexto(empresaSeleccionada, períodoSeleccionado))
 				.map(indicador -> new ComponenteDeMedida(indicador, empresaSeleccionada, períodoSeleccionado))
 				.collect(Collectors.toList());

@@ -1,7 +1,6 @@
 package tp1.modelo;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,8 +8,6 @@ public class Empresa {
 	
 	private String nombre;
 	private List<Cuenta> cuentas;
-	private Metodologia metodologia; // Strategy, va cambiando según la metodología que querramos aplicar
-	private int anioFundacion;
 	
 	public Empresa(String nombre) {
 		this.nombre = nombre;
@@ -49,20 +46,28 @@ public class Empresa {
 		return cuenta;
 	}
 	
-	public boolean sosMejorQue(Empresa otraEmpresa)	{
-		return this.metodologia.esMejor(this, otraEmpresa);
+	public List<Short> obtenerPeríodos() {
+		return cuentas.stream().map(cuenta -> cuenta.período).distinct().sorted().collect(Collectors.toList());
 	}
 	
-	public boolean convieneInvertir()	{
-		return this.metodologia.convieneInvertir(this);
-	}
+//	public boolean esMejorQue(Empresa otraEmpresa)	{
+//		return this.metodología.esMejor(this, otraEmpresa);
+//	}
+//	
+//	public boolean convieneInvertir()	{
+//		return this.metodología.convieneInvertir(this);
+//	}
 	
-	public void setMetodologia(Metodologia metodologia)	{
-		this.metodologia = metodologia;
-	}
-	
-	public int getLongevidad()	{
-		int anioActual = Calendar.getInstance().get(Calendar.YEAR);
-		return anioActual - this.anioFundacion;
-	}
+	/*
+	 * Sigue sin cerrarme la longevidad como una propiedad de la empresa.
+	 * Para poder usarla como condición de la metodología de Buffet tiene que ser un indicador.
+	 * Y el año de fundación como atributo tampoco me parece, porque eso significaría que cada vez que
+	 * se crea una empresa tendríamos que declarar su año de fundación, con lo cual habría que agregarlo
+	 * como un campo más a cada entrada del archivo metrics.json, que es de donde se leen las empresas.
+	 * Por ahora lo dejo comentado.
+	 */
+//	public int getLongevidad()	{
+//		int anoActual = Calendar.getInstance().get(Calendar.YEAR);
+//		return añoActual - this.añoFundación;
+//	}
 }

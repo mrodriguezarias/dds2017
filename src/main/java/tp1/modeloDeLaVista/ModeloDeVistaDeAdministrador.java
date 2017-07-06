@@ -7,10 +7,10 @@ import java.util.stream.Collectors;
 
 import org.uqbar.commons.utils.Observable;
 
-import tp1.Aplicación;
 import tp1.modelo.indicador.Indicador;
-import tp1.modelo.indicador.ConstructorDelIndicador;
-import tp1.modelo.indicador.ConstructorDelIndicador.ExcepciónDeFórmulaInválida;
+import tp1.modelo.repositorios.Repositorios;
+import tp1.modelo.indicador.ConstructorDeIndicador;
+import tp1.modelo.indicador.ConstructorDeIndicador.ExcepciónDeFórmulaInválida;
 
 @Observable
 public class ModeloDeVistaDeAdministrador {
@@ -26,7 +26,7 @@ public class ModeloDeVistaDeAdministrador {
 	private String nombreDelIndicador;
 	
 	public ModeloDeVistaDeAdministrador() {
-		nombresDeLosIndicadores = Aplicación.repositorioDeIndicadores.todos().stream().map(i -> i.obtenerNombre())
+		nombresDeLosIndicadores = Repositorios.obtenerRepositorioDeIndicadores().todos().stream().map(i -> i.obtenerNombre())
 				.sorted().collect(Collectors.toList());
 		setCreateMode();
 	}
@@ -89,7 +89,7 @@ public class ModeloDeVistaDeAdministrador {
 	}
 	
 	private void actualizarFormulario() {
-		Indicador indicador = Aplicación.repositorioDeIndicadores.encontrar(nombreDelIndicador);
+		Indicador indicador = Repositorios.obtenerRepositorioDeIndicadores().encontrar(nombreDelIndicador);
 		if(indicador == null) return;
 		this.nombre = indicador.obtenerNombre();
 		this.descripción = indicador.obtenerDescripción();
@@ -104,9 +104,9 @@ public class ModeloDeVistaDeAdministrador {
 	}
 	
 	public void eliminarIndicador() {
-		Indicador indicator = Aplicación.repositorioDeIndicadores.encontrar(nombreDelIndicador);
+		Indicador indicator = Repositorios.obtenerRepositorioDeIndicadores().encontrar(nombreDelIndicador);
 		nombresDeLosIndicadores.remove(nombreDelIndicador);
-		Aplicación.repositorioDeIndicadores.remove(indicator);
+		Repositorios.obtenerRepositorioDeIndicadores().remover(indicator);
 		setCreateMode();
 	}
 	
@@ -124,16 +124,16 @@ public class ModeloDeVistaDeAdministrador {
 			return;
 		}
 		agregarNombreDeIndicador(indicador.obtenerNombre());
-		Aplicación.repositorioDeIndicadores.agregar(indicador);
+		Repositorios.obtenerRepositorioDeIndicadores().agregar(indicador);
 	}
 	
 	private void reemplazarIndicador(Indicador indicador) {
-		Indicador prev = Aplicación.repositorioDeIndicadores.encontrar(nombreDelIndicador);
+		Indicador prev = Repositorios.obtenerRepositorioDeIndicadores().encontrar(nombreDelIndicador);
 		if(!nombreDelIndicador.equals(indicador.obtenerNombre())) {
 			agregarNombreDeIndicador(indicador.obtenerNombre());
 			nombresDeLosIndicadores = nombresDeLosIndicadores.stream().filter(n -> !n.equals(prev.obtenerNombre())).collect(Collectors.toList());
 		}
-		Aplicación.repositorioDeIndicadores.reemplazar(prev, indicador);
+		Repositorios.obtenerRepositorioDeIndicadores().reemplazar(prev, indicador);
 	}
 	
 	public String guardarCambios() {
@@ -146,7 +146,7 @@ public class ModeloDeVistaDeAdministrador {
 			return "";
 		}
 		
-		ConstructorDelIndicador constructor = new ConstructorDelIndicador();
+		ConstructorDeIndicador constructor = new ConstructorDeIndicador();
 		constructor.establecerNombre(nombre);
 		constructor.establecerDescripción(descripción);
 		constructor.establecerFórmula(fórmula);
