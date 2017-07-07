@@ -36,6 +36,16 @@ public class FuenteDeEmpresaDePrueba implements FuenteDeEmpresa {
 			crearCuenta("C1", empresa, 2011, 2);
 			crearCuenta("C1", empresa, 2012, 0);
 			crearCuenta("C1", empresa, 2013, 4);
+			crearCuenta("C3", empresa, 2011, 241);
+			crearCuenta("C3", empresa, 2012, 434);
+			crearCuenta("C3", empresa, 2013, 127);
+		});
+		
+		crearEmpresa("E4", empresa -> {
+			crearCuenta("C3", empresa, 2010, 123324432);
+			crearCuenta("C3", empresa, 2011, 524);
+			crearCuenta("C3", empresa, 2012, 413);
+			crearCuenta("C3", empresa, 2013, 657);
 		});
 		
 		return empresas;

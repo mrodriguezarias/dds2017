@@ -39,5 +39,6 @@ public class FuenteDeIndicadorDePrueba implements FuenteDeIndicador {
 		crearIndicador("I2", "I1 - 3.14");
 		crearIndicador("I3", "I1 / I2");
 		crearIndicador("I4", "(235 / 3.4) C1");
+		crearIndicador("I5", "2 C3");
 	}
 }
