@@ -25,7 +25,7 @@ public abstract class Condición {
 	public abstract List<Empresa> aplicar(List<Empresa> empresas);
 	
 	public boolean esAplicable(List<Empresa> empresas) {
-		return indicador != null && empresas.stream().allMatch(empresa -> períodosAEvaluar(empresa).stream()
+		return empresas.stream().allMatch(empresa -> períodosAEvaluar(empresa).stream()
 				.allMatch(período -> indicador.obtenerFórmula().esVálidaParaContexto(empresa, período)));
 	}
 	

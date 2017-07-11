@@ -1,6 +1,5 @@
 package tp1.modelo.metodología;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,8 +19,7 @@ public final class CondiciónTaxativa extends Condición {
 
 	@Override
 	public List<Empresa> aplicar(List<Empresa> empresas) {
-		List<Empresa> empresasFiltradas = new ArrayList<>(empresas);
-		return empresasFiltradas.stream().filter(this::esConveniente).collect(Collectors.toList());
+		return empresas.stream().filter(this::esConveniente).collect(Collectors.toList());
 	}
 	
 	private boolean esConveniente(Empresa empresa) {

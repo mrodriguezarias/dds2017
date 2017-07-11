@@ -5,7 +5,7 @@ import java.util.Optional;
 import tp1.modelo.indicador.Indicador;
 import tp1.modelo.repositorios.Repositorios;
 
-public abstract class ConstructorDeCondición {
+public abstract class ConstructorDeCondición<T extends ConstructorDeCondición<T>> {
 
 	protected Indicador indicador;
 	protected int númeroDePeríodos;
@@ -37,5 +37,22 @@ public abstract class ConstructorDeCondición {
 		this.orden = orden;
 	}
 	
+	public T conNúmeroDePeríodos(int númeroDePeríodos) {
+		establecerNúmeroDePeríodos(númeroDePeríodos);
+		return obtenerEsto();
+	}
+	
+	public T conEvaluación(Evaluación evaluación) {
+		establecerEvaluación(evaluación);
+		return obtenerEsto();
+	}
+	
+	public T conOrden(Orden orden) {
+		establecerOrden(orden);
+		return obtenerEsto();
+	}
+	
 	public abstract Condición construir();
+	
+	protected abstract T obtenerEsto();
 }

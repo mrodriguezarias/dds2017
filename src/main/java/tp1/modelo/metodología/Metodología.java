@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import tp1.modelo.Empresa;
 
@@ -24,6 +25,11 @@ public class Metodología {
 		return nombre;
 	}
 	
+	public boolean esAplicable(List<Empresa> empresas) {
+		return Stream.concat(condicionesTaxativas.stream(), condicionesComparativas.stream())
+				.allMatch(condición -> condición.esAplicable(empresas));
+	}
+	
 	public List<Empresa> aplicar(List<Empresa> empresas) {
 		return aplicarCondicionesComparativas(aplicarCondicionesTaxativas(empresas));
 	}
@@ -36,15 +42,15 @@ public class Metodología {
 	}
 	
 	private List<Empresa> aplicarCondicionesComparativas(List<Empresa> empresas) {
-		Map<String, Double> pesos = new HashMap<>();
+		Map<String, Integer> pesos = new HashMap<>();
 		
 		for(Condición condiciónComparativa : condicionesComparativas) {
-			int índice = 0;
+			int índice = empresas.size();
 			for(Empresa empresa : condiciónComparativa.aplicar(empresas)) {
 				String nombreDeLaEmpresa = empresa.obtenerNombre();
-				Double peso = pesos.get(nombreDeLaEmpresa);
-				if(peso == null) peso = 0.0;
-				peso += obtenerPeso(condiciónComparativa) * índice++;
+				Integer peso = pesos.get(nombreDeLaEmpresa);
+				if(peso == null) peso = 0;
+				peso += obtenerPeso(condiciónComparativa) * índice--;
 				pesos.put(nombreDeLaEmpresa, peso);
 			}
 		}
@@ -52,14 +58,13 @@ public class Metodología {
 		return obtenerEmpresasOrdenadasPorPeso(pesos, empresas);
 	}
 	
-	private double obtenerPeso(Condición condiciónComparativa) {
+	private int obtenerPeso(Condición condiciónComparativa) {
 		int índice = condicionesComparativas.indexOf(condiciónComparativa);
 		int tamaño = condicionesComparativas.size();
-		double suma = tamaño * (tamaño + 1) / 2.0;
-		return (tamaño - índice) / suma;
+		return tamaño - índice;
 	}
 
-	private List<Empresa> obtenerEmpresasOrdenadasPorPeso(Map<String, Double> pesos, List<Empresa> empresas) {
+	private List<Empresa> obtenerEmpresasOrdenadasPorPeso(Map<String, Integer> pesos, List<Empresa> empresas) {
 		return pesos.entrySet().stream().sorted(Entry.comparingByValue())
 				.map(e -> obtenerEmpresaDeNombre(e.getKey(), empresas)).collect(Collectors.toList());
 	}

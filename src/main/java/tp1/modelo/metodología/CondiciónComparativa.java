@@ -1,6 +1,5 @@
 package tp1.modelo.metodología;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,8 +14,7 @@ public final class CondiciónComparativa extends Condición {
 
 	@Override
 	public List<Empresa> aplicar(List<Empresa> empresas) {
-		List<Empresa> empresasOrdenadas = new ArrayList<>(empresas);
-		return empresasOrdenadas.stream().sorted(this::compararEmpresas).collect(Collectors.toList());
+		return empresas.stream().sorted(this::compararEmpresas).collect(Collectors.toList());
 	}
 	
 	private int compararEmpresas(Empresa empresa1, Empresa empresa2) {

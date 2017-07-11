@@ -1,6 +1,6 @@
 package tp1.modelo.metodología;
 
-public class ConstructorDeCondiciónComparativa extends ConstructorDeCondición {
+public class ConstructorDeCondiciónComparativa extends ConstructorDeCondición<ConstructorDeCondiciónComparativa> {
 
 	public ConstructorDeCondiciónComparativa(String nombreDelIndicador) {
 		super(nombreDelIndicador);
@@ -9,6 +9,11 @@ public class ConstructorDeCondiciónComparativa extends ConstructorDeCondición 
 	@Override
 	public CondiciónComparativa construir() {
 		return new CondiciónComparativa(indicador, númeroDePeríodos, evaluación, orden);
+	}
+
+	@Override
+	protected ConstructorDeCondiciónComparativa obtenerEsto() {
+		return this;
 	}
 
 }

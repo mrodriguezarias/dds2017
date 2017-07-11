@@ -2,6 +2,7 @@ package tp1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -18,7 +19,11 @@ public class FuenteDeEmpresaDePrueba implements FuenteDeEmpresa {
 	@Override
 	public List<Empresa> cargar() {
 		empresas = new ArrayList<>();
-		
+		crearEmpresas();
+		return empresas;
+	}
+	
+	protected void crearEmpresas() {
 		crearEmpresa("E1", empresa -> {
 			crearCuenta("C1", empresa, 2009, 13);
 			crearCuenta("C1", empresa, 2010, 14);
@@ -47,23 +52,40 @@ public class FuenteDeEmpresaDePrueba implements FuenteDeEmpresa {
 			crearCuenta("C3", empresa, 2012, 413);
 			crearCuenta("C3", empresa, 2013, 657);
 		});
-		
-		return empresas;
 	}
 	
-	private void crearEmpresa(String nombre, Consumer<Empresa> consumidor) {
+	protected void crearEmpresa(String nombre, Consumer<Empresa> consumidor) {
 		Empresa empresa = new Empresa(nombre);
 		consumidor.accept(empresa);
 		empresas.add(empresa);
 	}
 	
-	private void crearCuenta(String nombre, Empresa empresa, int período, double valor) {
+	protected void crearCuenta(String nombre, Empresa empresa, int período, double valor) {
 		Cuenta cuenta = new Cuenta(nombre, "", empresa.obtenerNombre(), (short) período, valor);
 		empresa.agregarCuenta(cuenta);
+	}
+	
+	public static List<Empresa> empresas() {
+		return Collections.emptyList();
 	}
 	
 	public static List<Empresa> empresas(String... nombres) {
 		return Arrays.asList(nombres).stream().map(nombre ->
 			Repositorios.obtenerRepositorioDeEmpresas().encontrar(nombre)).collect(Collectors.toList());
+	}
+	
+	public static boolean empresasSonIguales(List<Empresa> empresas1, List<Empresa> empresas2) {
+		int tamaño = empresas1.size();
+		if(tamaño != empresas2.size()) {
+			return false;
+		}
+		for(int i = 0; i < tamaño; i++) {
+			Empresa empresa1 = empresas1.get(i);
+			Empresa empresa2 = empresas2.get(i);
+			if(!empresa1.obtenerNombre().equals(empresa2.obtenerNombre())) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

@@ -21,7 +21,7 @@ public class FuenteDeIndicadorDePrueba implements FuenteDeIndicador {
 		
 	}
 	
-	private static void crearIndicador(String nombre, String fórmula) {
+	public static void crearIndicador(String nombre, String fórmula) {
 		ConstructorDeIndicador constructor = new ConstructorDeIndicador();
 		constructor.establecerNombre(nombre);
 		constructor.establecerFórmula(fórmula);
