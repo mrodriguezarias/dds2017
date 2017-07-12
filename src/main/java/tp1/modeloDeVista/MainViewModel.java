@@ -85,7 +85,7 @@ public class MainViewModel {
 				.collect(Collectors.toList());
 		
 		List<MeasureComponent> indicators = Repositorios.obtenerRepositorioDeIndicadores().todos().stream()
-				.filter(indicator -> indicator.isValidForContext(selectedCompany, selectedPeriod))
+				.filter(indicator -> indicator.esVálidoParaContexto(selectedCompany, selectedPeriod))
 				.map(indicator -> new MeasureComponent(indicator, selectedCompany, selectedPeriod))
 				.collect(Collectors.toList());
 		measures.addAll(indicators);

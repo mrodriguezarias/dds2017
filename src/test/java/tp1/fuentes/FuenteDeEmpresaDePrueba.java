@@ -26,6 +26,7 @@ public class FuenteDeEmpresaDePrueba implements FuenteDeEmpresa {
 	protected void crearEmpresas() {
 		crearEmpresa("E1", empresa -> {
 			crearCuenta("C1", empresa, 2009, 13);
+			crearCuenta("C3", empresa, 2009, 3423);
 			crearCuenta("C1", empresa, 2010, 14);
 			crearCuenta("C2", empresa, 2010, 3598732);
 			crearCuenta("C3", empresa, 2010, 2347806);
@@ -33,10 +34,12 @@ public class FuenteDeEmpresaDePrueba implements FuenteDeEmpresa {
 		
 		crearEmpresa("E2", empresa -> {
 			crearCuenta("C1", empresa, 2011, 4368973);
+			crearCuenta("C2", empresa, 2011, 2344);
 			crearCuenta("C3", empresa, 2011, 6329852);
 		});
 		
 		crearEmpresa("E3", empresa -> {
+			crearCuenta("C1", empresa, 2009, 3);
 			crearCuenta("C1", empresa, 2010, 1);
 			crearCuenta("C1", empresa, 2011, 2);
 			crearCuenta("C1", empresa, 2012, 0);

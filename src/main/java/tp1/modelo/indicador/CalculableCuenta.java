@@ -15,10 +15,10 @@ public class CalculableCuenta implements Calculable {
 	}
 	
 	@Override
-	public double calcular(Empresa Empresa, short periodo) {
+	public double calcular(Empresa empresa, short periodo) {
 		Cuenta cuenta;
-		cuenta = Empresa.obtenerCuenta(nombreCuenta, periodo);
-		return cuenta.obtenerValor(Empresa, periodo);
+		cuenta = empresa.obtenerCuenta(nombreCuenta, periodo);
+		return cuenta.obtenerValor(empresa, periodo);
 	}
 
 	@Override

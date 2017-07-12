@@ -66,15 +66,8 @@ public class Indicador implements Medida,Calculable {
 		return description;
 	}
 
-	public double obtenerValor(Empresa company, short period) { //fixme: arreglar esto
-		if(!isValidForContext(company, period)) {
-			try {
-				throw new InvalidForContextException();
-			} catch (InvalidForContextException e) {
-				e.printStackTrace();
-			}
-		}
-		return this.calcular(company, period); 
+	public double obtenerValor(Empresa company, short period) {
+		return this.calcular(company, period);
 	}
 
 	@Override
@@ -88,7 +81,7 @@ public class Indicador implements Medida,Calculable {
 		return calculable.getCuentas(); //fixme: quedarse con uno
 	}
 	
-	public boolean isValidForContext(Empresa company, short period) {
+	public boolean esVálidoParaContexto(Empresa company, short period) {
 		return company.obtenerCuentas(period).stream()
 				.map(m -> m.obtenerNombre()).collect(Collectors.toSet())
 				.containsAll(calculable.getCuentas());

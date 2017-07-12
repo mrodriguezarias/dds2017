@@ -6,43 +6,46 @@ import java.util.stream.Collectors;
 
 public class Empresa {
 	
-	private String name;
-	private List<Cuenta> metrics;
+	private String nombre;
+	private List<Cuenta> cuentas;
 	
-	public Empresa(String name) {
-		this.name = name;
-		this.metrics = new ArrayList<>();
+	public Empresa(String nombre) {
+		this.nombre = nombre;
+		this.cuentas = new ArrayList<>();
 	}
 	
-	public Empresa(String name, List<Cuenta> metrics) {
-		this.name = name;
-		this.metrics = metrics;
+	public Empresa(String nombre, List<Cuenta> cuentas) {
+		this.nombre = nombre;
+		this.cuentas = cuentas;
 	}
 	
 	public String obtenerNombre() {
-		return name;
+		return nombre;
 	}
 	
-	public void agregarCuenta(Cuenta metric) {
-		metrics.add(metric);
+	public void agregarCuenta(Cuenta cuenta) {
+		cuentas.add(cuenta);
 	}
 	
-	public boolean tieneCuenta(String name) {
-		return metrics.stream().anyMatch(x -> x.obtenerNombre().equals(name));
+	public boolean tieneCuenta(String nombre) {
+		return cuentas.stream().anyMatch(x -> x.obtenerNombre().equals(nombre));
 	}
 
 	public List<Cuenta> obtenerCuentas() {
-		return metrics;
+		return cuentas;
 	}
 	
-	public List<Cuenta> obtenerCuentas(short period) {
-		return metrics.stream().filter(m -> m.getPeriod() == period).collect(Collectors.toList());
+	public List<Cuenta> obtenerCuentas(short período) {
+		return cuentas.stream().filter(m -> m.getPeriod() == período).collect(Collectors.toList());
 	}
 
-	public Cuenta obtenerCuenta(String name, short period) {
-		Cuenta metric = metrics.stream()
-		            .filter(x -> x.obtenerNombre().equals(name) && x.getPeriod() == period)
+	public Cuenta obtenerCuenta(String nombre, short período) {
+		return cuentas.stream()
+		            .filter(x -> x.obtenerNombre().equals(nombre) && x.getPeriod() == período)
 		            .findFirst().orElse(null);
-		return metric;
+	}
+	
+	public List<Short> obtenerPeríodos() {
+		return cuentas.stream().map(cuenta -> cuenta.getPeriod()).distinct().sorted().collect(Collectors.toList());
 	}
 }

@@ -25,7 +25,7 @@ public class IndicatorViewModel {
 		
 		Empresa company = Repositorios.obtenerRepositorioDeEmpresas().encontrar(companyName);
 		this.indicatorNames = Repositorios.obtenerRepositorioDeIndicadores().todos().stream()
-				.filter(i -> i.isValidForContext(company, period))
+				.filter(i -> i.esVálidoParaContexto(company, period))
 				.map(i -> i.obtenerNombre()).collect(Collectors.toList());
 	}
 	
