@@ -4,8 +4,8 @@ import java.util.Optional;
 
 public final class ConstructorDeCondiciónTaxativa extends ConstructorDeCondición<ConstructorDeCondiciónTaxativa> {
 	
-	public ConstructorDeCondiciónTaxativa(String nombreDelIndicador) {
-		super(nombreDelIndicador);
+	public ConstructorDeCondiciónTaxativa(String nombre) {
+		super(nombre);
 	}
 
 	public void establecerValorDeReferencia(double valorDeReferencia) {
@@ -19,7 +19,7 @@ public final class ConstructorDeCondiciónTaxativa extends ConstructorDeCondici�
 	
 	@Override
 	public CondiciónTaxativa construir() {
-		return new CondiciónTaxativa(indicador, númeroDePeríodos, evaluación, orden, valorDeReferencia);
+		return new CondiciónTaxativa(nombre, obtenerIndicador(), númeroDePeríodos, evaluación, orden, valorDeReferencia);
 	}
 
 	@Override

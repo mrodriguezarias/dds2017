@@ -2,13 +2,22 @@ package tp1.modelo.metodología;
 
 public class ConstructorDeCondiciónComparativa extends ConstructorDeCondición<ConstructorDeCondiciónComparativa> {
 
-	public ConstructorDeCondiciónComparativa(String nombreDelIndicador) {
-		super(nombreDelIndicador);
+	public ConstructorDeCondiciónComparativa(String nombre) {
+		super(nombre);
+	}
+	
+	public void establecerPrioridad(Prioridad prioridad) {
+		this.prioridad = prioridad;
+	}
+	
+	public ConstructorDeCondiciónComparativa conPrioridad(Prioridad prioridad) {
+		establecerPrioridad(prioridad);
+		return this;
 	}
 
 	@Override
 	public CondiciónComparativa construir() {
-		return new CondiciónComparativa(indicador, númeroDePeríodos, evaluación, orden);
+		return new CondiciónComparativa(nombre, obtenerIndicador(), númeroDePeríodos, evaluación, orden, prioridad);
 	}
 
 	@Override

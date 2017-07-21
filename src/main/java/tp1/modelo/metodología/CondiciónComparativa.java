@@ -7,9 +7,17 @@ import tp1.modelo.Empresa;
 import tp1.modelo.indicador.Indicador;
 
 public final class CondiciónComparativa extends Condición {
+	
+	private Prioridad prioridad;
 
-	public CondiciónComparativa(Indicador indicador, int númeroDePeríodos, Evaluación evaluación, Orden orden) {
-		super(indicador, númeroDePeríodos, evaluación, orden);
+	CondiciónComparativa(String nombre, Indicador indicador, int númeroDePeríodos,
+			Evaluación evaluación, Orden orden, Prioridad prioridad) {
+		super(nombre, indicador, númeroDePeríodos, evaluación, orden);
+		this.prioridad = prioridad;
+	}
+	
+	public Prioridad obtenerPrioridad() {
+		return prioridad;
 	}
 
 	@Override

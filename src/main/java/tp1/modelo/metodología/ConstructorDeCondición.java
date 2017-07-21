@@ -7,22 +7,30 @@ import tp1.modelo.repositorios.Repositorios;
 
 public abstract class ConstructorDeCondición<T extends ConstructorDeCondición<T>> {
 
-	protected Indicador indicador;
+	protected String nombre;
+	protected String nombreDelIndicador;
 	protected int númeroDePeríodos;
 	protected Evaluación evaluación;
 	protected Orden orden;
+	protected Prioridad prioridad;
 	protected Optional<Double> valorDeReferencia;
 	
-	public ConstructorDeCondición(String nombreDelIndicador) {
-		// Valores obligatorios
+	public ConstructorDeCondición(String nombre) {
 		// Precondición: que el indicador exista
-		this.indicador = Repositorios.obtenerRepositorioDeIndicadores().encontrar(nombreDelIndicador);
+		// Si no se define nombre del indicador, se usa el nombre de la condición
+		this.nombre = nombre;
+		this.nombreDelIndicador = nombre;
 		
-		// Valores por defecto de los opcionales
-		this.valorDeReferencia = Optional.empty();
+		// Valores por defecto
 		this.númeroDePeríodos = 1;
 		this.evaluación = Evaluación.PROMEDIO;
 		this.orden = Orden.MAYOR;
+		this.prioridad = Prioridad.MEDIA;
+		this.valorDeReferencia = Optional.empty();
+	}
+	
+	public void establecerIndicador(String nombreDelIndicador) {
+		this.nombreDelIndicador = nombreDelIndicador;
 	}
 	
 	public void establecerNúmeroDePeríodos(int númeroDePeríodos) {
@@ -35,6 +43,11 @@ public abstract class ConstructorDeCondición<T extends ConstructorDeCondición<
 	
 	public void establecerOrden(Orden orden) {
 		this.orden = orden;
+	}
+	
+	public T conIndicador(String nombreDelIndicador) {
+		establecerIndicador(nombreDelIndicador);
+		return obtenerEsto();
 	}
 	
 	public T conNúmeroDePeríodos(int númeroDePeríodos) {
@@ -50,6 +63,14 @@ public abstract class ConstructorDeCondición<T extends ConstructorDeCondición<
 	public T conOrden(Orden orden) {
 		establecerOrden(orden);
 		return obtenerEsto();
+	}
+	
+	protected Indicador obtenerIndicador() {
+		Indicador indicador = Repositorios.obtenerRepositorioDeIndicadores().encontrar(nombreDelIndicador);
+		if(indicador == null) {
+			throw new RuntimeException(String.format("El indicador '%s' no existe", nombreDelIndicador));
+		}
+		return indicador;
 	}
 	
 	public abstract Condición construir();

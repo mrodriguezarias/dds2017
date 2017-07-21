@@ -11,10 +11,11 @@ import tp1.modelo.Empresa;
 public class Metodología {
 	
 	private String nombre;
-	private List<Condición> condicionesTaxativas;
-	private List<Condición> condicionesComparativas;
+	private List<CondiciónTaxativa> condicionesTaxativas;
+	private List<CondiciónComparativa> condicionesComparativas;
 	
-	public Metodología(String nombre, List<Condición> condicionesTaxativas, List<Condición> condicionesComparativas) {
+	Metodología(String nombre, List<CondiciónTaxativa> condicionesTaxativas,
+			List<CondiciónComparativa> condicionesComparativas) {
 		this.nombre = nombre;
 		this.condicionesTaxativas = condicionesTaxativas;
 		this.condicionesComparativas = condicionesComparativas;
@@ -43,29 +44,23 @@ public class Metodología {
 	private List<Empresa> aplicarCondicionesComparativas(List<Empresa> empresas) {
 		Map<String, Integer> pesos = new HashMap<>();
 		
-		for(Condición condiciónComparativa : condicionesComparativas) {
-			actualizarPesos(pesos, obtenerFactor(condiciónComparativa), condiciónComparativa.aplicar(empresas));
+		for(CondiciónComparativa condiciónComparativa : condicionesComparativas) {
+			actualizarPesos(pesos, condiciónComparativa.obtenerPrioridad(), condiciónComparativa.aplicar(empresas));
 		}
 		
 		return obtenerEmpresasOrdenadasPorPeso(pesos, empresas);
 	}
 
-	private void actualizarPesos(Map<String, Integer> pesos, int factor, List<Empresa> empresas) {
+	private void actualizarPesos(Map<String, Integer> pesos, Prioridad prioridad, List<Empresa> empresas) {
 		// Agrego puntos segun posición
 		int i = empresas.size();
 		for(String empresa : empresas.stream().map(e -> e.obtenerNombre()).collect(Collectors.toList())) {
 			Integer peso = pesos.get(empresa);
 			if(peso == null) peso = 0;
 			
-			peso += factor * i--;
+			peso += prioridad.obtenerValor() * i--;
 			pesos.put(empresa, peso); // no reemplaza; si existe lo actualiza			
 		}		
-	}
-	
-	private int obtenerFactor(Condición condiciónComparativa) {
-		int índice = condicionesComparativas.indexOf(condiciónComparativa);
-		int tamaño = condicionesComparativas.size();
-		return tamaño - índice;
 	}
 	
 	private List<Empresa> obtenerEmpresasOrdenadasPorPeso(Map<String, Integer> pesos, List<Empresa> empresas) {

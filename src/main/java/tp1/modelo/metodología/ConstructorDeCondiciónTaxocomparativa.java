@@ -4,8 +4,8 @@ import java.util.Optional;
 
 public final class ConstructorDeCondiciónTaxocomparativa extends ConstructorDeCondición<ConstructorDeCondiciónTaxocomparativa> {
 
-	public ConstructorDeCondiciónTaxocomparativa(String nombreDelIndicador) {
-		super(nombreDelIndicador);
+	public ConstructorDeCondiciónTaxocomparativa(String nombre) {
+		super(nombre);
 	}
 	
 	public void establecerValorDeReferencia(double valorDeReferencia) {
@@ -16,10 +16,20 @@ public final class ConstructorDeCondiciónTaxocomparativa extends ConstructorDeC
 		establecerValorDeReferencia(valorDeReferencia);
 		return this;
 	}
+	
+	public void establecerPrioridad(Prioridad prioridad) {
+		this.prioridad = prioridad;
+	}
+	
+	public ConstructorDeCondiciónTaxocomparativa conPrioridad(Prioridad prioridad) {
+		establecerPrioridad(prioridad);
+		return this;
+	}
 
 	@Override
 	public CondiciónTaxocomparativa construir() {
-		return new CondiciónTaxocomparativa(indicador, númeroDePeríodos, evaluación, orden, valorDeReferencia);
+		return new CondiciónTaxocomparativa(nombre, obtenerIndicador(), númeroDePeríodos,
+				evaluación, orden, valorDeReferencia, prioridad);
 	}
 
 	@Override

@@ -1,8 +1,8 @@
 package tp1.modelo.metodología;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import tp1.modelo.Empresa;
 import tp1.modelo.indicador.Indicador;
@@ -11,24 +11,19 @@ public final class CondiciónTaxativa extends Condición {
 	
 	private Optional<Double> valorDeReferencia;
 
-	public CondiciónTaxativa(Indicador indicador, int númeroDePeríodos,
+	CondiciónTaxativa(String nombre, Indicador indicador, int númeroDePeríodos,
 			Evaluación evaluación, Orden orden, Optional<Double> valorDeReferencia) {
-		super(indicador, númeroDePeríodos, evaluación, orden);
+		super(nombre, indicador, númeroDePeríodos, evaluación, orden);
 		this.valorDeReferencia = valorDeReferencia;
+	}
+	
+	public double obtenerValorDeReferencia() {
+		return valorDeReferencia.orElse(null);
 	}
 
 	@Override
 	public List<Empresa> aplicar(List<Empresa> empresas) {
-		List<Empresa> filtradas = new ArrayList<>();
-		
-		for(Empresa empresa : empresas) {
-			if(esConveniente(empresa)) {
-				filtradas.add(empresa);
-			}
-		}
-		
-		return filtradas;
-//		return empresas.stream().filter(this::esConveniente).collect(Collectors.toList());
+		return empresas.stream().filter(this::esConveniente).collect(Collectors.toList());
 	}
 	
 	private boolean esConveniente(Empresa empresa) {

@@ -19,6 +19,7 @@ import tp1.modelo.metodología.ConstructorDeCondiciónTaxocomparativa;
 import tp1.modelo.metodología.ConstructorDeMetodología;
 import tp1.modelo.metodología.Metodología;
 import tp1.modelo.metodología.Orden;
+import tp1.modelo.metodología.Prioridad;
 import tp1.modelo.repositorios.RepositorioDeEmpresas;
 import tp1.modelo.repositorios.RepositorioDeIndicadores;
 import tp1.modelo.repositorios.Repositorios;
@@ -128,7 +129,8 @@ public class PruebaDeMetodologíaDeBuffet {
 	 * 10 años, su ROE fue consistentemente mejor que el de la otra.
 	 */
 	private CondiciónComparativa crearCondiciónParaMaximizarROE() {
-		return new ConstructorDeCondiciónComparativa("ROE").conNúmeroDePeríodos(10).construir();
+		return new ConstructorDeCondiciónComparativa("ROE").conNúmeroDePeríodos(10)
+				.conPrioridad(Prioridad.ALTA).construir();
 	}
 
 	/**
@@ -136,7 +138,8 @@ public class PruebaDeMetodologíaDeBuffet {
 	 * proporción de deuda es menor.
 	 */
 	private CondiciónComparativa crearCondiciónParaMinimizarElNivelDeDeuda() {
-		return new ConstructorDeCondiciónComparativa("NivelDeDeuda").conOrden(Orden.MENOR).construir();
+		return new ConstructorDeCondiciónComparativa("NivelDeDeuda").conOrden(Orden.MENOR)
+				.conPrioridad(Prioridad.MEDIA).construir();
 	}
 
 	/**
@@ -153,7 +156,8 @@ public class PruebaDeMetodologíaDeBuffet {
 	 * Además, una empresa es mejor que otra si es más antigua.
 	 */
 	private CondiciónTaxocomparativa crearCondiciónDeLongevidad() {
-		return new ConstructorDeCondiciónTaxocomparativa("Longevidad").conValorDeReferencia(10).construir();
+		return new ConstructorDeCondiciónTaxocomparativa("Longevidad").conValorDeReferencia(10)
+				.conPrioridad(Prioridad.BAJA).construir();
 	}
 
 	@Test

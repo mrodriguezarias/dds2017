@@ -1,13 +1,14 @@
 package tp1.modelo.metodología;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import tp1.modelo.Empresa;
 import tp1.modelo.indicador.Indicador;
 
 public abstract class Condición {
 	
+	protected String nombre;
 	protected Indicador indicador;
 	protected int númeroDePeríodos;
 	protected Evaluación evaluación;
@@ -15,13 +16,34 @@ public abstract class Condición {
 	
 	protected Condición() {}
 	
-	protected Condición(Indicador indicador, int númeroDePeríodos, Evaluación evaluación, Orden orden) {
+	protected Condición(String nombre, Indicador indicador, int númeroDePeríodos, Evaluación evaluación, Orden orden) {
+		this.nombre = nombre;
 		this.indicador = indicador;
 		this.númeroDePeríodos = númeroDePeríodos;
 		this.evaluación = evaluación;
 		this.orden = orden;
 	}
 	
+	public String obtenerNombre() {
+		return nombre;
+	}
+	
+	public Indicador obtenerIndicador() {
+		return indicador;
+	}
+	
+	public int obtenerNúmeroDePeríodos() {
+		return númeroDePeríodos;
+	}
+	
+	public Evaluación obtenerEvaluación() {
+		return evaluación;
+	}
+	
+	public Orden obtenerOrden() {
+		return orden;
+	}
+
 	public abstract List<Empresa> aplicar(List<Empresa> empresas);
 	
 	public boolean esAplicable(List<Empresa> empresas) {
@@ -40,15 +62,7 @@ public abstract class Condición {
 	}
 	
 	protected List<Double> valoresAEvaluar(Empresa empresa) {
-		List<Double> valores = new ArrayList<>();
-		List<Short> períodos = períodosAEvaluar(empresa);
-		
-		for(short período : períodos) {
-			valores.add(indicador.obtenerValor(empresa, período));
-		}
-		
-		return valores;
-//		return períodosAEvaluar(empresa).stream().map(período -> indicador.obtenerValor(empresa, período))
-//				.collect(Collectors.toList());
+		return períodosAEvaluar(empresa).stream().map(período -> indicador.obtenerValor(empresa, período))
+				.collect(Collectors.toList());
 	}
 }

@@ -6,8 +6,8 @@ import java.util.List;
 public class ConstructorDeMetodología {
 	
 	private String nombre;
-	private List<Condición> condicionesTaxativas;
-	private List<Condición> condicionesComparativas;
+	private List<CondiciónTaxativa> condicionesTaxativas;
+	private List<CondiciónComparativa> condicionesComparativas;
 	
 	public ConstructorDeMetodología(String nombre) {
 		this.nombre = nombre;

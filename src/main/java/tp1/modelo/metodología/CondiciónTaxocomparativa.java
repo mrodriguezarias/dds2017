@@ -8,13 +8,22 @@ import tp1.modelo.indicador.Indicador;
 
 public final class CondiciónTaxocomparativa extends Condición {
 	
-	private Condición condiciónTaxativa;
-	private Condición condiciónComparativa;
+	private CondiciónTaxativa condiciónTaxativa;
+	private CondiciónComparativa condiciónComparativa;
 
-	public CondiciónTaxocomparativa(Indicador indicador, int númeroDePeríodos,
-			Evaluación evaluación, Orden orden, Optional<Double> valorDeReferencia) {
-		this.condiciónTaxativa = new CondiciónTaxativa(indicador, númeroDePeríodos, evaluación, orden, valorDeReferencia);
-		this.condiciónComparativa = new CondiciónComparativa(indicador, númeroDePeríodos, evaluación, orden);
+	CondiciónTaxocomparativa(String nombre, Indicador indicador, int númeroDePeríodos,
+			Evaluación evaluación, Orden orden, Optional<Double> valor, Prioridad prioridad) {
+		super(nombre, indicador, númeroDePeríodos, evaluación, orden);
+		condiciónTaxativa = new CondiciónTaxativa(nombre, indicador, númeroDePeríodos, evaluación, orden, valor);
+		condiciónComparativa = new CondiciónComparativa(nombre, indicador, númeroDePeríodos, evaluación, orden, prioridad);
+	}
+	
+	public double obtenerValorDeReferencia() {
+		return condiciónTaxativa.obtenerValorDeReferencia();
+	}
+	
+	public Prioridad obtenerPrioridad() {
+		return condiciónComparativa.obtenerPrioridad();
 	}
 
 	@Override
@@ -22,11 +31,11 @@ public final class CondiciónTaxocomparativa extends Condición {
 		return condiciónComparativa.aplicar(condiciónTaxativa.aplicar(empresas));
 	}
 	
-	Condición obtenerCondiciónTaxativa() {
+	CondiciónTaxativa obtenerCondiciónTaxativa() {
 		return condiciónTaxativa;
 	}
 	
-	Condición obtenerCondiciónComparativa() {
+	CondiciónComparativa obtenerCondiciónComparativa() {
 		return condiciónComparativa;
 	}
 }
