@@ -29,7 +29,7 @@ public class AdminView extends SimpleWindow<AdminViewModel> {
 	
 	@Override
 	protected void createFormPanel(Panel mainPanel) {
-		setTitle("Administración de indicadores");
+		setTitle("Administrador de indicadores");
 		createTopPanel(mainPanel);
 		createFormRow("       Nombre", "name", mainPanel);
 		createFormRow("Descripción", "description", mainPanel);

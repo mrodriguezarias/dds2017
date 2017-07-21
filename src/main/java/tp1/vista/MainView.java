@@ -51,7 +51,7 @@ public class MainView extends SimpleWindow<MainViewModel> {
 		periodFilter.bindValueToProperty("selectedPeriod");
 		
 		new Label(filterPanel).setWidth(15);
-		createViewMetricButton(filterPanel);
+		crearBotónVerCuenta(filterPanel);
 	}
 
 	private void createTable(Panel mainPanel) {
@@ -59,12 +59,10 @@ public class MainView extends SimpleWindow<MainViewModel> {
 		table.setNumberVisibleRows(16);
 		table.bindItemsToProperty("measures");
 		table.bindSelectionToProperty("selectedMeasure");
-
-		createColumn("Empresa", "companyName", 60, table);
-		createColumn("Período", "period", 60, table);
-		createColumn("Nombre", "name", 60, table);
-		createColumn("Tipo", "type", 70, table);
-		createColumn("Valor", "value", 100, table);
+		
+		createColumn("Nombre", "name", 120, table);
+		createColumn("Tipo", "type", 80, table);
+		createColumn("Valor", "value", 160, table);
 	}
 	
 	private <T> void createColumn(String title, String property, int length, Table<T> table) {
@@ -76,11 +74,12 @@ public class MainView extends SimpleWindow<MainViewModel> {
 
 	@Override
 	protected void addActions(Panel actionsPanel) {
-		createIndicatorButton(actionsPanel);
-		createAdminButton(actionsPanel);
+		actionsPanel.setLayout(new HorizontalLayout());
+		crearBotonesParaIndicadores(actionsPanel);
+		crearBotonesParaMetodologías(actionsPanel);
 	}
 	
-	private void createViewMetricButton(Panel panel) {
+	private void crearBotónVerCuenta(Panel panel) {
 		Button button = new Button(panel);
 		button.setCaption("Ver cuenta");
 		button.bindEnabledToProperty("viewMetricEnabled");
@@ -90,22 +89,29 @@ public class MainView extends SimpleWindow<MainViewModel> {
 		});
 	}
 	
-	private void createIndicatorButton(Panel panel) {
-		Button button = new Button(panel);
-		button.setCaption("Aplicar indicador…");
-		button.onClick(() -> {
+	private void crearBotonesParaIndicadores(Panel contenedor) {
+		Panel panel = new Panel(contenedor);
+		new Label(panel).setText("Indicadores").setFontSize(14);
+		Panel botones = new Panel(panel);
+		botones.setLayout(new HorizontalLayout());
+		
+		new Button(botones).setCaption("Aplicar").onClick(() -> {
 			new IndicatorView(this, getModelObject().getSelectedCompanyName(),
 					getModelObject().getSelectedPeriod()).open();
 		});
-	}
-	
-	private void createAdminButton(Panel panel) {
-		new Label(panel).setWidth(55);
-		Button button = new Button(panel);
-		button.setCaption("Administrar indicadores");
-		button.onClick(() -> {
+		new Button(botones).setCaption("Administrar").onClick(() -> {
 			new AdminView(this).open();
 		});
+	}
+	
+	private void crearBotonesParaMetodologías(Panel contenedor) {
+		Panel panel = new Panel(contenedor);
+		new Label(panel).setText("Metodologías").setFontSize(14);
+		Panel botones = new Panel(panel);
+		botones.setLayout(new HorizontalLayout());
+		
+		new Button(botones).setCaption("Aplicar");
+		new Button(botones).setCaption("Administrar");
 	}
 
 }

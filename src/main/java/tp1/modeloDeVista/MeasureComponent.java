@@ -72,7 +72,7 @@ public class MeasureComponent {
 	}
 	
 	private String significantDigits(double figure) {
-		String[] units = {"m", "M", "mM", "B", "mB", "T", "mT"};
+		String[] units = {"mil", "millones", "mil millones", "billones", "mil billones", "trillones", "mil trillones"};
 		int index = -1;
 		while(Math.abs(figure) > 1000) {
 			index++;
@@ -84,7 +84,7 @@ public class MeasureComponent {
 	
 	private String formatNumber(double number) {
 		long intval = (long) number;
-		String intformat = intval / 1000 < 10 ? "%d" : "%,d";
+		String intformat = Math.abs(intval) / 1000 < 10 ? "%d" : "%,d";
 		String integer = String.format(intformat, intval).replaceAll(",", "\u2009");
 		
 		String decimal = String.format("%f", Math.abs(number)).replaceFirst("[0-9]+\\.", ",")
