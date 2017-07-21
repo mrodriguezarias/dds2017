@@ -24,7 +24,7 @@ public class PruebaDeIndicadores {
 
 		Indicador indicador = constructor.construir();
 
-		assertEquals(nombre, indicador.obtenerNombre());
+		assertEquals(nombre, indicador.getName());
 		assertEquals(descripción, indicador.obtenerDescripción());
 		assertEquals(fórmula, indicador.obtenerFórmula());
 	}

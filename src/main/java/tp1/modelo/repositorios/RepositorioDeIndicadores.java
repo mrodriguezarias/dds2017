@@ -27,11 +27,11 @@ public class RepositorioDeIndicadores {
 	}
 	
 	public Indicador encontrar(String name) {
-		return indicators.stream().filter(x -> x.obtenerNombre().equals(name)).findFirst().orElse(null);
+		return indicators.stream().filter(x -> x.getName().equals(name)).findFirst().orElse(null);
 	}
 
 	public void agregar(Indicador indicator) {
-		nombres.add(indicator.obtenerNombre());
+		nombres.add(indicator.getName());
 		indicators.add(indicator);
 		guardar();
 	}
@@ -41,14 +41,14 @@ public class RepositorioDeIndicadores {
 	}
 	public void reemplazar(Indicador oldIndicator, Indicador newIndicator) {
 		indicators.remove(oldIndicator);
-		nombres.remove(oldIndicator.obtenerNombre());
+		nombres.remove(oldIndicator.getName());
 		indicators.add(newIndicator);
-		nombres.add(newIndicator.obtenerNombre());
+		nombres.add(newIndicator.getName());
 		guardar();
 	}
 
 	public void remover(Indicador indicator) {
-		nombres.remove(indicator.obtenerNombre());
+		nombres.remove(indicator.getName());
 		indicators.remove(indicator);
 		guardar();
 	}

@@ -2,7 +2,7 @@ package tp1.modelo;
 
 public interface Medida {
 	
-	public String obtenerNombre();
+	public String getName();
 	
 	public String obtenerDescripción();
 	

@@ -28,7 +28,7 @@ public class Empresa {
 	}
 	
 	public boolean tieneCuenta(String nombre) {
-		return cuentas.stream().anyMatch(x -> x.obtenerNombre().equals(nombre));
+		return cuentas.stream().anyMatch(x -> x.getName().equals(nombre));
 	}
 
 	public List<Cuenta> obtenerCuentas() {
@@ -41,7 +41,7 @@ public class Empresa {
 
 	public Cuenta obtenerCuenta(String nombre, short período) {
 		return cuentas.stream()
-		            .filter(x -> x.obtenerNombre().equals(nombre) && x.getPeriod() == período)
+		            .filter(x -> x.getName().equals(nombre) && x.getPeriod() == período)
 		            .findFirst().orElse(null);
 	}
 	

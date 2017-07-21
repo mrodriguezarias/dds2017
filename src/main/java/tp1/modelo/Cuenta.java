@@ -56,7 +56,7 @@ public class Cuenta implements Medida {
 	
 	
 	
-	public String obtenerNombre() {
+	public String getName() {
 		return name;
 	}
 	

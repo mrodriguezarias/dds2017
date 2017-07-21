@@ -58,7 +58,7 @@ public class Indicador implements Medida,Calculable {
 		return formula;
 	}
 
-	public String obtenerNombre() {
+	public String getName() {
 		return name;		
 	}
 
@@ -83,7 +83,7 @@ public class Indicador implements Medida,Calculable {
 	
 	public boolean esVálidoParaContexto(Empresa company, short period) {
 		return company.obtenerCuentas(period).stream()
-				.map(m -> m.obtenerNombre()).collect(Collectors.toSet())
+				.map(m -> m.getName()).collect(Collectors.toSet())
 				.containsAll(calculable.getCuentas());
 	}
 	

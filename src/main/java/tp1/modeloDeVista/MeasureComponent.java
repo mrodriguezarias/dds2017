@@ -48,11 +48,11 @@ public class MeasureComponent {
 	}
 	
 	public String getMeasureName(){
-		return this.measure.obtenerNombre();
+		return this.measure.getName();
 	}
 	
 	public String getName() {
-		return this.measure.obtenerNombre();
+		return this.measure.getName();
 	}
 	
 	public String getDescription() {

@@ -26,6 +26,7 @@ public class Repositorios {
 			final String ARCHIVO_DE_INDICADORES = "indicadores.json";
 			FuenteJsonDeIndicador fuenteDeIndicador = new FuenteJsonDeIndicador(ARCHIVO_DE_INDICADORES);
 			repositorioDeIndicadores = new RepositorioDeIndicadores(fuenteDeIndicador);
+			repositorioDeIndicadores.crearIndicadores();
 		}
 		return repositorioDeIndicadores;
 	}

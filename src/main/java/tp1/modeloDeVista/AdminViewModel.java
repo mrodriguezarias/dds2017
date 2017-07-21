@@ -26,7 +26,7 @@ public class AdminViewModel {
 	private String indicatorName;
 	
 	public AdminViewModel() {
-		indicatorNames = Repositorios.obtenerRepositorioDeIndicadores().todos().stream().map(i -> i.obtenerNombre())
+		indicatorNames = Repositorios.obtenerRepositorioDeIndicadores().todos().stream().map(i -> i.getName())
 				.sorted().collect(Collectors.toList());
 		setCreateMode();
 	}
@@ -91,7 +91,7 @@ public class AdminViewModel {
 	private void updateForm() {
 		Indicador indicator = Repositorios.obtenerRepositorioDeIndicadores().encontrar(indicatorName);
 		if(indicator == null) return;
-		this.name = indicator.obtenerNombre();
+		this.name = indicator.getName();
 		this.description = indicator.obtenerDescripción();
 		this.formula = indicator.obtenerFórmula();
 		this.error = "";
@@ -119,19 +119,19 @@ public class AdminViewModel {
 	}
 	
 	private void addIndicator(Indicador indicator) {
-		if(indicatorNames.contains(indicator.obtenerNombre())) {
+		if(indicatorNames.contains(indicator.getName())) {
 			replaceIndicator(indicator);
 			return;
 		}
-		addIndicatorName(indicator.obtenerNombre());
+		addIndicatorName(indicator.getName());
 		Repositorios.obtenerRepositorioDeIndicadores().agregar(indicator);
 	}
 	
 	private void replaceIndicator(Indicador indicator) {
 		Indicador prev = Repositorios.obtenerRepositorioDeIndicadores().encontrar(indicatorName);
-		if(!indicatorName.equals(indicator.obtenerNombre())) {
-			addIndicatorName(indicator.obtenerNombre());
-			indicatorNames = indicatorNames.stream().filter(n -> !n.equals(prev.obtenerNombre())).collect(Collectors.toList());
+		if(!indicatorName.equals(indicator.getName())) {
+			addIndicatorName(indicator.getName());
+			indicatorNames = indicatorNames.stream().filter(n -> !n.equals(prev.getName())).collect(Collectors.toList());
 		}
 		Repositorios.obtenerRepositorioDeIndicadores().reemplazar(prev, indicator);
 	}

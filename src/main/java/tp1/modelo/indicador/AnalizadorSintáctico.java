@@ -135,7 +135,7 @@ public class AnalizadorSintáctico {
 	}
 	
 	private boolean isIndicator(String variable) {
-		return Repositorios.obtenerRepositorioDeIndicadores().todos().stream().anyMatch(i -> i.obtenerNombre().equals(variable));
+		return Repositorios.obtenerRepositorioDeIndicadores().todos().stream().anyMatch(i -> i.getName().equals(variable));
 	}
 	
 
