@@ -1,6 +1,7 @@
 package tp1.modelo.repositorios;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import tp1.modelo.metodología.Metodología;
 import tp1.modelo.repositorios.fuentes.FuenteDeMetodologia;
@@ -44,6 +45,11 @@ public class RepositorioDeMetodologias {
 
 	private void guardar() {
 		source.guardar(metodologias);
+	}
+	
+	public List<String> obtenerNombres(){
+		
+		return metodologias.stream().map(m -> m.obtenerNombre()).collect(Collectors.toList());
 	}
 	
 

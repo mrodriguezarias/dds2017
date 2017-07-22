@@ -10,14 +10,14 @@ import org.uqbar.arena.windows.SimpleWindow;
 import org.uqbar.arena.windows.WindowOwner;
 
 import tp1.modelo.indicador.Indicador;
-import tp1.modeloDeVista.AdminViewModel;
+import tp1.modeloDeVista.IndicatorAdminViewModel;
 import tp1.modeloDeVista.Colour;
 
 @SuppressWarnings("serial")
-public class AdminView extends SimpleWindow<AdminViewModel> {
+public class IndicatorAdminView extends SimpleWindow<IndicatorAdminViewModel> {
 	
-	public AdminView(WindowOwner parent) {
-		super(parent, new AdminViewModel());
+	public IndicatorAdminView(WindowOwner parent) {
+		super(parent, new IndicatorAdminViewModel());
 	}
 	
 	@Override

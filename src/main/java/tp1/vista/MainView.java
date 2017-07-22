@@ -100,7 +100,7 @@ public class MainView extends SimpleWindow<MainViewModel> {
 					getModelObject().getSelectedPeriod()).open();
 		});
 		new Button(botones).setCaption("Administrar").onClick(() -> {
-			new AdminView(this).open();
+			new IndicatorAdminView(this).open();
 		});
 	}
 	

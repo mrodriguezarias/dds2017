@@ -13,7 +13,7 @@ import tp1.modelo.indicador.ConstructorDeIndicador.ExcepciónDeFórmulaInválida
 import tp1.modelo.repositorios.Repositorios;
 
 @Observable
-public class AdminViewModel {
+public class IndicatorAdminViewModel {
 	
 	private boolean isEditing;
 	
@@ -25,7 +25,7 @@ public class AdminViewModel {
 	private List<String> indicatorNames;
 	private String indicatorName;
 	
-	public AdminViewModel() {
+	public IndicatorAdminViewModel() {
 		indicatorNames = Repositorios.obtenerRepositorioDeIndicadores().todos().stream().map(i -> i.getName())
 				.sorted().collect(Collectors.toList());
 		setCreateMode();
