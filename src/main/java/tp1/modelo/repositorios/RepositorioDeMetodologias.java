@@ -1,0 +1,50 @@
+package tp1.modelo.repositorios;
+
+import java.util.List;
+
+import tp1.modelo.metodología.Metodología;
+import tp1.modelo.repositorios.fuentes.FuenteDeMetodologia;
+
+public class RepositorioDeMetodologias {
+	
+	private FuenteDeMetodologia source;
+	
+	public List<Metodología> metodologias;
+	
+	public RepositorioDeMetodologias(FuenteDeMetodologia source){
+		
+		this.source = source;
+		metodologias = this.source.cargar();
+	}
+	
+	public List<Metodología> todos(){
+		return metodologias;
+	}
+	
+	public Metodología encontrar(String nombre){
+		
+		return metodologias.stream().filter(c -> c.obtenerNombre().equals(nombre)).findFirst().orElse(null);
+	}
+	
+	public void agregar(Metodología metodologia) {
+		metodologias.add(metodologia);
+		guardar();
+	}
+	
+	public void remover(Metodología metodologia) {
+		metodologias.remove(metodologia);
+		guardar();
+	}
+	
+	public void reemplazar(Metodología oldMetodologia, Metodología newMetodologia) {
+		metodologias.remove(oldMetodologia);
+		metodologias.add(newMetodologia);
+		guardar();
+	}
+
+	private void guardar() {
+		source.guardar(metodologias);
+	}
+	
+
+}
