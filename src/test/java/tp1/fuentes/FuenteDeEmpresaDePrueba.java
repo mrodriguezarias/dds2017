@@ -64,7 +64,7 @@ public class FuenteDeEmpresaDePrueba implements FuenteDeEmpresa {
 	}
 	
 	protected void crearCuenta(String nombre, Empresa empresa, int período, double valor) {
-		Cuenta cuenta = new Cuenta(nombre, "", empresa.obtenerNombre(), (short) período, valor);
+		Cuenta cuenta = new Cuenta(nombre, "", empresa.getNombre(), (short) período, valor);
 		empresa.agregarCuenta(cuenta);
 	}
 	
@@ -85,7 +85,7 @@ public class FuenteDeEmpresaDePrueba implements FuenteDeEmpresa {
 		for(int i = 0; i < tamaño; i++) {
 			Empresa empresa1 = empresas1.get(i);
 			Empresa empresa2 = empresas2.get(i);
-			if(!empresa1.obtenerNombre().equals(empresa2.obtenerNombre())) {
+			if(!empresa1.getNombre().equals(empresa2.getNombre())) {
 				return false;
 			}
 		}

@@ -110,7 +110,9 @@ public class MainView extends SimpleWindow<MainViewModel> {
 		Panel botones = new Panel(panel);
 		botones.setLayout(new HorizontalLayout());
 		
-		new Button(botones).setCaption("Aplicar");
+		new Button(botones).setCaption("Aplicar").onClick(()->{
+			new MetodologiaView(this).open();
+		} );
 		new Button(botones).setCaption("Administrar");
 	}
 

@@ -44,7 +44,7 @@ public class MeasureComponent {
 	}
 	
 	public String getCompanyName() {
-		return this.company.obtenerNombre();
+		return this.company.getNombre();
 	}
 	
 	public String getMeasureName(){

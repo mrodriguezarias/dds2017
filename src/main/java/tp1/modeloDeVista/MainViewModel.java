@@ -25,7 +25,7 @@ public class MainViewModel {
 	public MainViewModel() {
 		List<Empresa> companies = Repositorios.obtenerRepositorioDeEmpresas().todos(); 
 		
-		companyNames = companies.stream().map(c -> c.obtenerNombre())
+		companyNames = companies.stream().map(c -> c.getNombre())
 				.sorted().collect(Collectors.toList());
 		selectedCompanyName = companyNames.get(0);
 		

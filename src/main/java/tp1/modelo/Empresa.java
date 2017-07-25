@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.uqbar.commons.utils.Observable;
+
+@Observable
 public class Empresa {
 	
 	private String nombre;
@@ -19,7 +22,7 @@ public class Empresa {
 		this.cuentas = cuentas;
 	}
 	
-	public String obtenerNombre() {
+	public String getNombre() {
 		return nombre;
 	}
 	

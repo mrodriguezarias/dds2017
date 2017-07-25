@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.uqbar.commons.utils.Observable;
+
 import tp1.modelo.Empresa;
 
 public class Metodología {
@@ -54,7 +56,7 @@ public class Metodología {
 	private void actualizarPesos(Map<String, Integer> pesos, Prioridad prioridad, List<Empresa> empresas) {
 		// Agrego puntos segun posición
 		int i = empresas.size();
-		for(String empresa : empresas.stream().map(e -> e.obtenerNombre()).collect(Collectors.toList())) {
+		for(String empresa : empresas.stream().map(e -> e.getNombre()).collect(Collectors.toList())) {
 			Integer peso = pesos.get(empresa);
 			if(peso == null) peso = 0;
 			
@@ -69,7 +71,7 @@ public class Metodología {
 	}
 	
 	private Empresa obtenerEmpresaDeNombre(String nombre, List<Empresa> empresas) {
-		return empresas.stream().filter(empresa -> empresa.obtenerNombre().equals(nombre)).findFirst().get();
+		return empresas.stream().filter(empresa -> empresa.getNombre().equals(nombre)).findFirst().get();
 	}
 	
 }
