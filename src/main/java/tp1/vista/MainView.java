@@ -111,7 +111,11 @@ public class MainView extends SimpleWindow<MainViewModel> {
 		botones.setLayout(new HorizontalLayout());
 		
 		new Button(botones).setCaption("Aplicar");
-		new Button(botones).setCaption("Administrar");
+		Button abrirCondiciones = new Button(botones).setCaption("Administrar");
+		abrirCondiciones.onClick(() -> {
+			new CondicionView(this).open(); // MODIFICAR ESTO, ES SÓLO PARA PROBAR LA VISTA DE LA CONDICIÓN
+			// DEBERÍA LLEVAR AL ADMIN DE METODOLOGIAS Y DE AHÍ AL ADMIN DE CONDICIONES!!!
+		});
 	}
 
 }
