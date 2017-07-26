@@ -3,9 +3,12 @@ package tp1.modelo.metodología;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.uqbar.commons.utils.Observable;
+
 import tp1.modelo.Empresa;
 import tp1.modelo.indicador.Indicador;
 
+@Observable
 public abstract class Condición {
 	
 	protected String nombre;
@@ -24,7 +27,7 @@ public abstract class Condición {
 		this.orden = orden;
 	}
 	
-	public String obtenerNombre() {
+	public String getNombre() {
 		return nombre;
 	}
 	

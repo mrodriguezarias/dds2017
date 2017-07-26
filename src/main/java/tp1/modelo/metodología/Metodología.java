@@ -1,5 +1,6 @@
 package tp1.modelo.metodología;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,18 @@ public class Metodología {
 
 	public String obtenerNombre() {
 		return nombre;
+	}
+	
+	public List<String> getNombreCondiciones(){
+		List<String> listaNombres = new ArrayList<>();
+		for(Condición condicion: condicionesTaxativas){
+			listaNombres.add(condicion.getNombre());
+		}
+		for(Condición condicion: condicionesComparativas){
+			listaNombres.add(condicion.getNombre());
+		}
+			
+		return listaNombres;
 	}
 	
 	public boolean esAplicable(List<Empresa> empresas) {

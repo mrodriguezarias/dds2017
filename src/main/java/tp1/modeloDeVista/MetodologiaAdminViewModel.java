@@ -5,10 +5,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.uqbar.commons.utils.Dependencies;
+import org.uqbar.commons.utils.Observable;
+
+import tp1.modelo.metodología.Condición;
 import tp1.modelo.metodología.ConstructorDeMetodología;
 import tp1.modelo.metodología.Metodología;
 import tp1.modelo.repositorios.Repositorios;
 
+@Observable
 public class MetodologiaAdminViewModel {
 
 	
@@ -19,7 +24,8 @@ public class MetodologiaAdminViewModel {
 
 	private List<String> nombreMetodologias;
 	private String nombreMetodologia;
-	
+	private Condición condicionSeleccionada;
+
 	public MetodologiaAdminViewModel() {
 		nombreMetodologias = Repositorios.obtenerRepositorioDeMetodologias().obtenerNombres();
 		setCreateMode();
@@ -43,16 +49,31 @@ public class MetodologiaAdminViewModel {
 		this.nombreMetodologias = nombreMetodologias;
 	}
 	
+	public Condición getCondicionSeleccionada() {
+		return condicionSeleccionada;
+	}
+
+	public void setCondicionSeleccionada(Condición condicionSeleccionada) {
+		this.condicionSeleccionada = condicionSeleccionada;
+	}
 	public boolean getIsEditing() {
 		return isEditing;
 	}
 
-	public String getName() {
+	public String getNombre() {
 		return nombre;
 	}
 
-	public void setName(String nombre) {
+	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+	
+	@Dependencies("nombreMetodologia")
+	public List<String> getCondiciones(){
+		
+		Metodología metodologia = Repositorios.obtenerRepositorioDeMetodologias().encontrar(nombreMetodologia);
+		if(metodologia == null) return null;
+		return metodologia.getNombreCondiciones();		
 	}
 	
 	public String getError() {

@@ -113,7 +113,9 @@ public class MainView extends SimpleWindow<MainViewModel> {
 		new Button(botones).setCaption("Aplicar").onClick(()->{
 			new MetodologiaView(this).open();
 		} );
-		new Button(botones).setCaption("Administrar");
+		new Button(botones).setCaption("Administrar").onClick(()->{
+			new MetodologiaAdminView(this).open();
+		});
 
 	}
 

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.uqbar.commons.utils.Observable;
+
 import tp1.modelo.Empresa;
 import tp1.modelo.indicador.Indicador;
 
