@@ -78,6 +78,11 @@ public class Metodología {
 		}		
 	}
 	
+	public void eliminarCondicion(Condición condicion) {
+		this.condicionesComparativas.remove(condicion);
+		this.condicionesTaxativas.remove(condicion);
+	}
+	
 	private List<Empresa> obtenerEmpresasOrdenadasPorPeso(Map<String, Integer> pesos, List<Empresa> empresas) {
 		return pesos.entrySet().stream().sorted(Map.Entry.comparingByValue())
 				.map(e -> obtenerEmpresaDeNombre(e.getKey(), empresas)).collect(Collectors.toList());

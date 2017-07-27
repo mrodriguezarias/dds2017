@@ -68,6 +68,12 @@ public class MetodologiaAdminViewModel {
 		this.nombre = nombre;
 	}
 	
+	public void eliminarCondicion(){
+		Metodología metodologia = Repositorios.obtenerRepositorioDeMetodologias().encontrar(nombreMetodologia);
+		if (metodologia == null) return;
+		metodologia.eliminarCondicion(condicionSeleccionada);
+	}
+	
 	@Dependencies("nombreMetodologia")
 	public List<String> getCondiciones(){
 		
@@ -80,7 +86,7 @@ public class MetodologiaAdminViewModel {
 		return error;
 	}
 
-	private void clearForm() {
+	public void clearForm() {
 		this.nombre = "";
 		this.error = "";
 	}
@@ -149,8 +155,8 @@ public class MetodologiaAdminViewModel {
 		}
 		
 		this.error = "";
-		String operation = isEditing ? "actualizado" : "creado";
+		String operacion = isEditing ? "actualizado" : "creado";
 		this.isEditing = true;
-		return String.format("%s %s", nombre, operation);
+		return String.format("%s %s", nombre, operacion);
 	}
 }

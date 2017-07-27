@@ -1,6 +1,7 @@
 package tp1.vista;
 
 import org.uqbar.arena.layout.HorizontalLayout;
+import org.uqbar.arena.widgets.Button;
 import org.uqbar.arena.widgets.Label;
 import org.uqbar.arena.widgets.Panel;
 import org.uqbar.arena.widgets.Selector;
@@ -34,6 +35,7 @@ public class MetodologiaAdminView  extends SimpleWindow<MetodologiaAdminViewMode
 		createSelector(mainPanel);
 		createFormRow("Nombre", "nombre", mainPanel);
 		createTable(mainPanel);
+		crearBotonesParaCondiciones(mainPanel);
 	}
 	
 	private void createSelector(Panel panel) {
@@ -54,20 +56,41 @@ public class MetodologiaAdminView  extends SimpleWindow<MetodologiaAdminViewMode
 		table.setNumberVisibleRows(10);
 		table.bindItemsToProperty("condiciones");
 		table.bindSelectionToProperty("condicionSeleccionada");	
-		createColumn("Condiciones", "nombre", 150, table);
+		createColumn("Condiciones", "nombre", table);
 	}
 	
-	private <T> void createColumn(String title, String property, int length, Table<T> table) {
+	private <T> void createColumn(String title, String property, Table<T> table) {
 		Column<T> column = new Column<>(table);
 		column.setTitle(title);
-		column.setFixedSize(length);
+//		column.setFixedSize(length);
 		column.bindContentsToProperty(property);
 	}
 	
+	private void crearBotonesParaCondiciones(Panel contenedor) {
+
+		Panel botones = new Panel(contenedor);
+		botones.setLayout(new HorizontalLayout());
+		new Button(botones).setCaption("Agregar").onClick(() -> {
+			//TODO
+		});
+		new Button(botones).setCaption("Modificar").onClick(() -> {
+			//TODO
+		});
+		new Button(botones).setCaption("Eliminar").onClick(getModelObject()::eliminarCondicion);
+		
+	}
+
 	@Override
 	protected void addActions(Panel actionsPanel) {
-
-	
+		new Button(actionsPanel).setCaption("Limpiar").onClick(getModelObject()::clearForm);
+		new Label(actionsPanel).setWidth(150);
+		new Button(actionsPanel).setCaption("Guardar cambios").setAsDefault()
+		.onClick(() -> {
+			String operation = getModelObject().saveChanges();
+			if(!operation.isEmpty()) {
+				showInfo(String.format("Metodología %s con éxito.", operation));
+			}
+		});
 	}
 
 
