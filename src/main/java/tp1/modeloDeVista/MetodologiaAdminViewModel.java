@@ -24,6 +24,7 @@ public class MetodologiaAdminViewModel {
 
 	private List<String> nombreMetodologias;
 	private String nombreMetodologia;
+	private List<Condición> condiciones;
 	private Condición condicionSeleccionada;
 	
 	private ConstructorDeMetodología builder;
@@ -41,6 +42,9 @@ public class MetodologiaAdminViewModel {
 	public void setNombreMetodologia(String nombreMetodologia) {
 		this.nombreMetodologia = nombreMetodologia;
 		isEditing = nombreMetodologia != null;
+		Metodología metodologia = Repositorios.obtenerRepositorioDeMetodologias().encontrar(nombreMetodologia);
+		if(metodologia != null)
+			this.builder = new ConstructorDeMetodología(metodologia);
 		updateForm();
 	}
 
@@ -72,21 +76,29 @@ public class MetodologiaAdminViewModel {
 	}
 	
 	public void eliminarCondicion(){
-		builder.eliminarCondicion(condicionSeleccionada.getNombre());
+		if(condicionSeleccionada != null)
+			builder.eliminarCondicion(condicionSeleccionada.getNombre());
+		actualizarTabla();
 	}
 	
 	
 	@Dependencies("nombreMetodologia")
 	public List<Condición> getCondiciones(){
-		
-		Metodología metodologia = Repositorios.obtenerRepositorioDeMetodologias().encontrar(nombreMetodologia);
-		if(metodologia == null) return null;
-		this.builder = new ConstructorDeMetodología(metodologia);
-		return this.builder.getCondiciones();		
+		actualizarTabla();
+		return condiciones;		
 	}
 	
+	public void actualizarTabla() {
+		condiciones = this.builder.getCondiciones();		
+	}
+
 	public String getError() {
 		return error;
+	}
+	
+	@Dependencies("condicionSeleccionada")
+	public boolean getIsCondicionSeleccionada(){
+		return condicionSeleccionada != null;
 	}
 
 	public void clearForm() {
@@ -167,7 +179,4 @@ public class MetodologiaAdminViewModel {
 		return this.builder;
 	}
 	
-	public void actualizarCondiciones()	{
-		
-	}
 }

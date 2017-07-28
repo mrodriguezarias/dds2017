@@ -18,9 +18,9 @@ public class CondicionViewModel {
 	private List<String> nombreIndicadores;
 	private String nombreIndicadorElegido;
 	private List<String> ordenes;
-	private String ordenElegido;
+	private String ordenElegido = "";
 	private double valorDeReferencia;
-	private String evaluacion;
+	private String evaluacion = "";
 	private List<String> evaluaciones;
 	private boolean taxativa;
 	private boolean comparativa;
@@ -28,25 +28,32 @@ public class CondicionViewModel {
 	private String prioridadElegida;
 	private ConstructorDeMetodología builderMetodologia;
 	private boolean estaEditando;
+	private Condición condicionVieja;
 	
 	public CondicionViewModel(ConstructorDeMetodología builder, Condición condicion)	{
 		this.builderMetodologia = builder;
+		this.condicionVieja = condicion;
 		if(condicion != null) {
 			this.estaEditando = true;
 			this.nombre = condicion.getNombre();
 			this.periodo = condicion.obtenerNúmeroDePeríodos();
 			this.ordenElegido = condicion.obtenerOrden().toString();
 			this.evaluacion = condicion.obtenerEvaluación().toString();
+			this.nombreIndicadorElegido = condicion.obtenerIndicador().getName();
 			if(condicion.getTipo() == "Taxocomparativa")	{
+				this.taxativa = true;
+				this.comparativa = true;
 				CondiciónTaxocomparativa unaCondicion = (CondiciónTaxocomparativa) condicion;
 				this.valorDeReferencia = unaCondicion.obtenerValorDeReferencia();
 				this.prioridadElegida = unaCondicion.obtenerPrioridad().toString();
 			}
 			else if(condicion.getTipo() == "Taxativa")	{
+				this.taxativa = true;
 				CondiciónTaxativa unaCondicion = (CondiciónTaxativa) condicion;
 				this.valorDeReferencia = unaCondicion.obtenerValorDeReferencia();
 			}
 			else	{
+				this.comparativa = true;
 				CondiciónComparativa unaCondicion = (CondiciónComparativa) condicion;
 				this.prioridadElegida = unaCondicion.obtenerPrioridad().toString();
 			}
@@ -71,6 +78,8 @@ public class CondicionViewModel {
 	
 	public String guardarCambios()	{
 		if(estaTodoCompleto())	{
+			if (condicionVieja != null)
+				this.builderMetodologia.eliminarCondicion(condicionVieja.getNombre());
 			if(this.taxativa && this.comparativa)	{
 				ConstructorDeCondiciónTaxocomparativa constructor = new ConstructorDeCondiciónTaxocomparativa(this.nombre);
 				setBuilderTaxocomparativa(constructor);
@@ -86,6 +95,7 @@ public class CondicionViewModel {
 				setBuilderComparativa(constructor);
 				builderMetodologia.agregarCondición(constructor.construir());
 			}
+			
 			return this.nombre + (this.estaEditando? " modificada" : " creada");
 			
 		}
@@ -118,7 +128,7 @@ public class CondicionViewModel {
 	private boolean estaTodoCompleto() {
 		return !(this.nombre.isEmpty()
 				|| (!this.taxativa && !this.comparativa)
-				|| this.prioridadElegida.isEmpty()
+				|| this.comparativa && this.prioridadElegida.isEmpty()
 				|| this.evaluacion.isEmpty()
 				|| this.ordenElegido.isEmpty()
 				|| this.periodo <= 0);
@@ -194,6 +204,10 @@ public class CondicionViewModel {
 
 	public void setComparativa(boolean esComparativa) {
 		this.comparativa = esComparativa;
+	}
+	
+	public boolean getEstaEditando() {
+		return estaEditando;
 	}
 
 	public List<String> getEvaluaciones() {

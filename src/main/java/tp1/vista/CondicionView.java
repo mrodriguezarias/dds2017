@@ -18,6 +18,7 @@ import tp1.modeloDeVista.*;
 public class CondicionView extends SimpleWindow<CondicionViewModel> {
 	public CondicionView(WindowOwner padre, ConstructorDeMetodología builder, Condición condicionParaEditar) {
 		super(padre, new CondicionViewModel(builder, condicionParaEditar));
+		
 	}
 	
 	@Override
@@ -29,7 +30,8 @@ public class CondicionView extends SimpleWindow<CondicionViewModel> {
 	
 	@Override
 	protected void createFormPanel(Panel mainPanel)	{
-		setTitle("Crear condición");
+		String titulo = getModelObject().getEstaEditando() ? "Modificar":"Crear";
+		setTitle( titulo + " condición");
 		Panel contenedor = new Panel(mainPanel);
 		crearTextBox("Nombre de la condición:", "nombre", contenedor);
 		crearCheckBoxTipo(contenedor);
@@ -106,15 +108,16 @@ public class CondicionView extends SimpleWindow<CondicionViewModel> {
 			String operation = getModelObject().guardarCambios();
 			if(!operation.isEmpty()) {
 				showInfo(String.format("Condición %s con éxito.", operation));
+				this.close();
 			}
 			else showInfo("Hubo un problema al guardar la condición. Asegúrese de que todos los campos están completos y su tipo es el correcto.");
 		});
 	}
 	
-	@Override
-	public void close() {
-		MetodologiaAdminView parentView = (MetodologiaAdminView) getOwner();
-		parentView.getModelObject().actualizarCondiciones();
-		super.close();
-	}
+//	@Override
+//	public void close() {
+//		MetodologiaAdminView parentView = (MetodologiaAdminView) getOwner();
+//		parentView.getModelObject().actualizarCondiciones();
+//		super.close();
+//	}
 }

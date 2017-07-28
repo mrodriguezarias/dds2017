@@ -87,11 +87,13 @@ public class MetodologiaAdminView  extends SimpleWindow<MetodologiaAdminViewMode
 		botones.setLayout(new HorizontalLayout());
 		new Button(botones).setCaption("Agregar").onClick(() -> {
 			new CondicionView(this, getModelObject().getBuilderMetodologia(), null).open();
-		});
+			getModelObject().actualizarTabla(); // Para actualizar la ta de condiciones		
+			});
 		new Button(botones).setCaption("Modificar").onClick(() -> {
 			new CondicionView(this, getModelObject().getBuilderMetodologia(), getModelObject().getCondicionSeleccionada()).open();
-		});
-		new Button(botones).setCaption("Eliminar").onClick(getModelObject()::eliminarCondicion);
+			getModelObject().actualizarTabla(); // Para actualizar la ta de condiciones
+		}).bindEnabledToProperty("isCondicionSeleccionada");
+		new Button(botones).setCaption("Eliminar").onClick(getModelObject()::eliminarCondicion).bindEnabledToProperty("isCondicionSeleccionada");
 		
 	}
 
