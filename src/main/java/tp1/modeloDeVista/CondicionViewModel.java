@@ -28,30 +28,44 @@ public class CondicionViewModel {
 	private String prioridadElegida;
 	private ConstructorDeMetodología builderMetodologia;
 	private boolean estaEditando;
+	private String error;
 	
 	public CondicionViewModel(ConstructorDeMetodología builder, Condición condicion)	{
 		this.builderMetodologia = builder;
-		if(condicion != null) {
-			this.estaEditando = true;
-			this.nombre = condicion.getNombre();
-			this.periodo = condicion.obtenerNúmeroDePeríodos();
-			this.ordenElegido = condicion.obtenerOrden().toString();
-			this.evaluacion = condicion.obtenerEvaluación().toString();
-			if(condicion.getTipo() == "Taxocomparativa")	{
-				CondiciónTaxocomparativa unaCondicion = (CondiciónTaxocomparativa) condicion;
-				this.valorDeReferencia = unaCondicion.obtenerValorDeReferencia();
-				this.prioridadElegida = unaCondicion.obtenerPrioridad().toString();
-			}
-			else if(condicion.getTipo() == "Taxativa")	{
-				CondiciónTaxativa unaCondicion = (CondiciónTaxativa) condicion;
-				this.valorDeReferencia = unaCondicion.obtenerValorDeReferencia();
-			}
-			else	{
-				CondiciónComparativa unaCondicion = (CondiciónComparativa) condicion;
-				this.prioridadElegida = unaCondicion.obtenerPrioridad().toString();
-			}
+		if(condicion != null) setEditMode(condicion);
+		else setCreateMode();
+	}
+	
+	private void setEditMode(Condición condicion)	{
+		this.estaEditando = true;
+		this.nombre = condicion.getNombre();
+		this.periodo = condicion.obtenerNúmeroDePeríodos();
+		this.ordenElegido = condicion.obtenerOrden().toString();
+		this.evaluacion = condicion.obtenerEvaluación().toString();
+		
+		if(condicion.getTipo() == "Taxocomparativa")	{
+			CondiciónTaxocomparativa unaCondicion = (CondiciónTaxocomparativa) condicion;
+			this.valorDeReferencia = unaCondicion.obtenerValorDeReferencia();
+			this.prioridadElegida = unaCondicion.obtenerPrioridad().toString();
 		}
-		else this.estaEditando = false;
+		else if(condicion.getTipo() == "Taxativa")	{
+			CondiciónTaxativa unaCondicion = (CondiciónTaxativa) condicion;
+			this.valorDeReferencia = unaCondicion.obtenerValorDeReferencia();
+		}
+		else	{
+			CondiciónComparativa unaCondicion = (CondiciónComparativa) condicion;
+			this.prioridadElegida = unaCondicion.obtenerPrioridad().toString();
+		}
+	}
+	
+	private void setCreateMode()	{
+		this.nombre = "";
+		this.evaluacion = "";
+		this.ordenElegido = "";
+		this.nombreIndicadorElegido = "";
+		this.periodo = 0;
+		this.error = "";
+		this.estaEditando = false;
 		this.ordenes = new ArrayList<String>();
 		this.evaluaciones = new ArrayList<String>();
 		this.prioridades = new ArrayList<String>();
@@ -116,12 +130,16 @@ public class CondicionViewModel {
 	}
 	
 	private boolean estaTodoCompleto() {
-		return !(this.nombre.isEmpty()
-				|| (!this.taxativa && !this.comparativa)
-				|| this.prioridadElegida.isEmpty()
-				|| this.evaluacion.isEmpty()
-				|| this.ordenElegido.isEmpty()
-				|| this.periodo <= 0);
+		this.error = "";
+		if(this.nombre.isEmpty()) this.error = "Especifique un nombre de condición.";
+		else if(!this.taxativa && !this.comparativa) this.error = "Seleccione un tipo de condición.";
+		else if(this.periodo <= 0) this.error = "Especifique un período mayor a cero.";
+		else if(this.ordenElegido.isEmpty()) this.error = "Seleccione un tipo de orden.";
+		else if(this.taxativa && this.valorDeReferencia <= 0) this.error =  "Especifique un valor de referencia mayor a cero.";
+		else if(this.nombreIndicadorElegido.isEmpty()) this.error = "Seleccione un indicador";
+		else if(this.evaluacion.isEmpty())	this.error = "Seleccione un tipo de evaluación.";
+		else if(this.comparativa && this.prioridadElegida.isEmpty()) this.error = "Seleccione un tipo de prioridad";
+		return this.error.isEmpty();
 	}
 	
 	public List<String> getOrdenes()	{
@@ -234,5 +252,13 @@ public class CondicionViewModel {
 
 	public void setOrdenElegido(String ordenElegido) {
 		this.ordenElegido = ordenElegido;
+	}
+	
+	public boolean estaEditando() {
+		return this.estaEditando;
+	}
+	
+	public String getError()	{
+		return this.error;
 	}
 }

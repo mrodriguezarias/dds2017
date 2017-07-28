@@ -166,8 +166,4 @@ public class MetodologiaAdminViewModel {
 	public ConstructorDeMetodología getBuilderMetodologia()	{
 		return this.builder;
 	}
-	
-	public void actualizarCondiciones()	{
-		
-	}
 }

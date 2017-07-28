@@ -29,7 +29,7 @@ public class CondicionView extends SimpleWindow<CondicionViewModel> {
 	
 	@Override
 	protected void createFormPanel(Panel mainPanel)	{
-		setTitle("Crear condición");
+		setTitle((getModelObject().estaEditando()? "Modificar" : "Crear") + " condición");
 		Panel contenedor = new Panel(mainPanel);
 		crearTextBox("Nombre de la condición:", "nombre", contenedor);
 		crearCheckBoxTipo(contenedor);
@@ -70,7 +70,7 @@ public class CondicionView extends SimpleWindow<CondicionViewModel> {
 	}
 	
 	private void crearContenedorOrden(Panel contenedor)	{
-		Panel contenedorOrden = crearFila("Tipo:", 250, contenedor);
+		Panel contenedorOrden = crearFila("Orden:", 250, contenedor);
 		RadioSelector<Orden> ordenes = new RadioSelector<Orden>(contenedorOrden, "ordenes");
 		ordenes.bindValueToProperty("ordenElegido");
 	}
@@ -97,17 +97,19 @@ public class CondicionView extends SimpleWindow<CondicionViewModel> {
 		prioridades.allowNull(true);
 		prioridades.bindItemsToProperty("prioridades");
 		prioridades.bindValueToProperty("prioridadElegida");
+		prioridades.bindEnabledToProperty("comparativa");
 	}
 	
 	@Override
 	protected void addActions(Panel actionsPanel)	{
 		new Button(actionsPanel).setCaption("Guardar cambios").setAsDefault()
 		.onClick(() -> {
-			String operation = getModelObject().guardarCambios();
-			if(!operation.isEmpty()) {
-				showInfo(String.format("Condición %s con éxito.", operation));
+			String resultado = getModelObject().guardarCambios();
+			if(!resultado.isEmpty()) {
+				showInfo(String.format("Condición %s con éxito.", resultado));
+				this.close();
 			}
-			else showInfo("Hubo un problema al guardar la condición. Asegúrese de que todos los campos están completos y su tipo es el correcto.");
+			else showInfo(getModelObject().getError());
 		});
 	}
 	
