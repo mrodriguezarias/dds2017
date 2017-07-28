@@ -162,4 +162,12 @@ public class MetodologiaAdminViewModel {
 		this.isEditing = true;
 		return String.format("%s %s", nombre, operacion);
 	}
+	
+	public ConstructorDeMetodología getBuilderMetodologia()	{
+		return this.builder;
+	}
+	
+	public void actualizarCondiciones()	{
+		
+	}
 }

@@ -27,24 +27,31 @@ public class CondicionViewModel {
 	private List<String> prioridades;
 	private String prioridadElegida;
 	private ConstructorDeMetodología builderMetodologia;
+	private boolean estaEditando;
 	
 	public CondicionViewModel(ConstructorDeMetodología builder, Condición condicion)	{
 		this.builderMetodologia = builder;
 		if(condicion != null) {
+			this.estaEditando = true;
 			this.nombre = condicion.getNombre();
 			this.periodo = condicion.obtenerNúmeroDePeríodos();
 			this.ordenElegido = condicion.obtenerOrden().toString();
 			this.evaluacion = condicion.obtenerEvaluación().toString();
 			if(condicion.getTipo() == "Taxocomparativa")	{
-				
+				CondiciónTaxocomparativa unaCondicion = (CondiciónTaxocomparativa) condicion;
+				this.valorDeReferencia = unaCondicion.obtenerValorDeReferencia();
+				this.prioridadElegida = unaCondicion.obtenerPrioridad().toString();
 			}
 			else if(condicion.getTipo() == "Taxativa")	{
-				
+				CondiciónTaxativa unaCondicion = (CondiciónTaxativa) condicion;
+				this.valorDeReferencia = unaCondicion.obtenerValorDeReferencia();
 			}
 			else	{
-				
+				CondiciónComparativa unaCondicion = (CondiciónComparativa) condicion;
+				this.prioridadElegida = unaCondicion.obtenerPrioridad().toString();
 			}
 		}
+		else this.estaEditando = false;
 		this.ordenes = new ArrayList<String>();
 		this.evaluaciones = new ArrayList<String>();
 		this.prioridades = new ArrayList<String>();
@@ -79,7 +86,7 @@ public class CondicionViewModel {
 				setBuilderComparativa(constructor);
 				builderMetodologia.agregarCondición(constructor.construir());
 			}
-			return this.nombre;
+			return this.nombre + (this.estaEditando? " modificada" : " creada");
 			
 		}
 		else return "";

@@ -86,10 +86,10 @@ public class MetodologiaAdminView  extends SimpleWindow<MetodologiaAdminViewMode
 		Panel botones = new Panel(contenedor);
 		botones.setLayout(new HorizontalLayout());
 		new Button(botones).setCaption("Agregar").onClick(() -> {
-			//TODO
+			new CondicionView(this, getModelObject().getBuilderMetodologia(), null).open();
 		});
 		new Button(botones).setCaption("Modificar").onClick(() -> {
-			//TODO
+			new CondicionView(this, getModelObject().getBuilderMetodologia(), getModelObject().getCondicionSeleccionada()).open();
 		});
 		new Button(botones).setCaption("Eliminar").onClick(getModelObject()::eliminarCondicion);
 		

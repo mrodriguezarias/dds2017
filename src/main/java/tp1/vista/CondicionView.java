@@ -110,4 +110,11 @@ public class CondicionView extends SimpleWindow<CondicionViewModel> {
 			else showInfo("Hubo un problema al guardar la condición. Asegúrese de que todos los campos están completos y su tipo es el correcto.");
 		});
 	}
+	
+	@Override
+	public void close() {
+		MetodologiaAdminView parentView = (MetodologiaAdminView) getOwner();
+		parentView.getModelObject().actualizarCondiciones();
+		super.close();
+	}
 }
