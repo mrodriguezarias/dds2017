@@ -32,14 +32,29 @@ public class MetodologiaAdminView  extends SimpleWindow<MetodologiaAdminViewMode
 	@Override
 	protected void createFormPanel(Panel mainPanel) {
 		setTitle("Administrador de metodologías");
-		createSelector(mainPanel);
+		createTopPanel(mainPanel);
 		createFormRow("Nombre", "nombre", mainPanel);
 		createTable(mainPanel);
 		crearBotonesParaCondiciones(mainPanel);
 	}
 	
+	private void createTopPanel(Panel container) {
+		Panel panel = new Panel(container);
+		panel.setLayout(new HorizontalLayout());
+		createSelector(panel);
+		createDeleteButton(panel);
+	}
+	
+	private void createDeleteButton(Panel container) {
+		Button deleteButton = new Button(container);
+		deleteButton.setCaption("╳");
+		deleteButton.bindEnabledToProperty("isEditing");
+		deleteButton.onClick(getModelObject()::deleteMetodologia);
+	}
+	
 	private void createSelector(Panel panel) {
 		Selector<Metodología> metodologias = new Selector<>(panel);
+		metodologias.setWidth(225);
 		metodologias.bindItemsToProperty("nombreMetodologias");
 		metodologias.bindValueToProperty("nombreMetodologia"); 
 	}

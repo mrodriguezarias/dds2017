@@ -9,16 +9,27 @@ import java.util.stream.Stream;
 
 import org.uqbar.commons.utils.Observable;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import tp1.modelo.Empresa;
 
 public class Metodología {
 	
+	@JsonProperty
 	private String nombre;
-	private List<CondiciónTaxativa> condicionesTaxativas;
-	private List<CondiciónComparativa> condicionesComparativas;
 	
-	Metodología(String nombre, List<CondiciónTaxativa> condicionesTaxativas,
-			List<CondiciónComparativa> condicionesComparativas) {
+	@JsonProperty
+	List<CondiciónTaxativa> condicionesTaxativas;
+	
+	@JsonProperty
+	List<CondiciónComparativa> condicionesComparativas;
+	
+	//@JsonCreator
+	Metodología(
+			@JsonProperty String nombre,
+			@JsonProperty List<CondiciónTaxativa> condicionesTaxativas,
+			@JsonProperty List<CondiciónComparativa> condicionesComparativas) {
 		this.nombre = nombre;
 		this.condicionesTaxativas = condicionesTaxativas;
 		this.condicionesComparativas = condicionesComparativas;
@@ -27,19 +38,7 @@ public class Metodología {
 	public String obtenerNombre() {
 		return nombre;
 	}
-	
-	public List<String> getNombreCondiciones(){
-		List<String> listaNombres = new ArrayList<>();
-		for(Condición condicion: condicionesTaxativas){
-			listaNombres.add(condicion.getNombre());
-		}
-		for(Condición condicion: condicionesComparativas){
-			listaNombres.add(condicion.getNombre());
-		}
-			
-		return listaNombres;
-	}
-	
+		
 	public boolean esAplicable(List<Empresa> empresas) {
 		return Stream.concat(condicionesTaxativas.stream(), condicionesComparativas.stream())
 				.allMatch(condición -> condición.esAplicable(empresas));

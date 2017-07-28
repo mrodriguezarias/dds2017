@@ -25,9 +25,12 @@ public class MetodologiaAdminViewModel {
 	private List<String> nombreMetodologias;
 	private String nombreMetodologia;
 	private Condición condicionSeleccionada;
+	
+	private ConstructorDeMetodología builder;
 
 	public MetodologiaAdminViewModel() {
 		nombreMetodologias = Repositorios.obtenerRepositorioDeMetodologias().obtenerNombres();
+		builder = new ConstructorDeMetodología();
 		setCreateMode();
 	}
 	
@@ -69,17 +72,17 @@ public class MetodologiaAdminViewModel {
 	}
 	
 	public void eliminarCondicion(){
-		Metodología metodologia = Repositorios.obtenerRepositorioDeMetodologias().encontrar(nombreMetodologia);
-		if (metodologia == null) return;
-		metodologia.eliminarCondicion(condicionSeleccionada);
+		builder.eliminarCondicion(condicionSeleccionada.getNombre());
 	}
 	
+	
 	@Dependencies("nombreMetodologia")
-	public List<String> getCondiciones(){
+	public List<Condición> getCondiciones(){
 		
 		Metodología metodologia = Repositorios.obtenerRepositorioDeMetodologias().encontrar(nombreMetodologia);
 		if(metodologia == null) return null;
-		return metodologia.getNombreCondiciones();		
+		this.builder = new ConstructorDeMetodología(metodologia);
+		return this.builder.getCondiciones();		
 	}
 	
 	public String getError() {
@@ -144,7 +147,7 @@ public class MetodologiaAdminViewModel {
 			return "";
 		}
 		
-		ConstructorDeMetodología builder = new ConstructorDeMetodología(nombre);
+		this.builder.setNombre(nombre);
 		
 		Metodología metodologia = builder.construir(); 
 		
