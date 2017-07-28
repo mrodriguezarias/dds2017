@@ -43,4 +43,12 @@ public final class CondiciónTaxativa extends Condición {
 		}
 		return true;
 	}
+	
+	public String getTipo()	{
+		return "Taxativa";
+	}
+	
+	public Condición getInstance()	{
+		return this;
+	}
 }

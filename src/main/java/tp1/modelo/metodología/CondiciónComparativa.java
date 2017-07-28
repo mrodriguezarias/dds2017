@@ -30,5 +30,9 @@ public final class CondiciónComparativa extends Condición {
 		double valor2 = evaluación.evaluar(valoresAEvaluar(empresa2));
 		return orden.comparar(valor1, valor2) ? 1 : -1;
 	}
+	
+	public String getTipo()	{
+		return "Comparativa";
+	}
 
 }

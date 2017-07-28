@@ -16,8 +16,8 @@ import tp1.modeloDeVista.*;
 
 @SuppressWarnings("serial")
 public class CondicionView extends SimpleWindow<CondicionViewModel> {
-	public CondicionView(WindowOwner padre) {
-		super(padre, new CondicionViewModel());
+	public CondicionView(WindowOwner padre, ConstructorDeMetodología builder, Condición condicionParaEditar) {
+		super(padre, new CondicionViewModel(builder, condicionParaEditar));
 	}
 	
 	@Override

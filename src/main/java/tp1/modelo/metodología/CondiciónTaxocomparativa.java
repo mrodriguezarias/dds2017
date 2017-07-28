@@ -38,4 +38,8 @@ public final class CondiciónTaxocomparativa extends Condición {
 	CondiciónComparativa obtenerCondiciónComparativa() {
 		return condiciónComparativa;
 	}
+	
+	public String getTipo()	{
+		return "Taxocomparativa";
+	}
 }

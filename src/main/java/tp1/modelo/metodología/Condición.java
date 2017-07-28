@@ -68,4 +68,6 @@ public abstract class Condición {
 		return períodosAEvaluar(empresa).stream().map(período -> indicador.obtenerValor(empresa, período))
 				.collect(Collectors.toList());
 	}
+	
+	public abstract String getTipo();
 }

@@ -26,8 +26,25 @@ public class CondicionViewModel {
 	private boolean comparativa;
 	private List<String> prioridades;
 	private String prioridadElegida;
+	private ConstructorDeMetodología builderMetodologia;
 	
-	public CondicionViewModel()	{
+	public CondicionViewModel(ConstructorDeMetodología builder, Condición condicion)	{
+		this.builderMetodologia = builder;
+		if(condicion != null) {
+			this.nombre = condicion.getNombre();
+			this.periodo = condicion.obtenerNúmeroDePeríodos();
+			this.ordenElegido = condicion.obtenerOrden().toString();
+			this.evaluacion = condicion.obtenerEvaluación().toString();
+			if(condicion.getTipo() == "Taxocomparativa")	{
+				
+			}
+			else if(condicion.getTipo() == "Taxativa")	{
+				
+			}
+			else	{
+				
+			}
+		}
 		this.ordenes = new ArrayList<String>();
 		this.evaluaciones = new ArrayList<String>();
 		this.prioridades = new ArrayList<String>();
@@ -47,23 +64,48 @@ public class CondicionViewModel {
 	
 	public String guardarCambios()	{
 		if(estaTodoCompleto())	{
-			ConstructorDeCondición constructor;
 			if(this.taxativa && this.comparativa)	{
-				constructor = new ConstructorDeCondiciónTaxocomparativa(this.nombre);
+				ConstructorDeCondiciónTaxocomparativa constructor = new ConstructorDeCondiciónTaxocomparativa(this.nombre);
+				setBuilderTaxocomparativa(constructor);
+				builderMetodologia.agregarCondición(constructor.construir());
 			}
 			else if(this.taxativa && this.valorDeReferencia > 0) {
-				constructor = new ConstructorDeCondiciónTaxativa(this.nombre).conValorDeReferencia(this.valorDeReferencia);
+				ConstructorDeCondiciónTaxativa constructor = new ConstructorDeCondiciónTaxativa(this.nombre).conValorDeReferencia(this.valorDeReferencia);
+				setBuilderTaxativa(constructor);
+				builderMetodologia.agregarCondición(constructor.construir());
 			}
-			else constructor = new ConstructorDeCondiciónComparativa(this.nombre);
-			constructor	.conNúmeroDePeríodos(this.periodo)
-						.conIndicador(this.nombreIndicadorElegido)
-						.conOrden(Orden.valueOf(this.ordenElegido))
-						.conEvaluación(Evaluación.valueOf(this.evaluacion))
-						.construir();
+			else {
+				ConstructorDeCondiciónComparativa constructor = new ConstructorDeCondiciónComparativa(this.nombre);
+				setBuilderComparativa(constructor);
+				builderMetodologia.agregarCondición(constructor.construir());
+			}
 			return this.nombre;
 			
 		}
 		else return "";
+	}
+	
+	private void setBuilder(ConstructorDeCondición builder)	{
+		builder	.conNúmeroDePeríodos(this.periodo)
+				.conIndicador(this.nombreIndicadorElegido)
+				.conOrden(Orden.valueOf(this.ordenElegido))
+				.conEvaluación(Evaluación.valueOf(this.evaluacion));
+	}
+	
+	private void setBuilderTaxativa(ConstructorDeCondiciónTaxativa builder) {
+		builder	.conValorDeReferencia(this.valorDeReferencia);
+		setBuilder(builder);
+	}
+	
+	private void setBuilderComparativa(ConstructorDeCondiciónComparativa builder) {
+		builder	.conPrioridad(Prioridad.valueOf(this.prioridadElegida));
+		setBuilder(builder);
+	}
+	
+	private void setBuilderTaxocomparativa(ConstructorDeCondiciónTaxocomparativa builder) {
+		builder	.conPrioridad(Prioridad.valueOf(this.prioridadElegida));
+		builder	.conValorDeReferencia(this.valorDeReferencia);
+		setBuilder(builder);
 	}
 	
 	private boolean estaTodoCompleto() {
