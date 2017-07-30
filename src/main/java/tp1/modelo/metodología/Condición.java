@@ -5,21 +5,11 @@ import java.util.stream.Collectors;
 
 import org.uqbar.commons.utils.Observable;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import tp1.modelo.Empresa;
 import tp1.modelo.indicador.Indicador;
 
-//@JsonIgnoreProperties(ignoreUnknown = true)
-//@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)
-//@JsonSubTypes({
-//    @JsonSubTypes.Type(value = CondiciónTaxativa.class, name = "tax"),
-//
-//    @JsonSubTypes.Type(value = CondiciónComparativa.class, name = "comp") }
-//)
 @Observable
 public abstract class Condición {
 	

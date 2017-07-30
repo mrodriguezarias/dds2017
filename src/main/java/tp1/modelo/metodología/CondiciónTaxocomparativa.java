@@ -10,7 +10,7 @@ public final class CondiciónTaxocomparativa extends Condición {
 	
 	private CondiciónTaxativa condiciónTaxativa;
 	private CondiciónComparativa condiciónComparativa;
-
+	
 	CondiciónTaxocomparativa(String nombre, Indicador indicador, int númeroDePeríodos,
 			Evaluación evaluación, Orden orden, Optional<Double> valor, Prioridad prioridad) {
 		super(nombre, indicador, númeroDePeríodos, evaluación, orden);

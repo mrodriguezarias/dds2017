@@ -1,13 +1,10 @@
 package tp1.modelo.metodología;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import org.uqbar.commons.utils.Observable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -25,11 +22,11 @@ public class Metodología {
 	@JsonProperty
 	List<CondiciónComparativa> condicionesComparativas;
 	
-//	@JsonCreator
+	@JsonCreator
 	Metodología(
-			@JsonProperty("nombreMetodologia") String nombre,
-			@JsonProperty("taxativas") List<CondiciónTaxativa> condicionesTaxativas,
-			@JsonProperty("comparativas") List<CondiciónComparativa> condicionesComparativas) {
+			@JsonProperty("nombre") String nombre,
+			@JsonProperty("condicionesTaxativas") List<CondiciónTaxativa> condicionesTaxativas,
+			@JsonProperty("condicionesComparativas") List<CondiciónComparativa> condicionesComparativas) {
 		this.nombre = nombre;
 		this.condicionesTaxativas = condicionesTaxativas;
 		this.condicionesComparativas = condicionesComparativas;

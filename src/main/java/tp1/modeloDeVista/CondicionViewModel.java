@@ -1,7 +1,6 @@
 package tp1.modeloDeVista;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,156 +13,159 @@ import tp1.modelo.repositorios.Repositorios;
 @Observable
 public class CondicionViewModel {
 	private String nombre;
-	private int periodo;
+	private Integer periodo;
 	private List<String> nombreIndicadores;
-	private String nombreIndicadorElegido;
-	private List<String> ordenes;
-	private String ordenElegido = "";
-	private double valorDeReferencia;
-	private String evaluacion = "";
-	private List<String> evaluaciones;
+	private String nombreIndicador;
+	private List<Orden> ordenes;
+	private Orden orden;
+	private Double valorDeReferencia;
+	private Evaluación evaluacion;
+	private List<Evaluación> evaluaciones;
 	private boolean taxativa;
 	private boolean comparativa;
-	private List<String> prioridades;
-	private String prioridadElegida;
+	private List<Prioridad> prioridades;
+	private Prioridad prioridad;
 	private ConstructorDeMetodología builderMetodologia;
 	private boolean estaEditando;
-	private Condición condicionVieja;
+	private String nombreAnterior;
 	private String error;
-	
-	public CondicionViewModel(ConstructorDeMetodología builder, Condición condicion)	{
+
+	public CondicionViewModel(ConstructorDeMetodología builder, Condición condicion) {
 		this.builderMetodologia = builder;
-		this.condicionVieja = condicion;
-		if(condicion != null) setEditMode(condicion);
-		else setCreateMode();
+		inicializarListas();
+		if(condicion != null) {
+			this.nombreAnterior = condicion.getNombre();
+			setEditMode(condicion);
+		} else {
+			setCreateMode();
+		}
 	}
 	
-	private void setEditMode(Condición condicion)	{
+	private void inicializarListas() {
+		this.ordenes = Arrays.asList(Orden.values());
+		this.evaluaciones = Arrays.asList(Evaluación.values());
+		this.prioridades = Arrays.asList(Prioridad.values());
+		this.nombreIndicadores = Repositorios.obtenerRepositorioDeIndicadores().todos().stream().map(i -> i.getName())
+				.sorted().collect(Collectors.toList());
+	}
+
+	private void setEditMode(Condición condicion) {
 		this.estaEditando = true;
 		this.nombre = condicion.getNombre();
 		this.periodo = condicion.obtenerNúmeroDePeríodos();
-		this.ordenElegido = condicion.obtenerOrden().toString();
-		this.evaluacion = condicion.obtenerEvaluación().toString();
-		this.nombreIndicadorElegido = condicion.obtenerIndicador().getName();
-		
+		this.orden = condicion.obtenerOrden();
+		this.evaluacion = condicion.obtenerEvaluación();
+		this.nombreIndicador = condicion.obtenerIndicador().getName();
+
 		if(condicion.getTipo() == "Taxocomparativa")	{
 			this.taxativa = true;
 			this.comparativa = true;
 			CondiciónTaxocomparativa unaCondicion = (CondiciónTaxocomparativa) condicion;
 			this.valorDeReferencia = unaCondicion.obtenerValorDeReferencia();
-			this.prioridadElegida = unaCondicion.obtenerPrioridad().toString();
+			this.prioridad = unaCondicion.obtenerPrioridad();
 		}
 		else if(condicion.getTipo() == "Taxativa")	{
 			this.taxativa = true;
 			CondiciónTaxativa unaCondicion = (CondiciónTaxativa) condicion;
 			this.valorDeReferencia = unaCondicion.obtenerValorDeReferencia();
 		}
-		else	{
+		else if(condicion.getTipo() == "Comparativa")	{
 			this.comparativa = true;
 			CondiciónComparativa unaCondicion = (CondiciónComparativa) condicion;
-			this.prioridadElegida = unaCondicion.obtenerPrioridad().toString();
+			this.prioridad = unaCondicion.obtenerPrioridad();
 		}
 	}
-	
+
 	private void setCreateMode()	{
 		this.nombre = "";
-		this.evaluacion = "";
-		this.ordenElegido = "";
-		this.nombreIndicadorElegido = "";
-		this.periodo = 0;
+		this.nombreIndicador = "";
 		this.error = "";
 		this.estaEditando = false;
-		this.ordenes = new ArrayList<String>();
-		this.evaluaciones = new ArrayList<String>();
-		this.prioridades = new ArrayList<String>();
-		for(Orden orden : EnumSet.allOf(Orden.class))	{
-			this.ordenes.add(orden.toString());
-		}
-		for(Evaluación evaluacion : EnumSet.allOf(Evaluación.class))	{
-			this.evaluaciones.add(evaluacion.toString());
-		}
-		for(Prioridad prioridad : EnumSet.allOf(Prioridad.class))	{
-			this.prioridades.add(prioridad.toString());
-		}
-		this.nombreIndicadores = Repositorios.obtenerRepositorioDeIndicadores().todos().stream().map(i -> i.getName())
-				.sorted().collect(Collectors.toList());
 	}
-	
-	
+
 	public String guardarCambios()	{
-		if(estaTodoCompleto())	{
-			if (condicionVieja != null)
-				this.builderMetodologia.eliminarCondicion(condicionVieja.getNombre());
-			if(this.taxativa && this.comparativa)	{
-				ConstructorDeCondiciónTaxocomparativa constructor = new ConstructorDeCondiciónTaxocomparativa(this.nombre);
-				setBuilderTaxocomparativa(constructor);
-				builderMetodologia.agregarCondición(constructor.construir());
-			}
-			else if(this.taxativa && this.valorDeReferencia > 0) {
-				ConstructorDeCondiciónTaxativa constructor = new ConstructorDeCondiciónTaxativa(this.nombre).conValorDeReferencia(this.valorDeReferencia);
-				setBuilderTaxativa(constructor);
-				builderMetodologia.agregarCondición(constructor.construir());
-			}
-			else {
-				ConstructorDeCondiciónComparativa constructor = new ConstructorDeCondiciónComparativa(this.nombre);
-				setBuilderComparativa(constructor);
-				builderMetodologia.agregarCondición(constructor.construir());
-			}
-			
-			return this.nombre + (this.estaEditando? " modificada" : " creada");
-			
+		if(!estaTodoCompleto())	return "";
+		
+		if(nombreAnterior != null) {
+			builderMetodologia.eliminarCondicion(nombreAnterior);
 		}
-		else return "";
+		
+		if(this.taxativa && this.comparativa)	{
+			ConstructorDeCondiciónTaxocomparativa constructor = new ConstructorDeCondiciónTaxocomparativa(this.nombre);
+			setBuilderTaxocomparativa(constructor);
+			builderMetodologia.agregarCondición(constructor.construir());
+		}
+		else if(this.taxativa) {
+			ConstructorDeCondiciónTaxativa constructor = new ConstructorDeCondiciónTaxativa(this.nombre)
+					.conValorDeReferencia(this.valorDeReferencia);
+			setBuilderTaxativa(constructor);
+			builderMetodologia.agregarCondición(constructor.construir());
+		}
+		else {
+			ConstructorDeCondiciónComparativa constructor = new ConstructorDeCondiciónComparativa(this.nombre);
+			setBuilderComparativa(constructor);
+			builderMetodologia.agregarCondición(constructor.construir());
+		}
+
+		return this.nombre + (this.estaEditando? " modificada" : " creada");
 	}
-	
-	private void setBuilder(ConstructorDeCondición builder)	{
-		builder	.conNúmeroDePeríodos(this.periodo)
-				.conIndicador(this.nombreIndicadorElegido)
-				.conOrden(Orden.valueOf(this.ordenElegido))
-				.conEvaluación(Evaluación.valueOf(this.evaluacion));
+
+	private void setBuilder(ConstructorDeCondición<?> builder)	{
+		builder.conNúmeroDePeríodos(this.periodo)
+		.conIndicador(this.nombreIndicador)
+		.conOrden(this.orden)
+		.conEvaluación(this.evaluacion);
 	}
-	
+
 	private void setBuilderTaxativa(ConstructorDeCondiciónTaxativa builder) {
-		builder	.conValorDeReferencia(this.valorDeReferencia);
+		builder.conValorDeReferencia(this.valorDeReferencia);
 		setBuilder(builder);
 	}
-	
+
 	private void setBuilderComparativa(ConstructorDeCondiciónComparativa builder) {
-		builder	.conPrioridad(Prioridad.valueOf(this.prioridadElegida));
+		builder.conPrioridad(this.prioridad);
 		setBuilder(builder);
 	}
-	
+
 	private void setBuilderTaxocomparativa(ConstructorDeCondiciónTaxocomparativa builder) {
-		builder	.conPrioridad(Prioridad.valueOf(this.prioridadElegida));
-		builder	.conValorDeReferencia(this.valorDeReferencia);
+		builder.conPrioridad(this.prioridad);
+		builder.conValorDeReferencia(this.valorDeReferencia);
 		setBuilder(builder);
 	}
-	
+
 	private boolean estaTodoCompleto() {
 		this.error = "";
-		if(this.nombre.isEmpty()) this.error = "Especifique un nombre de condición.";
-		else if(!this.taxativa && !this.comparativa) this.error = "Seleccione un tipo de condición.";
-		else if(this.periodo <= 0) this.error = "Especifique un período mayor a cero.";
-		else if(this.ordenElegido.isEmpty()) this.error = "Seleccione un tipo de orden.";
-		else if(this.taxativa && this.valorDeReferencia <= 0) this.error =  "Especifique un valor de referencia mayor a cero.";
-		else if(this.nombreIndicadorElegido.isEmpty()) this.error = "Seleccione un indicador";
-		else if(this.evaluacion.isEmpty())	this.error = "Seleccione un tipo de evaluación.";
-		else if(this.comparativa && this.prioridadElegida.isEmpty()) this.error = "Seleccione un tipo de prioridad";
+		if(nombre.isEmpty())
+			this.error = "Especifique un nombre de condición.";
+		else if(!taxativa && !comparativa)
+			this.error = "Seleccione un tipo de condición.";
+		else if(periodo == null || periodo <= 0)
+			this.error = "Especifique un período mayor a cero.";
+		else if(orden == null)
+			this.error = "Seleccione un tipo de orden.";
+		else if(taxativa && valorDeReferencia == null)
+			this.error = "Especifique un valor límite.";
+		else if(nombreIndicador.isEmpty())
+			this.error = "Seleccione un indicador.";
+		else if(evaluacion == null)
+			this.error = "Seleccione un tipo de evaluación.";
+		else if(comparativa && prioridad == null)
+			this.error = "Seleccione un tipo de prioridad";
 		return this.error.isEmpty();
 	}
-	
-	public List<String> getOrdenes()	{
+
+	public List<Orden> getOrdenes()	{
 		return this.ordenes;
 	}
-	
-	public void setOrdenes(List<String> unosOrdenes)	{
-		this.ordenes = unosOrdenes;
+
+	public void setOrdenes(List<Orden> ordenes)	{
+		this.ordenes = ordenes;
 	}
-	
+
 	public List<String> getNombreIndicadores()	{
 		return this.nombreIndicadores;
 	}
-	
+
 	public void setNombreIndicadores(List<String> nombresIndicadores) {
 		this.nombreIndicadores = nombresIndicadores;
 	}
@@ -176,36 +178,36 @@ public class CondicionViewModel {
 		this.nombre = nombre;
 	}
 
-	public String getNombreIndicadorElegido() {
-		return nombreIndicadorElegido;
+	public String getNombreIndicador() {
+		return nombreIndicador;
 	}
 
-	public void setNombreIndicadorElegido(String nombreIndicadorElegido) {
-		this.nombreIndicadorElegido = nombreIndicadorElegido;
+	public void setNombreIndicador(String nombreIndicador) {
+		this.nombreIndicador = nombreIndicador;
 	}
 
-	public double getValorDeReferencia() {
+	public Double getValorDeReferencia() {
 		return valorDeReferencia;
 	}
 
-	public void setValorDeReferencia(double valorDeReferencia) {
+	public void setValorDeReferencia(Double valorDeReferencia) {
 		this.valorDeReferencia = valorDeReferencia;
 	}
 
-	public String getEvaluacion() {
+	public Evaluación getEvaluacion() {
 		return evaluacion;
 	}
 
-	public void setEvaluacion(String evaluacion) {
+	public void setEvaluacion(Evaluación evaluacion) {
 		this.evaluacion = evaluacion;
 	}
 
-	public String getPrioridadElegida() {
-		return prioridadElegida;
+	public Prioridad getPrioridad() {
+		return prioridad;
 	}
 
-	public void setPrioridad(String prioridad) {
-		this.prioridadElegida = prioridad;
+	public void setPrioridad(Prioridad prioridad) {
+		this.prioridad = prioridad;
 	}
 
 	public boolean getTaxativa() {
@@ -223,55 +225,50 @@ public class CondicionViewModel {
 	public void setComparativa(boolean esComparativa) {
 		this.comparativa = esComparativa;
 	}
-	
+
 	public boolean getEstaEditando() {
 		return estaEditando;
 	}
 
-	public List<String> getEvaluaciones() {
+	public List<Evaluación> getEvaluaciones() {
 		return evaluaciones;
 	}
 
-	public void setEvaluaciones(List<String> evaluaciones) {
+	public void setEvaluaciones(List<Evaluación> evaluaciones) {
 		this.evaluaciones = evaluaciones;
 	}
 
-	public List<String> getPrioridades() {
+	public List<Prioridad> getPrioridades() {
 		return prioridades;
 	}
 
-	public void setPrioridades(List<String> prioridades) {
+	public void setPrioridades(List<Prioridad> prioridades) {
 		this.prioridades = prioridades;
 	}
 
-	public void setPrioridadElegida(String prioridadElegida) {
-		this.prioridadElegida = prioridadElegida;
-	}
-
-
-	public int getPeriodo() {
+	public Integer getPeriodo() {
 		return periodo;
 	}
 
 
-	public void setPeriodo(int periodo) {
+	public void setPeriodo(Integer periodo) {
 		this.periodo = periodo;
 	}
 
 
-	public String getOrdenElegido() {
-		return ordenElegido;
+	public Orden getOrden() {
+		return orden;
 	}
 
 
-	public void setOrdenElegido(String ordenElegido) {
-		this.ordenElegido = ordenElegido;
+	public void setOrden(Orden orden) {
+		this.orden = orden;
 	}
-	
+
 	public boolean estaEditando() {
 		return this.estaEditando;
 	}
-	
+
 	public String getError()	{
 		return this.error;
 	}

@@ -6,13 +6,16 @@ import tp1.modelo.repositorios.fuentes.FuenteJsonDeMetodologia;
 
 public class Repositorios {
 	
+	private static final String ARCHIVO_DE_CUENTAS = "cuentas.json";
+	private static final String ARCHIVO_DE_INDICADORES = "indicadores.json";
+	private static final String ARCHIVO_DE_METODOLOGIAS = "Metodologias.json";
+	
 	private static RepositorioDeEmpresas repositorioDeEmpresas;
 	private static RepositorioDeIndicadores repositorioDeIndicadores;
 	private static RepositorioDeMetodologias repositorioDeMetodologias;
 	
 	public static RepositorioDeEmpresas obtenerRepositorioDeEmpresas() {
 		if(repositorioDeEmpresas == null) {
-			final String ARCHIVO_DE_CUENTAS = "cuentas.json";
 			FuenteJsonDeEmpresa fuenteDeEmpresa = new FuenteJsonDeEmpresa(ARCHIVO_DE_CUENTAS);
 			repositorioDeEmpresas = new RepositorioDeEmpresas(fuenteDeEmpresa);
 		}
@@ -25,7 +28,6 @@ public class Repositorios {
 	
 	public static RepositorioDeIndicadores obtenerRepositorioDeIndicadores() {
 		if(repositorioDeIndicadores == null) {
-			final String ARCHIVO_DE_INDICADORES = "indicadores.json";
 			FuenteJsonDeIndicador fuenteDeIndicador = new FuenteJsonDeIndicador(ARCHIVO_DE_INDICADORES);
 			repositorioDeIndicadores = new RepositorioDeIndicadores(fuenteDeIndicador);
 			repositorioDeIndicadores.crearIndicadores();
@@ -39,7 +41,6 @@ public class Repositorios {
 	
 	public static RepositorioDeMetodologias obtenerRepositorioDeMetodologias() {
 		if(repositorioDeMetodologias == null) {
-			final String ARCHIVO_DE_METODOLOGIAS = "Metodologias.json";
 			FuenteJsonDeMetodologia fuenteDeMetodologia = new FuenteJsonDeMetodologia(ARCHIVO_DE_METODOLOGIAS);
 			repositorioDeMetodologias = new RepositorioDeMetodologias(fuenteDeMetodologia);
 		}

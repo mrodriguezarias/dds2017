@@ -177,7 +177,7 @@ public class MetodologiaAdminViewModel {
 		}
 		
 		this.error = "";
-		String operacion = isEditing ? "actualizado" : "creado";
+		String operacion = isEditing ? "actualizada" : "creada";
 		this.isEditing = true;
 		return String.format("%s %s", nombre, operacion);
 	}

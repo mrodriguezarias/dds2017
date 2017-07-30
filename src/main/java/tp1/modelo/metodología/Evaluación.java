@@ -32,4 +32,10 @@ public enum Evaluación {
 		// Número par de elementos; la mediana es la media de los dos del medio
 		return (lista.get(medio-1) + lista.get(medio)) / 2.0;
 	}
+	
+	@Override
+	public String toString() {
+		String str = super.toString();
+		return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+	}
 }

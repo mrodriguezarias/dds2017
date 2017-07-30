@@ -1,6 +1,4 @@
 package tp1.modelo.indicador;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import tp1.modelo.repositorios.Repositorios;
 
@@ -12,8 +10,6 @@ public class AnalizadorSintáctico {
 			super(message);
 		}
 	}
-
-	private final String VAR_REGEX = "\\p{Alpha}\\w*";
 	
 	public Calculable obtenerCalculable(String formula) throws ParseFailedException {
 		/*-- Este metodo evaula una formula sin errores, es decir que se debe chequear antes por errores --*/
@@ -125,46 +121,5 @@ public class AnalizadorSintáctico {
 			return obtenerCalculable(formula.substring(1, formula.length()-1));  
 		}
 		return null; // la formula no estaba entre parentesis
-	}
-	
-	
-	
-	/*Lo que estaba antes*/
-	private boolean isMetric(String variable) {
-		return Repositorios.obtenerRepositorioDeEmpresas().todos().stream().anyMatch(c -> c.tieneCuenta(variable));
-	}
-	
-	private boolean isIndicator(String variable) {
-		return Repositorios.obtenerRepositorioDeIndicadores().todos().stream().anyMatch(i -> i.getName().equals(variable));
-	}
-	
-
-	/**
-	 * Verifica que existan las variables y las encierra entre paréntesis.
-	 */
-	private String checkAndBracketVariables(String formula) throws ParseFailedException {
-		Matcher matcher = Pattern.compile(VAR_REGEX).matcher(formula);
-
-		while(matcher.find()) {
-			String variable = matcher.group();
-			if(!isMetric(variable) && !isIndicator(variable)) {
-				throw new ParseFailedException(String.format("variable '%s' inválida", variable));
-			}
-		}
-
-		return formula;
-	}
-
-	/** 
-	 * Hace explícito el operador de multiplicación (*)
-	 * en las expresiones donde estaba implícito.
-	 * Por ejemplo: "3 (A + B)" lo convierte en "3 * (A + B)"
-	 */
-	private String addTimesOperatorWhenImplicit(String formula) {
-		formula = formula.replaceAll("([0-9)])\\s+([0-9(])", "$1 * $2");
-		formula = formula.replaceAll("([0-9)])\\(", "$1 * (");
-		formula = formula.replaceAll("\\)([0-9(])", ") * $1");
-		formula = formula.replaceAll(",", ".");
-		return formula;
 	}
 }

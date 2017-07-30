@@ -1,9 +1,7 @@
 package tp1.modelo.metodología;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-
 public enum Prioridad {
-	MÍNIMA(1), BAJA(2), MEDIA(3), ALTA(4), MÁXIMA(5);
+	MÁXIMA(5), ALTA(4), MEDIA(3), BAJA(2), MÍNIMA(1);
 	
 	private int valor;
 	
@@ -12,5 +10,11 @@ public enum Prioridad {
 	}
 	public int obtenerValor() {
 		return valor;
+	}
+	
+	@Override
+	public String toString() {
+		String str = super.toString();
+		return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
 	}
 }

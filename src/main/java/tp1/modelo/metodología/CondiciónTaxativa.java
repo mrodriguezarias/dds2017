@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.uqbar.commons.utils.Observable;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -14,16 +12,17 @@ import tp1.modelo.indicador.Indicador;
 
 public final class CondiciónTaxativa extends Condición {
 	
+	@JsonProperty
 	private Optional<Double> valorDeReferencia;
 
 	@JsonCreator
 	CondiciónTaxativa(
-			@JsonProperty("nombreCondicion") String nombre,
+			@JsonProperty("nombre") String nombre,
 			@JsonProperty("indicador") Indicador indicador, 
-			@JsonProperty("periodos") int númeroDePeríodos,
-			@JsonProperty("evaluacion")Evaluación evaluación, 
+			@JsonProperty("númeroDePeríodos") int númeroDePeríodos,
+			@JsonProperty("evaluacion") Evaluación evaluación, 
 			@JsonProperty("orden") Orden orden,
-			@JsonProperty("referencia")Optional<Double> valorDeReferencia) {
+			@JsonProperty("valorDeReferencia") Optional<Double> valorDeReferencia) {
 		super(nombre, indicador, númeroDePeríodos, evaluación, orden);
 		this.valorDeReferencia = valorDeReferencia;
 	}

@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
@@ -23,9 +24,17 @@ public class CodificadorJson {
 		this.filename = filename;
 		this.type = type;
 		this.mapper = new ObjectMapper();
-		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+		configurarMapeador();
 	}
 	
+	private void configurarMapeador() {
+		mapper.disable(MapperFeature.AUTO_DETECT_CREATORS,
+	            MapperFeature.AUTO_DETECT_FIELDS,
+	            MapperFeature.AUTO_DETECT_GETTERS,
+	            MapperFeature.AUTO_DETECT_IS_GETTERS);
+		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+	}
+
 	public List<String> obtenerCampo(String campo){
 		List<String> nombres = new ArrayList<String>();
 	
