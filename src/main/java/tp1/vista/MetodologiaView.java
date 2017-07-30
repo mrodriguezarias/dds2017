@@ -37,7 +37,7 @@ public class MetodologiaView extends SimpleWindow<MetodologiaViewModel> {
 	private void createTable(Panel mainPanel) {
 		Table<Empresa> table = new Table<>(mainPanel, Empresa.class);
 		table.setNumberVisibleRows(10);
-		table.bindItemsToProperty("listaEmpresas");
+		table.bindItemsToProperty("empresas");
 		
 		createColumn("Empresas", "nombre", 150, table);
 	}

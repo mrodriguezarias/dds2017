@@ -13,7 +13,6 @@ import tp1.modelo.repositorios.Repositorios;
 public class MetodologiaViewModel {
 
 	private List<String> nombreMetodologias;
-	private List<Empresa> empresas;	
 	
 	private String nombreMetodologia;
 
@@ -21,7 +20,6 @@ public class MetodologiaViewModel {
 	public MetodologiaViewModel(){
 		
 		this.nombreMetodologias = Repositorios.obtenerRepositorioDeMetodologias().obtenerNombres();
-		this.empresas = Repositorios.obtenerRepositorioDeEmpresas().todos();
 	}
 	
 	public String title() {
@@ -40,15 +38,16 @@ public class MetodologiaViewModel {
 		this.nombreMetodologia = nombreMetodologia;
 	}
 	
-	public List<Empresa> getEmpresas() {
-		return empresas;
-	}
+//	public List<Empresa> getEmpresas() {
+//		return empresas;
+//	}
 	
 	@Dependencies("nombreMetodologia")
-	public List<Empresa> getListaEmpresas(){
+	public List<Empresa> getEmpresas(){
 		Metodología metodologia = Repositorios.obtenerRepositorioDeMetodologias().encontrar(nombreMetodologia);
-		if (metodologia == null) return null;
-		return metodologia.aplicar(empresas);
+		List<Empresa> empresasTabla = Repositorios.obtenerRepositorioDeEmpresas().todos();
+		if (metodologia == null) return empresasTabla;
+		return metodologia.aplicar(empresasTabla);
 	}
 	
 

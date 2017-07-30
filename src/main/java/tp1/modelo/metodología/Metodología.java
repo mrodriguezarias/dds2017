@@ -53,6 +53,7 @@ public class Metodología {
 	}
 	
 	private List<Empresa> aplicarCondicionesComparativas(List<Empresa> empresas) {
+		if (condicionesComparativas.isEmpty()) return empresas;
 		Map<String, Integer> pesos = new HashMap<>();
 		
 		for(CondiciónComparativa condiciónComparativa : condicionesComparativas) {
