@@ -159,11 +159,13 @@ public class MetodologiaAdminViewModel {
 	
 	public String saveChanges() {
 		if(nombre.isEmpty()) {
-			String error = "Error: el nombre no puede estar vacío";
-			this.error = error;
+			this.error = "Error: el nombre no puede estar vacío";
 			return "";
 		}
-		
+		if (this.builder.getCondiciones().isEmpty()){
+			this.error = "Error: Debe existir al menos una Condición";
+			return "";
+		}
 		this.builder.setNombre(nombre);
 		
 		Metodología metodologia = builder.construir(); 

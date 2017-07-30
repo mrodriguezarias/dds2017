@@ -106,6 +106,8 @@ public class MetodologiaAdminView  extends SimpleWindow<MetodologiaAdminViewMode
 			String operation = getModelObject().saveChanges();
 			if(!operation.isEmpty()) {
 				showInfo(String.format("Metodología %s con éxito.", operation));
+			}else{
+				showInfo(String.format("%s", getModelObject().getError()));
 			}
 		});
 	}
