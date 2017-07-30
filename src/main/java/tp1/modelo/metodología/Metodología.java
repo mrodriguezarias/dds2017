@@ -25,11 +25,11 @@ public class Metodología {
 	@JsonProperty
 	List<CondiciónComparativa> condicionesComparativas;
 	
-	//@JsonCreator
+//	@JsonCreator
 	Metodología(
-			@JsonProperty String nombre,
-			@JsonProperty List<CondiciónTaxativa> condicionesTaxativas,
-			@JsonProperty List<CondiciónComparativa> condicionesComparativas) {
+			@JsonProperty("nombreMetodologia") String nombre,
+			@JsonProperty("taxativas") List<CondiciónTaxativa> condicionesTaxativas,
+			@JsonProperty("comparativas") List<CondiciónComparativa> condicionesComparativas) {
 		this.nombre = nombre;
 		this.condicionesTaxativas = condicionesTaxativas;
 		this.condicionesComparativas = condicionesComparativas;

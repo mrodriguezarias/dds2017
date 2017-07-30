@@ -1,5 +1,8 @@
 package tp1.modelo.metodología;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+//@JsonFormat(shape = JsonFormat.Shape.STRING)
 public enum Orden {
 	
 	MAYOR, MENOR;

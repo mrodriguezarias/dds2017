@@ -99,7 +99,7 @@ public class MetodologiaAdminView  extends SimpleWindow<MetodologiaAdminViewMode
 
 	@Override
 	protected void addActions(Panel actionsPanel) {
-		new Button(actionsPanel).setCaption("Limpiar").onClick(getModelObject()::clearForm);
+		new Button(actionsPanel).setCaption("Nueva").onClick(getModelObject()::setCreateMode);
 		new Label(actionsPanel).setWidth(150);
 		new Button(actionsPanel).setCaption("Guardar cambios").setAsDefault()
 		.onClick(() -> {

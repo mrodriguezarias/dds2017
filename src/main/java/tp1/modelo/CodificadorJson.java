@@ -9,6 +9,7 @@ import java.util.List;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import tp1.App;
 
@@ -22,6 +23,7 @@ public class CodificadorJson {
 		this.filename = filename;
 		this.type = type;
 		this.mapper = new ObjectMapper();
+		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 	}
 	
 	public List<String> obtenerCampo(String campo){

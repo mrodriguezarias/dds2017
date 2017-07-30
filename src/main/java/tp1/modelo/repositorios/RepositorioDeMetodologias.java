@@ -1,5 +1,6 @@
 package tp1.modelo.repositorios;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,7 +16,7 @@ public class RepositorioDeMetodologias {
 	public RepositorioDeMetodologias(FuenteDeMetodologia source){
 		
 		this.source = source;
-		metodologias = this.source.cargar();
+		metodologias = new ArrayList<>(this.source.cargar());
 	}
 	
 	public List<Metodología> todos(){

@@ -45,6 +45,8 @@ public class MetodologiaAdminViewModel {
 		Metodología metodologia = Repositorios.obtenerRepositorioDeMetodologias().encontrar(nombreMetodologia);
 		if(metodologia != null)
 			this.builder = new ConstructorDeMetodología(metodologia);
+		else 
+			this.builder = new ConstructorDeMetodología();
 		updateForm();
 	}
 
@@ -102,6 +104,7 @@ public class MetodologiaAdminViewModel {
 	}
 
 	public void clearForm() {
+		this.nombreMetodologia = "";
 		this.nombre = "";
 		this.error = "";
 	}
@@ -111,12 +114,14 @@ public class MetodologiaAdminViewModel {
 		if(metodologia == null) return;
 		this.nombre = metodologia.obtenerNombre();
 		this.error = "";
+		actualizarTabla();
 	}
 	
 	public void setCreateMode() {
+		this.builder = new ConstructorDeMetodología();
 		clearForm();
+		this.nombreMetodologia = null;
 		isEditing = false;
-		nombreMetodologia = null;
 	}
 	
 	public void deleteMetodologia() {
