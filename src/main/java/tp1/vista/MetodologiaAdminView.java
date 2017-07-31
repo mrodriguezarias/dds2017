@@ -54,7 +54,7 @@ public class MetodologiaAdminView  extends SimpleWindow<MetodologiaAdminViewMode
 	
 	private void createSelector(Panel panel) {
 		Selector<Metodología> metodologias = new Selector<>(panel);
-		metodologias.setWidth(225);
+		metodologias.setWidth(250);
 		metodologias.bindItemsToProperty("nombreMetodologias");
 		metodologias.bindValueToProperty("nombreMetodologia"); 
 	}
@@ -62,45 +62,53 @@ public class MetodologiaAdminView  extends SimpleWindow<MetodologiaAdminViewMode
 	private void createFormRow(String label, String property, Panel container) {
 		Panel panel = new Panel(container);
 		panel.setLayout(new HorizontalLayout());
-		new Label(panel).setText(label + ":").setWidth(80);
-		new TextBox(panel).setWidth(180).bindValueToProperty(property);
+		new Label(panel).setText(label + ":").setWidth(65);
+		new TextBox(panel).setWidth(220).bindValueToProperty(property);
 	}
 	
 	private void createTable(Panel mainPanel) {
 		Table<Condición> table = new Table<>(mainPanel, Condición.class);
 		table.setNumberVisibleRows(10);
 		table.bindItemsToProperty("condiciones");
-		table.bindSelectionToProperty("condicionSeleccionada");	
-		createColumn("Condiciones", "nombre", table);
-	}
-	
-	private <T> void createColumn(String title, String property, Table<T> table) {
-		Column<T> column = new Column<>(table);
-		column.setTitle(title);
-//		column.setFixedSize(length);
-		column.bindContentsToProperty(property);
+		table.bindSelectionToProperty("condicionSeleccionada");
+		
+		Column<Condición> columna = new Column<>(table);
+		columna.setTitle("Condiciones");
+		columna.bindContentsToProperty("nombre");
 	}
 	
 	private void crearBotonesParaCondiciones(Panel contenedor) {
-
 		Panel botones = new Panel(contenedor);
 		botones.setLayout(new HorizontalLayout());
+		
 		new Button(botones).setCaption("Agregar").onClick(() -> {
 			new CondicionView(this, getModelObject().getBuilderMetodologia(), null).open();
-			getModelObject().actualizarTabla(); // Para actualizar la ta de condiciones		
+			getModelObject().actualizarTabla(); // Para actualizar la tabla de condiciones		
 			});
-		new Button(botones).setCaption("Modificar").onClick(() -> {
-			new CondicionView(this, getModelObject().getBuilderMetodologia(), getModelObject().getCondicionSeleccionada()).open();
-			getModelObject().actualizarTabla(); // Para actualizar la ta de condiciones
-		}).bindEnabledToProperty("isCondicionSeleccionada");
-		new Button(botones).setCaption("Eliminar").onClick(getModelObject()::eliminarCondicion).bindEnabledToProperty("isCondicionSeleccionada");
 		
+		new Label(botones).setWidth(40);
+		
+		new Button(botones)
+			.setCaption("Modificar")
+			.onClick(() -> {
+				new CondicionView(
+					this,
+					getModelObject().getBuilderMetodologia(),
+					getModelObject().getCondicionSeleccionada()
+			).open();
+			getModelObject().actualizarTabla(); // Para actualizar la tabla de condiciones
+		}).bindEnabledToProperty("isCondicionSeleccionada");
+		
+		new Button(botones)
+			.setCaption("Eliminar")
+			.onClick(getModelObject()::eliminarCondicion)
+			.bindEnabledToProperty("isCondicionSeleccionada");
 	}
 
 	@Override
 	protected void addActions(Panel actionsPanel) {
 		new Button(actionsPanel).setCaption("Nueva").onClick(getModelObject()::setCreateMode);
-		new Label(actionsPanel).setWidth(150);
+		new Label(actionsPanel).setWidth(90);
 		new Button(actionsPanel).setCaption("Guardar cambios").setAsDefault()
 		.onClick(() -> {
 			String operation = getModelObject().saveChanges();

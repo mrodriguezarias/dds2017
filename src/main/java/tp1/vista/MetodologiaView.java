@@ -27,11 +27,9 @@ public class MetodologiaView extends SimpleWindow<MetodologiaViewModel> {
 
 	@Override
 	protected void createFormPanel(Panel mainPanel) {
-
-		setTitle(getModelObject().title());
+		setTitle("Aplicar metodología");
 		createSelector(mainPanel);
 		createTable(mainPanel);
-		
 	}
 	
 	private void createTable(Panel mainPanel) {
