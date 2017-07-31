@@ -39,18 +39,15 @@ public class MetodologiaView extends SimpleWindow<MetodologiaViewModel> {
 		table.setNumberVisibleRows(10);
 		table.bindItemsToProperty("empresas");
 		
-		createColumn("Empresas", "nombre", 150, table);
-	}
-	
-	private <T> void createColumn(String title, String property, int length, Table<T> table) {
-		Column<T> column = new Column<>(table);
-		column.setTitle(title);
-		column.setFixedSize(length);
-		column.bindContentsToProperty(property);
+		Column<Empresa> columna = new Column<>(table);
+		columna.setTitle("Empresas");
+		columna.bindContentsToProperty("nombre");
+		columna.setFixedSize(250);
 	}
 
 	private void createSelector(Panel panel) {
 		Selector<Metodología> metodologias = new Selector<>(panel);
+		metodologias.setWidth(200);
 		metodologias.bindItemsToProperty("nombreMetodologias");
 		metodologias.bindValueToProperty("nombreMetodologia"); 
 	}

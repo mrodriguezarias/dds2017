@@ -143,11 +143,9 @@ public class CondicionViewModel {
 		else if(!taxativa && !comparativa)
 			this.error = "Seleccione un tipo de condición.";
 		else if(periodo == null || periodo <= 0)
-			this.error = "Especifique un período mayor a cero.";
+			this.error = "Especifique un número de períodos mayor a cero.";
 		else if(orden == null)
 			this.error = "Seleccione un tipo de orden.";
-		else if(taxativa && valorDeReferencia == null)
-			this.error = "Especifique un valor límite.";
 		else if(nombreIndicador.isEmpty())
 			this.error = "Seleccione un indicador.";
 		else if(evaluacion == null)
