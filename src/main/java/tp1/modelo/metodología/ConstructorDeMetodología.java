@@ -11,6 +11,7 @@ public class ConstructorDeMetodología {
 
 	private List<CondiciónTaxativa> condicionesTaxativas = new ArrayList<>();
 	private List<CondiciónComparativa> condicionesComparativas = new ArrayList<>();
+	private List<CondiciónTaxocomparativa> condicionesTaxocomparativas = new ArrayList<>();
 	
 	public ConstructorDeMetodología() {}
 	
@@ -22,7 +23,7 @@ public class ConstructorDeMetodología {
 		/*~ Para construir una metodologia en base al estado de una anterior ~*/
 		this.condicionesTaxativas = new ArrayList<>(metodologia.condicionesTaxativas);
 		this.condicionesComparativas = new ArrayList<>(metodologia.condicionesComparativas);
-		
+		this.condicionesTaxocomparativas = new ArrayList<>(metodologia.condicionesTaxocomparativas);
 	}
 
 	public void setNombre(String nombre) {
@@ -37,13 +38,15 @@ public class ConstructorDeMetodología {
 	}
 	
 	public void agregarCondición(CondiciónTaxocomparativa condiciónTaxocomparativa) {
-		condicionesTaxativas.add(condiciónTaxocomparativa.obtenerCondiciónTaxativa());
-		condicionesComparativas.add(condiciónTaxocomparativa.obtenerCondiciónComparativa());
+		condicionesTaxocomparativas.add(condiciónTaxocomparativa);
+		//condicionesTaxativas.add(condiciónTaxocomparativa.obtenerCondiciónTaxativa());
+		//condicionesComparativas.add(condiciónTaxocomparativa.obtenerCondiciónComparativa());
 	}
 	
 	public List<Condición> getCondiciones(){
 		List<Condición> listaCondiciones = new ArrayList<>(this.condicionesTaxativas);
 		listaCondiciones.addAll(this.condicionesComparativas);
+		listaCondiciones.addAll(this.condicionesTaxocomparativas);
 			
 		return listaCondiciones;
 	}
@@ -56,6 +59,10 @@ public class ConstructorDeMetodología {
 		this.condicionesComparativas =	 condicionesComparativas.stream()
 																.filter(c-> !c.getNombre().equals(nombreCondicion))
 																.collect(Collectors.toList());
+		
+		this.condicionesTaxocomparativas =	 condicionesTaxocomparativas.stream()
+				.filter(c-> !c.getNombre().equals(nombreCondicion))
+				.collect(Collectors.toList());
 	}
 	
 	public boolean existeCondicion(String nombreCondicion){
@@ -68,7 +75,7 @@ public class ConstructorDeMetodología {
 	}
 	
 	public Metodología construir() {
-		return new Metodología(nombre, condicionesTaxativas, condicionesComparativas);
+		return new Metodología(nombre, condicionesTaxativas, condicionesComparativas, condicionesTaxocomparativas);
 	}
 	
 }

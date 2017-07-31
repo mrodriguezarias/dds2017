@@ -13,7 +13,7 @@ public abstract class ConstructorDeCondición<T extends ConstructorDeCondición<
 	protected Evaluación evaluación;
 	protected Orden orden;
 	protected Prioridad prioridad;
-	protected Optional<Double> valorDeReferencia;
+	protected Double valorDeReferencia;
 	
 	public ConstructorDeCondición(String nombre) {
 		// Precondición: que el indicador exista
@@ -26,7 +26,7 @@ public abstract class ConstructorDeCondición<T extends ConstructorDeCondición<
 		this.evaluación = Evaluación.PROMEDIO;
 		this.orden = Orden.MAYOR;
 		this.prioridad = Prioridad.MEDIA;
-		this.valorDeReferencia = Optional.empty();
+		//this.valorDeReferencia = Optional.empty();
 	}
 	
 	public void establecerIndicador(String nombreDelIndicador) {

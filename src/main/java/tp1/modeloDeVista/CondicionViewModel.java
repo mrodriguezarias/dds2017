@@ -137,6 +137,8 @@ public class CondicionViewModel {
 		this.error = "";
 		if(nombre.isEmpty())
 			this.error = "Especifique un nombre de condición.";
+		else if(yaExisteNombre())
+			this.error = "El nombre de condición ya existe. Elija otro.";
 		else if(!taxativa && !comparativa)
 			this.error = "Seleccione un tipo de condición.";
 		else if(periodo == null || periodo <= 0)
@@ -152,6 +154,11 @@ public class CondicionViewModel {
 		else if(comparativa && prioridad == null)
 			this.error = "Seleccione un tipo de prioridad";
 		return this.error.isEmpty();
+	}
+	
+	private boolean yaExisteNombre()	{
+		List<String> nombresCondiciones = this.builderMetodologia.getCondiciones().stream().map(unaCondicion -> unaCondicion.getNombre()).collect(Collectors.toList());
+		return !this.nombreAnterior.equals(this.nombre) && nombresCondiciones.contains(this.nombre);
 	}
 
 	public List<Orden> getOrdenes()	{

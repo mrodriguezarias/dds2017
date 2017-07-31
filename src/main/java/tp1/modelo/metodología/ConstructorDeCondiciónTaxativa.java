@@ -9,7 +9,7 @@ public final class ConstructorDeCondiciónTaxativa extends ConstructorDeCondici�
 	}
 
 	public void establecerValorDeReferencia(double valorDeReferencia) {
-		this.valorDeReferencia = Optional.of(valorDeReferencia);
+		this.valorDeReferencia = valorDeReferencia;
 	}
 	
 	public ConstructorDeCondiciónTaxativa conValorDeReferencia(double valorDeReferencia) {

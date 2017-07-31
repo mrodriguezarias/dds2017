@@ -22,14 +22,19 @@ public class Metodología {
 	@JsonProperty
 	List<CondiciónComparativa> condicionesComparativas;
 	
+	@JsonProperty
+	List<CondiciónTaxocomparativa> condicionesTaxocomparativas;
+	
 	@JsonCreator
 	Metodología(
 			@JsonProperty("nombre") String nombre,
 			@JsonProperty("condicionesTaxativas") List<CondiciónTaxativa> condicionesTaxativas,
-			@JsonProperty("condicionesComparativas") List<CondiciónComparativa> condicionesComparativas) {
+			@JsonProperty("condicionesComparativas") List<CondiciónComparativa> condicionesComparativas,
+			@JsonProperty("condicionesTaxocomparativas") List<CondiciónTaxocomparativa> condicionesTaxocomparativas) {
 		this.nombre = nombre;
 		this.condicionesTaxativas = condicionesTaxativas;
 		this.condicionesComparativas = condicionesComparativas;
+		this.condicionesTaxocomparativas = condicionesTaxocomparativas;
 	}
 
 	public String obtenerNombre() {
@@ -49,6 +54,9 @@ public class Metodología {
 		for(Condición condiciónTaxativa : condicionesTaxativas) {
 			empresas = condiciónTaxativa.aplicar(empresas);
 		}
+		for(CondiciónTaxocomparativa condicionTaxocomparativa : condicionesTaxocomparativas) {
+			empresas = condicionTaxocomparativa.obtenerCondiciónTaxativa().aplicar(empresas);
+		}
 		return empresas;
 	}
 	
@@ -58,6 +66,10 @@ public class Metodología {
 		
 		for(CondiciónComparativa condiciónComparativa : condicionesComparativas) {
 			actualizarPesos(pesos, condiciónComparativa.obtenerPrioridad(), condiciónComparativa.aplicar(empresas));
+		}
+		
+		for(CondiciónTaxocomparativa condicionTaxocomparativa : condicionesTaxocomparativas) {
+			actualizarPesos(pesos, condicionTaxocomparativa.obtenerCondiciónComparativa().obtenerPrioridad(), condicionTaxocomparativa.obtenerCondiciónComparativa().aplicar(empresas));
 		}
 		
 		return obtenerEmpresasOrdenadasPorPeso(pesos, empresas);

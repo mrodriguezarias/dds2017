@@ -13,7 +13,7 @@ import tp1.modelo.indicador.Indicador;
 public final class CondiciónTaxativa extends Condición {
 	
 	@JsonProperty
-	private Optional<Double> valorDeReferencia;
+	private double valorDeReferencia;
 
 	@JsonCreator
 	CondiciónTaxativa(
@@ -22,13 +22,13 @@ public final class CondiciónTaxativa extends Condición {
 			@JsonProperty("númeroDePeríodos") int númeroDePeríodos,
 			@JsonProperty("evaluacion") Evaluación evaluación, 
 			@JsonProperty("orden") Orden orden,
-			@JsonProperty("valorDeReferencia") Optional<Double> valorDeReferencia) {
+			@JsonProperty("valorDeReferencia") double valorDeReferencia) {
 		super(nombre, indicador, númeroDePeríodos, evaluación, orden);
 		this.valorDeReferencia = valorDeReferencia;
 	}
 	
 	public double obtenerValorDeReferencia() {
-		return valorDeReferencia.orElse(null);
+		return valorDeReferencia;
 	}
 
 	@Override
@@ -39,8 +39,8 @@ public final class CondiciónTaxativa extends Condición {
 	private boolean esConveniente(Empresa empresa) {
 		List<Double> valores = valoresAEvaluar(empresa);
 		
-		if(valorDeReferencia.isPresent()) {
-			return orden.comparar(evaluación.evaluar(valores), valorDeReferencia.get());
+		if(this.valorDeReferencia > 0) {
+			return orden.comparar(evaluación.evaluar(valores), valorDeReferencia);
 		}
 		
 		// Si no hay valor de referencia, se evalúa la tendencia
