@@ -1,18 +1,16 @@
 package tp1.modelo.metodología;
 
-import java.util.Optional;
-
 public final class ConstructorDeCondiciónTaxocomparativa extends ConstructorDeCondición<ConstructorDeCondiciónTaxocomparativa> {
 
 	public ConstructorDeCondiciónTaxocomparativa(String nombre) {
 		super(nombre);
 	}
 	
-	public void establecerValorDeReferencia(double valorDeReferencia) {
+	public void establecerValorDeReferencia(Double valorDeReferencia) {
 		this.valorDeReferencia = valorDeReferencia;
 	}
 	
-	public ConstructorDeCondiciónTaxocomparativa conValorDeReferencia(double valorDeReferencia) {
+	public ConstructorDeCondiciónTaxocomparativa conValorDeReferencia(Double valorDeReferencia) {
 		establecerValorDeReferencia(valorDeReferencia);
 		return this;
 	}

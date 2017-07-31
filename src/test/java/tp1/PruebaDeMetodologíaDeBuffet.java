@@ -156,7 +156,7 @@ public class PruebaDeMetodologíaDeBuffet {
 	 * Además, una empresa es mejor que otra si es más antigua.
 	 */
 	private CondiciónTaxocomparativa crearCondiciónDeLongevidad() {
-		return new ConstructorDeCondiciónTaxocomparativa("Longevidad").conValorDeReferencia(10)
+		return new ConstructorDeCondiciónTaxocomparativa("Longevidad").conValorDeReferencia(10.0)
 				.conPrioridad(Prioridad.BAJA).construir();
 	}
 

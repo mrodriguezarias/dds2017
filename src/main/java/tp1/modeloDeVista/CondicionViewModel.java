@@ -79,6 +79,7 @@ public class CondicionViewModel {
 	private void setCreateMode()	{
 		this.nombre = "";
 		this.nombreIndicador = "";
+		this.nombreAnterior = "";
 		this.error = "";
 		this.estaEditando = false;
 	}

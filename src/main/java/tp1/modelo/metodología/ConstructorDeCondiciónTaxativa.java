@@ -1,6 +1,5 @@
 package tp1.modelo.metodología;
 
-import java.util.Optional;
 
 public final class ConstructorDeCondiciónTaxativa extends ConstructorDeCondición<ConstructorDeCondiciónTaxativa> {
 	
@@ -8,11 +7,11 @@ public final class ConstructorDeCondiciónTaxativa extends ConstructorDeCondici�
 		super(nombre);
 	}
 
-	public void establecerValorDeReferencia(double valorDeReferencia) {
+	public void establecerValorDeReferencia(Double valorDeReferencia) {
 		this.valorDeReferencia = valorDeReferencia;
 	}
 	
-	public ConstructorDeCondiciónTaxativa conValorDeReferencia(double valorDeReferencia) {
+	public ConstructorDeCondiciónTaxativa conValorDeReferencia(Double valorDeReferencia) {
 		establecerValorDeReferencia(valorDeReferencia);
 		return this;
 	}

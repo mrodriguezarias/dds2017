@@ -1,7 +1,6 @@
 package tp1.modelo.metodología;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -13,7 +12,7 @@ import tp1.modelo.indicador.Indicador;
 public final class CondiciónTaxativa extends Condición {
 	
 	@JsonProperty
-	private double valorDeReferencia;
+	private Double valorDeReferencia;
 
 	@JsonCreator
 	CondiciónTaxativa(
@@ -22,12 +21,12 @@ public final class CondiciónTaxativa extends Condición {
 			@JsonProperty("númeroDePeríodos") int númeroDePeríodos,
 			@JsonProperty("evaluacion") Evaluación evaluación, 
 			@JsonProperty("orden") Orden orden,
-			@JsonProperty("valorDeReferencia") double valorDeReferencia) {
+			@JsonProperty("valorDeReferencia") Double valorDeReferencia) {
 		super(nombre, indicador, númeroDePeríodos, evaluación, orden);
 		this.valorDeReferencia = valorDeReferencia;
 	}
 	
-	public double obtenerValorDeReferencia() {
+	public Double obtenerValorDeReferencia() {
 		return valorDeReferencia;
 	}
 
@@ -39,7 +38,7 @@ public final class CondiciónTaxativa extends Condición {
 	private boolean esConveniente(Empresa empresa) {
 		List<Double> valores = valoresAEvaluar(empresa);
 		
-		if(this.valorDeReferencia > 0) {
+		if(this.valorDeReferencia != null) {
 			return orden.comparar(evaluación.evaluar(valores), valorDeReferencia);
 		}
 		

@@ -46,7 +46,7 @@ public class PruebaDeCondiciones {
 	@Test
 	public void probarCondiciónTaxativaMenorAValorDeReferencia() throws Exception {
 		Condición condición = new ConstructorDeCondiciónTaxativa("I1")
-				.conValorDeReferencia(50000).conOrden(Orden.MENOR).construir();
+				.conValorDeReferencia(50000.0).conOrden(Orden.MENOR).construir();
 		
 		List<Empresa> empresas = empresas("E1", "E2");
 		List<Empresa> filtradas = empresas("E2");
@@ -69,7 +69,7 @@ public class PruebaDeCondiciones {
 	@Test
 	public void probarCondiciónTaxativaMedianaMayorAUnValor() throws Exception {
 		Condición condición = new ConstructorDeCondiciónTaxativa("I4")
-				.conNúmeroDePeríodos(5).conEvaluación(Evaluación.MEDIANA).conValorDeReferencia(500).construir();
+				.conNúmeroDePeríodos(5).conEvaluación(Evaluación.MEDIANA).conValorDeReferencia(500.0).construir();
 		
 		List<Empresa> empresas = empresas("E3");
 		List<Empresa> filtradas = empresas();
@@ -105,7 +105,7 @@ public class PruebaDeCondiciones {
 	@Test
 	public void probarCondiciónTaxocomparativa() throws Exception {
 		Condición condición = new ConstructorDeCondiciónTaxocomparativa("I5")
-				.conOrden(Orden.MENOR).conValorDeReferencia(5000).construir();
+				.conOrden(Orden.MENOR).conValorDeReferencia(5000.0).construir();
 		
 		List<Empresa> empresas  = empresas("E1", "E3", "E4", "E2");
 		List<Empresa> ordenadas = empresas("E4", "E3");

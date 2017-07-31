@@ -1,6 +1,5 @@
 package tp1.modelo.metodología;
 
-import java.util.Optional;
 
 import tp1.modelo.indicador.Indicador;
 import tp1.modelo.repositorios.Repositorios;
