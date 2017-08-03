@@ -15,7 +15,7 @@ public class PruebaDeIndicadores {
 	public void probarIndicadorVálido() throws Exception {
 		String nombre = "IV";
 		String descripción = "El número áureo";
-		String fórmula = "1,61803398875";
+		String fórmula = "1.61803398875";
 
 		ConstructorDeIndicador constructor = new ConstructorDeIndicador();
 		constructor.establecerNombre(nombre);
