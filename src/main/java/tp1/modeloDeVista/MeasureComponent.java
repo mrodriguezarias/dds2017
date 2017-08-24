@@ -1,6 +1,6 @@
 package tp1.modeloDeVista;
 
-import org.uqbar.commons.utils.Observable;
+import org.uqbar.commons.model.annotations.Observable;
 
 import tp1.modelo.Cuenta;
 import tp1.modelo.Empresa;

@@ -5,8 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.uqbar.commons.utils.Observable;
-
+import org.uqbar.commons.model.annotations.Observable;
 import tp1.modelo.indicador.Indicador;
 import tp1.modelo.indicador.ConstructorDeIndicador;
 import tp1.modelo.indicador.ConstructorDeIndicador.ExcepciónDeFórmulaInválida;
