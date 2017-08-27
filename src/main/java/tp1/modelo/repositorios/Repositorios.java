@@ -1,8 +1,8 @@
 package tp1.modelo.repositorios;
 
-import tp1.modelo.repositorios.fuentes.FuenteJsonDeEmpresa;
-import tp1.modelo.repositorios.fuentes.FuenteJsonDeIndicador;
-import tp1.modelo.repositorios.fuentes.FuenteJsonDeMetodologia;
+import tp1.modelo.repositorios.fuentes.json.FuenteJsonDeEmpresa;
+import tp1.modelo.repositorios.fuentes.json.FuenteJsonDeIndicador;
+import tp1.modelo.repositorios.fuentes.json.FuenteJsonDeMetodologia;
 
 public class Repositorios {
 	

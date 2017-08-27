@@ -1,9 +1,10 @@
-package tp1.modelo.repositorios.fuentes;
+package tp1.modelo.repositorios.fuentes.json;
 
 import java.util.List;
 
 import tp1.modelo.CodificadorJson;
 import tp1.modelo.indicador.Indicador;
+import tp1.modelo.repositorios.fuentes.FuenteDeIndicador;
 
 public class FuenteJsonDeIndicador implements FuenteDeIndicador{
 	

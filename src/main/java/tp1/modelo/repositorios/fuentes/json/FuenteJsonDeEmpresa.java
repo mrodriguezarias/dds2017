@@ -1,4 +1,4 @@
-package tp1.modelo.repositorios.fuentes;
+package tp1.modelo.repositorios.fuentes.json;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,9 +6,10 @@ import java.util.stream.Collectors;
 
 import tp1.modelo.Cuenta;
 import tp1.modelo.Empresa;
+import tp1.modelo.repositorios.fuentes.FuenteDeEmpresa;
 import tp1.modelo.CodificadorJson;
 
-public class FuenteJsonDeEmpresa implements FuenteDeEmpresa{
+public class FuenteJsonDeEmpresa implements FuenteDeEmpresa {
 	
 	public CodificadorJson coder;
 	

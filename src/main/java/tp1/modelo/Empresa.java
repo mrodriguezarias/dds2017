@@ -4,12 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
 import org.uqbar.commons.model.annotations.Observable;
 
-@Observable
+@Observable @Entity
 public class Empresa {
 	
+	@Id @GeneratedValue
+	private Long id;
+	
 	private String nombre;
+	
+	@Transient // TODO: persistir esto
 	private List<Cuenta> cuentas;
 	
 	public Empresa(String nombre) {
