@@ -3,7 +3,7 @@ package tp1.modelo.indicador;
 import java.util.HashSet;
 import java.util.Set;
 
-import tp1.modelo.Cuenta;
+import tp1.modelo.CuentaDeEmpresa;
 import tp1.modelo.Empresa;
 
 public class CalculableCuenta implements Calculable {
@@ -16,7 +16,7 @@ public class CalculableCuenta implements Calculable {
 	
 	@Override
 	public double calcular(Empresa empresa, short periodo) {
-		Cuenta cuenta;
+		CuentaDeEmpresa cuenta;
 		cuenta = empresa.obtenerCuenta(nombreCuenta, periodo);
 		return cuenta.obtenerValor(empresa, periodo);
 	}

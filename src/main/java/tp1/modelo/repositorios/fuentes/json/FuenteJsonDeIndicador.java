@@ -2,16 +2,21 @@ package tp1.modelo.repositorios.fuentes.json;
 
 import java.util.List;
 
-import tp1.modelo.CodificadorJson;
 import tp1.modelo.indicador.Indicador;
 import tp1.modelo.repositorios.fuentes.FuenteDeIndicador;
 
-public class FuenteJsonDeIndicador implements FuenteDeIndicador{
+public class FuenteJsonDeIndicador implements FuenteDeIndicador {
+	
+	private static final String ARCHIVO_DE_INDICADORES = "indicadores.json";
 	
 	CodificadorJson coder;
 	
-	public FuenteJsonDeIndicador(String fileName){
-		coder = new CodificadorJson(fileName, Indicador.class);
+	public FuenteJsonDeIndicador(String nombreDeArchivo) {
+		coder = new CodificadorJson(nombreDeArchivo, Indicador.class);
+	}
+	
+	public FuenteJsonDeIndicador() {
+		this(ARCHIVO_DE_INDICADORES);
 	}
 	
 	@SuppressWarnings("unchecked")

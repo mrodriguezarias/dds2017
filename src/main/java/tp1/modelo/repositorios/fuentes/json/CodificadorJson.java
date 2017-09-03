@@ -1,4 +1,4 @@
-package tp1.modelo;
+package tp1.modelo.repositorios.fuentes.json;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,11 +16,11 @@ import tp1.App;
 
 public class CodificadorJson {
 
-	String filename;
-	Class<?> type;
-	ObjectMapper mapper;
+	private String filename;
+	private Class<?> type;
+	private ObjectMapper mapper;
 
-	public CodificadorJson (String filename, Class<?> type) {
+	public CodificadorJson(String filename, Class<?> type) {
 		this.filename = filename;
 		this.type = type;
 		this.mapper = new ObjectMapper();

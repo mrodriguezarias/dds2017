@@ -2,7 +2,7 @@ package tp1.modeloDeVista;
 
 import org.uqbar.commons.model.annotations.Observable;
 
-import tp1.modelo.Cuenta;
+import tp1.modelo.CuentaDeEmpresa;
 import tp1.modelo.Empresa;
 import tp1.modelo.Medida;
 import tp1.modelo.indicador.Indicador;
@@ -21,7 +21,7 @@ public class MeasureComponent {
 		this.period = period;
 	}
 	
-	public MeasureComponent(Cuenta metric, Empresa company, short period) {
+	public MeasureComponent(CuentaDeEmpresa metric, Empresa company, short period) {
 		this((Medida) metric, company, period);
 		this.type = "Cuenta";
 	}

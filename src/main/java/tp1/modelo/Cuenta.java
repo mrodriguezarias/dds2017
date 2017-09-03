@@ -1,97 +1,42 @@
 package tp1.modelo;
 
-import org.uqbar.commons.model.annotations.Dependencies;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 import org.uqbar.commons.model.annotations.Observable;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
+@Observable @Entity
+public class Cuenta {
 
-
-@Observable
-public class Cuenta implements Medida {
+	@Id @GeneratedValue
+	private Long id;
 	
-	public enum Type { METRIC, INDICATOR };
+	private String nombre;
 	
-	protected Type type;
+	private String descripción;
 	
-	@JsonProperty
-	protected String name;
+	@SuppressWarnings("unused")
+	private Cuenta() {}
 	
-	@JsonProperty
-	protected String description;
-	
-	@JsonProperty
-	protected String companyName;
-	@JsonProperty
-	protected short period;
-	@JsonProperty
-	private double value;
-	
-	@JsonCreator
-	public Cuenta(
-			@JsonProperty("name") String name,
-			@JsonProperty("description") String description,
-			@JsonProperty("companyName") String companyName,
-			@JsonProperty("period") short period,
-			@JsonProperty("value") double value
-			) {
-		this.type = Type.METRIC;
-		this.name = name;
-		this.description = description;
-		this.companyName = companyName;
-		this.period = period;
-		this.value = value;
-	}
-	
-	@JsonSetter("company")
-	private void setCompany(String name) {
-		this.companyName = name;
-	}
-	
-	@JsonSetter("period")
-	private void setPeriodYear(short year) {
-		this.period = year;
-	}
-	
-	
-	
-	public String getName() {
-		return name;
-	}
-	
-	public String getCompanyName() {
-		return companyName;
-	}
-	
-	public double obtenerValor(Empresa company, short period) {
-		return value;
-	}
-	
-	public double getValue() {
-		return value;
+	public Cuenta(String nombre, String descripción) {
+		this.nombre = nombre;
+		this.descripción = descripción;
 	}
 
-	public short getPeriod() {
-		return period;
+	public String getNombre() {
+		return nombre;
 	}
-	
-	public String obtenerDescripción() {
-		return description;
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
-	
-	public Type getType() {
-		return type;
+
+	public String getDescripción() {
+		return descripción;
 	}
-	
-	public String getTypeString() {
-		if(type == Type.INDICATOR) return "Indicador";
-		return "Cuenta";
-	}
-	
-	@Dependencies("value")
-	public String getValueString() {
-		return ""; //fixme
-		//return Util.significantDigits(getValue());
+
+	public void setDescripción(String descripción) {
+		this.descripción = descripción;
 	}
 }

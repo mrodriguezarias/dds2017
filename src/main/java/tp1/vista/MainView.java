@@ -10,9 +10,9 @@ import org.uqbar.arena.widgets.tables.Table;
 import org.uqbar.arena.windows.SimpleWindow;
 import org.uqbar.arena.windows.WindowOwner;
 
-import tp1.modelo.Cuenta;
 import tp1.modelo.Empresa;
 import tp1.modeloDeVista.MainViewModel;
+import tp1.modeloDeVista.MeasureComponent;
 
 @SuppressWarnings("serial")
 public class MainView extends SimpleWindow<MainViewModel> {
@@ -55,7 +55,7 @@ public class MainView extends SimpleWindow<MainViewModel> {
 	}
 
 	private void createTable(Panel mainPanel) {
-		Table<Cuenta> table = new Table<>(mainPanel, Cuenta.class);
+		Table<MeasureComponent> table = new Table<>(mainPanel, MeasureComponent.class);
 		table.setNumberVisibleRows(16);
 		table.bindItemsToProperty("measures");
 		table.bindSelectionToProperty("selectedMeasure");

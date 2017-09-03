@@ -7,7 +7,8 @@ import java.util.stream.Collectors;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 import org.uqbar.commons.model.annotations.Observable;
 
@@ -19,15 +20,18 @@ public class Empresa {
 	
 	private String nombre;
 	
-	@Transient // TODO: persistir esto
-	private List<Cuenta> cuentas;
+	@OneToMany @JoinColumn(name="empresa_id")
+	private List<CuentaDeEmpresa> cuentas;
+	
+	@SuppressWarnings("unused")
+	private Empresa() {}
 	
 	public Empresa(String nombre) {
 		this.nombre = nombre;
 		this.cuentas = new ArrayList<>();
 	}
 	
-	public Empresa(String nombre, List<Cuenta> cuentas) {
+	public Empresa(String nombre, List<CuentaDeEmpresa> cuentas) {
 		this.nombre = nombre;
 		this.cuentas = cuentas;
 	}
@@ -36,7 +40,7 @@ public class Empresa {
 		return nombre;
 	}
 	
-	public void agregarCuenta(Cuenta cuenta) {
+	public void agregarCuenta(CuentaDeEmpresa cuenta) {
 		cuentas.add(cuenta);
 	}
 	
@@ -44,15 +48,15 @@ public class Empresa {
 		return cuentas.stream().anyMatch(x -> x.getName().equals(nombre));
 	}
 
-	public List<Cuenta> obtenerCuentas() {
+	public List<CuentaDeEmpresa> obtenerCuentas() {
 		return cuentas;
 	}
 	
-	public List<Cuenta> obtenerCuentas(short período) {
+	public List<CuentaDeEmpresa> obtenerCuentas(short período) {
 		return cuentas.stream().filter(m -> m.getPeriod() == período).collect(Collectors.toList());
 	}
 
-	public Cuenta obtenerCuenta(String nombre, short período) {
+	public CuentaDeEmpresa obtenerCuenta(String nombre, short período) {
 		return cuentas.stream()
 		            .filter(x -> x.getName().equals(nombre) && x.getPeriod() == período)
 		            .findFirst().orElse(null);

@@ -1,14 +1,10 @@
 package tp1.modelo.repositorios;
 
-import tp1.modelo.repositorios.fuentes.json.FuenteJsonDeEmpresa;
+import tp1.modelo.repositorios.fuentes.jpa.FuenteJPADeEmpresa;
 import tp1.modelo.repositorios.fuentes.json.FuenteJsonDeIndicador;
 import tp1.modelo.repositorios.fuentes.json.FuenteJsonDeMetodologia;
 
 public class Repositorios {
-	
-	private static final String ARCHIVO_DE_CUENTAS = "cuentas.json";
-	private static final String ARCHIVO_DE_INDICADORES = "indicadores.json";
-	private static final String ARCHIVO_DE_METODOLOGIAS = "Metodologias.json";
 	
 	private static RepositorioDeEmpresas repositorioDeEmpresas;
 	private static RepositorioDeIndicadores repositorioDeIndicadores;
@@ -16,7 +12,7 @@ public class Repositorios {
 	
 	public static RepositorioDeEmpresas obtenerRepositorioDeEmpresas() {
 		if(repositorioDeEmpresas == null) {
-			FuenteJsonDeEmpresa fuenteDeEmpresa = new FuenteJsonDeEmpresa(ARCHIVO_DE_CUENTAS);
+			FuenteJPADeEmpresa fuenteDeEmpresa = new FuenteJPADeEmpresa();
 			repositorioDeEmpresas = new RepositorioDeEmpresas(fuenteDeEmpresa);
 		}
 		return repositorioDeEmpresas;
@@ -28,7 +24,7 @@ public class Repositorios {
 	
 	public static RepositorioDeIndicadores obtenerRepositorioDeIndicadores() {
 		if(repositorioDeIndicadores == null) {
-			FuenteJsonDeIndicador fuenteDeIndicador = new FuenteJsonDeIndicador(ARCHIVO_DE_INDICADORES);
+			FuenteJsonDeIndicador fuenteDeIndicador = new FuenteJsonDeIndicador();
 			repositorioDeIndicadores = new RepositorioDeIndicadores(fuenteDeIndicador);
 			repositorioDeIndicadores.crearIndicadores();
 		}
@@ -41,7 +37,7 @@ public class Repositorios {
 	
 	public static RepositorioDeMetodologias obtenerRepositorioDeMetodologias() {
 		if(repositorioDeMetodologias == null) {
-			FuenteJsonDeMetodologia fuenteDeMetodologia = new FuenteJsonDeMetodologia(ARCHIVO_DE_METODOLOGIAS);
+			FuenteJsonDeMetodologia fuenteDeMetodologia = new FuenteJsonDeMetodologia();
 			repositorioDeMetodologias = new RepositorioDeMetodologias(fuenteDeMetodologia);
 		}
 		return repositorioDeMetodologias;

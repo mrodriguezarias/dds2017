@@ -2,16 +2,21 @@ package tp1.modelo.repositorios.fuentes.json;
 
 import java.util.List;
 
-import tp1.modelo.CodificadorJson;
 import tp1.modelo.metodología.Metodología;
 import tp1.modelo.repositorios.fuentes.FuenteDeMetodologia;
 
 public class FuenteJsonDeMetodologia implements FuenteDeMetodologia {
 
+	private static final String ARCHIVO_DE_METODOLOGIAS = "Metodologias.json";
+	
 	public CodificadorJson coder;
 	
-	public FuenteJsonDeMetodologia(String fileName){
-		coder = new CodificadorJson(fileName, Metodología.class);
+	public FuenteJsonDeMetodologia(String nombreDeArchivo){
+		coder = new CodificadorJson(nombreDeArchivo, Metodología.class);
+	}
+	
+	public FuenteJsonDeMetodologia() {
+		this(ARCHIVO_DE_METODOLOGIAS);
 	}
 	
 	@SuppressWarnings("unchecked")

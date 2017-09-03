@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import tp1.modelo.Cuenta;
+import tp1.modelo.CuentaDeEmpresa;
 import tp1.modelo.Empresa;
 import tp1.modelo.repositorios.Repositorios;
 import tp1.modelo.repositorios.fuentes.FuenteDeEmpresa;
@@ -64,7 +64,7 @@ public class FuenteDeEmpresaDePrueba implements FuenteDeEmpresa {
 	}
 	
 	protected void crearCuenta(String nombre, Empresa empresa, int período, double valor) {
-		Cuenta cuenta = new Cuenta(nombre, "", empresa.getNombre(), (short) período, valor);
+		CuentaDeEmpresa cuenta = new CuentaDeEmpresa(nombre, "", empresa.getNombre(), (short) período, valor);
 		empresa.agregarCuenta(cuenta);
 	}
 	
