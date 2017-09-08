@@ -2,16 +2,23 @@ package tp1.modelo.metodología;
 
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import tp1.modelo.Empresa;
 import tp1.modelo.indicador.Indicador;
 
+@Entity
 public final class CondiciónTaxocomparativa extends Condición {
 	
 	@JsonProperty
+	@OneToOne
 	private CondiciónTaxativa condiciónTaxativa;
+	
 	@JsonProperty
+	@OneToOne
 	private CondiciónComparativa condiciónComparativa;
 	
 	CondiciónTaxocomparativa(

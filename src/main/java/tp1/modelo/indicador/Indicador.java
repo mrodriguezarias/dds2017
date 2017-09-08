@@ -3,6 +3,11 @@ package tp1.modelo.indicador;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,8 +16,12 @@ import tp1.modelo.Empresa;
 import tp1.modelo.Medida;
 import tp1.modelo.indicador.AnalizadorSintáctico.ParseFailedException;
 
+@Entity
 public class Indicador implements Medida,Calculable {
 
+	@Id @GeneratedValue
+	private Long id;
+	
 	@JsonProperty
 	private String name;
 
@@ -22,6 +31,7 @@ public class Indicador implements Medida,Calculable {
 	@JsonProperty
 	private String formula;
 	
+	@Transient
 	private Calculable calculable;
 
 	@SuppressWarnings("serial")

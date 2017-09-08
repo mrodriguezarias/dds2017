@@ -6,23 +6,36 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import tp1.modelo.Empresa;
 
+@Entity
 public class Metodología {
+	
+	@Id @GeneratedValue
+	private Long id;
 	
 	@JsonProperty
 	private String nombre;
 	
 	@JsonProperty
+	@OneToMany @JoinColumn(name="metodologia_id")
 	List<CondiciónTaxativa> condicionesTaxativas;
 	
 	@JsonProperty
+	@OneToMany @JoinColumn(name="metodologia_id")
 	List<CondiciónComparativa> condicionesComparativas;
 	
 	@JsonProperty
+	@OneToMany @JoinColumn(name="metodologia_id")
 	List<CondiciónTaxocomparativa> condicionesTaxocomparativas;
 	
 	@JsonCreator

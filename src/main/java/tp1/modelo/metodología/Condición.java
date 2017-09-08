@@ -3,6 +3,13 @@ package tp1.modelo.metodología;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
+
 import org.uqbar.commons.model.annotations.Observable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,13 +17,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import tp1.modelo.Empresa;
 import tp1.modelo.indicador.Indicador;
 
-@Observable
+@Entity @Observable @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Condición {
+
+	@Id @GeneratedValue
+	private Long id;
 	
 	@JsonProperty
 	protected String nombre;
 	
 	@JsonProperty
+	@ManyToOne
 	protected Indicador indicador;
 	
 	@JsonProperty

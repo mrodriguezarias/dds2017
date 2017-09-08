@@ -3,12 +3,15 @@ package tp1.modelo.metodología;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.Entity;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import tp1.modelo.Empresa;
 import tp1.modelo.indicador.Indicador;
 
+@Entity
 public final class CondiciónTaxativa extends Condición {
 	
 	@JsonProperty
