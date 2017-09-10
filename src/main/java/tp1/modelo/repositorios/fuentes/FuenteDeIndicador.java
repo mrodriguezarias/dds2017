@@ -11,4 +11,8 @@ public interface FuenteDeIndicador {
 	public List<String> obtenerNombres();
 	
 	public void guardar(List<Indicador> indicators);
+
+	public void remover(Indicador indicador);
+
+	public default void actualizar(Indicador original, Indicador nuevo) {}
 }

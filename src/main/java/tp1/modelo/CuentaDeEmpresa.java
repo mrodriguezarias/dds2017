@@ -1,8 +1,6 @@
 package tp1.modelo;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import org.uqbar.commons.model.annotations.Dependencies;
@@ -14,10 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 @Observable @Entity(name="CuentasDeEmpresas")
-public class CuentaDeEmpresa implements Medida {
-	
-	@Id @GeneratedValue
-	private Long id;
+public class CuentaDeEmpresa extends Entidad implements Medida {
 	
 	@ManyToOne
 	private Cuenta cuenta;

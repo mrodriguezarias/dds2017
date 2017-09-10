@@ -1,16 +1,11 @@
 package tp1.modelo;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
 import org.uqbar.commons.model.annotations.Observable;
 
 @Observable @Entity(name="Cuentas")
-public class Cuenta {
-
-	@Id @GeneratedValue
-	private Long id;
+public class Cuenta extends Entidad {
 	
 	private String nombre;
 	

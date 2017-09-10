@@ -7,8 +7,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
@@ -16,12 +14,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import tp1.modelo.Empresa;
+import tp1.modelo.Entidad;
 
 @Entity(name="Metodologías")
-public class Metodología {
-	
-	@Id @GeneratedValue
-	private Long id;
+public class Metodología extends Entidad {
 	
 	@JsonProperty
 	private String nombre;

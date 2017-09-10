@@ -1,7 +1,7 @@
 package tp1.modelo.repositorios;
 
 import tp1.modelo.repositorios.fuentes.jpa.FuenteJPADeEmpresa;
-import tp1.modelo.repositorios.fuentes.json.FuenteJsonDeIndicador;
+import tp1.modelo.repositorios.fuentes.jpa.FuenteJPADeIndicador;
 import tp1.modelo.repositorios.fuentes.json.FuenteJsonDeMetodologia;
 
 public class Repositorios {
@@ -24,7 +24,7 @@ public class Repositorios {
 	
 	public static RepositorioDeIndicadores obtenerRepositorioDeIndicadores() {
 		if(repositorioDeIndicadores == null) {
-			FuenteJsonDeIndicador fuenteDeIndicador = new FuenteJsonDeIndicador();
+			FuenteJPADeIndicador fuenteDeIndicador = new FuenteJPADeIndicador();
 			repositorioDeIndicadores = new RepositorioDeIndicadores(fuenteDeIndicador);
 			repositorioDeIndicadores.crearIndicadores();
 		}

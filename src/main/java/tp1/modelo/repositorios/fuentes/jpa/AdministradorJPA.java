@@ -1,11 +1,15 @@
 package tp1.modelo.repositorios.fuentes.jpa;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+
+import tp1.modelo.Entidad;
 
 public class AdministradorJPA<T> implements WithGlobalEntityManager {
 	
@@ -19,16 +23,24 @@ public class AdministradorJPA<T> implements WithGlobalEntityManager {
 		return entityManager().find(tipo, id);
 	}
 	
-	@SuppressWarnings("unchecked")
-	public List<T> obtenerTodos(String condición) {
-		String nombre = tipo.getSimpleName();
-		String sql = String.format("SELECT e FROM %s e WHERE %s", nombre, condición);
-		Query consulta = entityManager().createQuery(sql);
-		return (List<T>) consulta.getResultList();
+	public List<T> obtenerTodos() {
+		return obtenerTodos("");
 	}
 	
-	public List<T> obtenerTodos() {
-		return obtenerTodos("1=1");
+	@SuppressWarnings("unchecked")
+	public List<T> obtenerTodos(String constructor) {
+		String tabla = tipo.getAnnotation(Entity.class).name();
+		String hql = String.format("SELECT e FROM %s e", tabla);
+		if(!constructor.isEmpty()) {
+			hql = String.format("SELECT %s FROM %s e", constructor, tabla);
+		}
+		Query consulta = entityManager().createQuery(hql);
+		List<Entidad> entidades = consulta.getResultList();
+		List<T> lista = new ArrayList<>();
+		entidades.forEach(entidad -> {
+			lista.add(entityManager().find(tipo, entidad.getId()));
+		});
+		return lista;
 	}
 	
 	public EntityTransaction iniciarTransacción() {
@@ -43,5 +55,9 @@ public class AdministradorJPA<T> implements WithGlobalEntityManager {
 	
 	public void persistir(T objeto) {
 		entityManager().persist(objeto);
+	}
+	
+	public void remover(T objeto) {
+		entityManager().remove(objeto);
 	}
 }

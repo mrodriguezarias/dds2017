@@ -47,4 +47,10 @@ public class FuenteDeIndicadorDePrueba implements FuenteDeIndicador {
 		crearIndicador("I4", "(235 / 3.4) * C1");
 		crearIndicador("I5", "2 * C3");
 	}
+
+	@Override
+	public void remover(Indicador indicador) {
+		// TODO Auto-generated method stub
+		
+	}
 }

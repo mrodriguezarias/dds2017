@@ -9,6 +9,7 @@
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		
 		<class>tp1.modelo.Empresa</class>
+		<class>tp1.modelo.indicador.Indicador</class>
 
 		<properties>
 			<property name="hibernate.archive.autodetection" value="class" />

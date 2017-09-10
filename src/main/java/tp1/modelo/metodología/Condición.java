@@ -5,8 +5,6 @@ import java.util.stream.Collectors;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.ManyToOne;
 
@@ -15,14 +13,12 @@ import org.uqbar.commons.model.annotations.Observable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import tp1.modelo.Empresa;
+import tp1.modelo.Entidad;
 import tp1.modelo.indicador.Indicador;
 
 @Observable
 @Entity(name="Condiciones") @Inheritance @DiscriminatorColumn(name="tipo")
-public abstract class Condición {
-
-	@Id @GeneratedValue
-	private Long id;
+public abstract class Condición extends Entidad {
 	
 	@JsonProperty
 	protected String nombre;

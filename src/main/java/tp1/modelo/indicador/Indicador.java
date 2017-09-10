@@ -3,9 +3,8 @@ package tp1.modelo.indicador;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -13,16 +12,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import tp1.modelo.Empresa;
+import tp1.modelo.Entidad;
 import tp1.modelo.Medida;
 import tp1.modelo.indicador.AnalizadorSintáctico.ParseFailedException;
 
 @Entity(name="Indicadores")
-public class Indicador implements Medida,Calculable {
-
-	@Id @GeneratedValue
-	private Long id;
+public class Indicador extends Entidad implements Medida,Calculable {
 	
 	@JsonProperty
+	@Column(unique=true)
 	private String name;
 
 	@JsonProperty
@@ -50,6 +48,8 @@ public class Indicador implements Medida,Calculable {
 	@SuppressWarnings("serial")
 	public class InvalidForContextException extends Exception {}
 	
+	@SuppressWarnings("unused")
+	private Indicador() {}
 	
 	@JsonCreator
 	public Indicador(
@@ -61,7 +61,7 @@ public class Indicador implements Medida,Calculable {
 		this.formula = formula;
 		try {
 			this.calculable = new AnalizadorSintáctico().obtenerCalculable(formula);
-		} catch (ParseFailedException e) {}		
+		} catch (ParseFailedException e) {}
 	}
 
 	public String obtenerFórmula() {
@@ -79,6 +79,15 @@ public class Indicador implements Medida,Calculable {
 	public double obtenerValor(Empresa company, short period) {
 		return this.calcular(company, period);
 	}
+	
+	public void actualizar(String nombre, String descripción, String fórmula) {
+		this.name = nombre;
+		this.description = descripción;
+		this.formula = fórmula;
+		try {
+			this.calculable = new AnalizadorSintáctico().obtenerCalculable(formula);
+		} catch (ParseFailedException e) {}		
+	}
 
 	@Override
 	public double calcular(Empresa company, short period) {
@@ -91,7 +100,7 @@ public class Indicador implements Medida,Calculable {
 		return calculable.getCuentas(); //fixme: quedarse con uno
 	}
 	
-	public boolean esVálidoParaContexto(Empresa company, short period) {
+	public boolean esVálidoParaContexto(Empresa company, short period) { 
 		return company.obtenerCuentas(period).stream()
 				.map(m -> m.getName()).collect(Collectors.toSet())
 				.containsAll(calculable.getCuentas());

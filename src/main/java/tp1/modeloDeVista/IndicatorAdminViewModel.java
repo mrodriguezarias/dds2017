@@ -118,19 +118,17 @@ public class IndicatorAdminViewModel {
 	}
 	
 	private void addIndicator(Indicador indicator) {
-		if(indicatorNames.contains(indicator.getName())) {
-			replaceIndicator(indicator);
-			return;
-		}
 		addIndicatorName(indicator.getName());
 		Repositorios.obtenerRepositorioDeIndicadores().agregar(indicator);
 	}
 	
 	private void replaceIndicator(Indicador indicator) {
-		Indicador prev = Repositorios.obtenerRepositorioDeIndicadores().encontrar(indicatorName);
-		if(!indicatorName.equals(indicator.getName())) {
+		Indicador prev = Repositorios.obtenerRepositorioDeIndicadores().encontrar(name);
+		if(indicatorName != null && !indicatorName.equals(indicator.getName())) {
 			addIndicatorName(indicator.getName());
 			indicatorNames = indicatorNames.stream().filter(n -> !n.equals(prev.getName())).collect(Collectors.toList());
+		} else {
+			indicatorName = name;
 		}
 		Repositorios.obtenerRepositorioDeIndicadores().reemplazar(prev, indicator);
 	}
@@ -150,10 +148,12 @@ public class IndicatorAdminViewModel {
 		builder.establecerDescripción(description);
 		builder.establecerFórmula(formula);
 		
+		boolean actualizar = isEditing || indicatorNames.contains(name);
+		
 		try {
 			Indicador indicator = builder.construir();
 			
-			if(isEditing) {
+			if(actualizar) {
 				replaceIndicator(indicator);
 			} else {
 				addIndicator(indicator);
@@ -164,7 +164,7 @@ public class IndicatorAdminViewModel {
 		}
 		
 		this.error = "";
-		String operation = isEditing ? "actualizado" : "creado";
+		String operation = actualizar ? "actualizado" : "creado";
 		this.isEditing = true;
 		return String.format("%s %s", name, operation);
 	}

@@ -36,6 +36,11 @@ public class FuenteJsonDeIndicador implements FuenteDeIndicador {
 	public List<String> obtenerNombres() {
 		return coder.obtenerCampo("name");
 	}
-	
+
+	@Override
+	public void remover(Indicador indicador) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

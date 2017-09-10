@@ -72,6 +72,7 @@ public class MeasureComponent {
 	}
 	
 	private String significantDigits(double figure) {
+		if(figure < 10000) return formatNumber(figure);
 		String[] units = {"mil", "millones", "mil millones", "billones", "mil billones", "trillones", "mil trillones"};
 		int index = -1;
 		while(Math.abs(figure) > 1000) {

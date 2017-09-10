@@ -5,18 +5,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import org.uqbar.commons.model.annotations.Observable;
 
 @Observable @Entity(name="Empresas")
-public class Empresa {
-	
-	@Id @GeneratedValue
-	private Long id;
+public class Empresa extends Entidad {
 	
 	private String nombre;
 	

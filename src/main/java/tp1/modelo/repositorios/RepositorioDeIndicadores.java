@@ -39,17 +39,19 @@ public class RepositorioDeIndicadores {
 	public boolean existeIndicador(String nombre){
 		return nombres.stream().anyMatch(n -> n.equals(nombre));
 	}
-	public void reemplazar(Indicador oldIndicator, Indicador newIndicator) {
-		indicators.remove(oldIndicator);
-		nombres.remove(oldIndicator.getName());
-		indicators.add(newIndicator);
-		nombres.add(newIndicator.getName());
-		guardar();
+	
+	public void reemplazar(Indicador viejo, Indicador nuevo) {
+		indicators.remove(viejo);
+		nombres.remove(viejo.getName());
+		indicators.add(nuevo);
+		nombres.add(nuevo.getName());
+		source.actualizar(viejo, nuevo);
 	}
 
-	public void remover(Indicador indicator) {
-		nombres.remove(indicator.getName());
-		indicators.remove(indicator);
+	public void remover(Indicador indicador) {
+		nombres.remove(indicador.getName());
+		indicators.remove(indicador);
+		source.remover(indicador);
 		guardar();
 	}
 
