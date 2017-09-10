@@ -16,7 +16,7 @@ import tp1.modelo.Empresa;
 import tp1.modelo.Medida;
 import tp1.modelo.indicador.AnalizadorSintáctico.ParseFailedException;
 
-@Entity
+@Entity(name="Indicadores")
 public class Indicador implements Medida,Calculable {
 
 	@Id @GeneratedValue

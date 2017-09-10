@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import tp1.modelo.Empresa;
 
-@Entity
+@Entity(name="Metodologías")
 public class Metodología {
 	
 	@Id @GeneratedValue

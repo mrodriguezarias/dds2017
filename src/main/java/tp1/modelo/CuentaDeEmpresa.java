@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
-@Observable @Entity
+@Observable @Entity(name="CuentasDeEmpresas")
 public class CuentaDeEmpresa implements Medida {
 	
 	@Id @GeneratedValue

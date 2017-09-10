@@ -6,7 +6,7 @@ import javax.persistence.Id;
 
 import org.uqbar.commons.model.annotations.Observable;
 
-@Observable @Entity
+@Observable @Entity(name="Cuentas")
 public class Cuenta {
 
 	@Id @GeneratedValue

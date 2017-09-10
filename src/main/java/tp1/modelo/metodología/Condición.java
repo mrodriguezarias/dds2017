@@ -3,11 +3,11 @@ package tp1.modelo.metodología;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 
 import org.uqbar.commons.model.annotations.Observable;
@@ -17,7 +17,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import tp1.modelo.Empresa;
 import tp1.modelo.indicador.Indicador;
 
-@Entity @Observable @Inheritance(strategy = InheritanceType.JOINED)
+@Observable
+@Entity(name="Condiciones") @Inheritance @DiscriminatorColumn(name="tipo")
 public abstract class Condición {
 
 	@Id @GeneratedValue

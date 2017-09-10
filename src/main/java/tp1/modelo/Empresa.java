@@ -12,7 +12,7 @@ import javax.persistence.OneToMany;
 
 import org.uqbar.commons.model.annotations.Observable;
 
-@Observable @Entity
+@Observable @Entity(name="Empresas")
 public class Empresa {
 	
 	@Id @GeneratedValue
