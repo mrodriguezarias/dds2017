@@ -2,6 +2,7 @@ package tp1.modelo.metodología;
 
 import java.util.List;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
@@ -11,6 +12,7 @@ import tp1.modelo.Empresa;
 import tp1.modelo.indicador.Indicador;
 
 @Entity
+@DiscriminatorValue("CondiciónTaxocomparativa")
 public final class CondiciónTaxocomparativa extends Condición {
 	
 	@JsonProperty
@@ -21,6 +23,8 @@ public final class CondiciónTaxocomparativa extends Condición {
 	@OneToOne
 	private CondiciónComparativa condiciónComparativa;
 	
+	public CondiciónTaxocomparativa() {}
+
 	CondiciónTaxocomparativa(
 			@JsonProperty("nombre") String nombre, 
 			@JsonProperty("indicador") Indicador indicador,

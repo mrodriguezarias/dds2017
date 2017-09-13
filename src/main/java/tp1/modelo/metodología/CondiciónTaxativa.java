@@ -3,19 +3,24 @@ package tp1.modelo.metodología;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.sym.Name;
 
 import tp1.modelo.Empresa;
 import tp1.modelo.indicador.Indicador;
 
 @Entity
+@DiscriminatorValue("CondiciónTaxativa")
 public final class CondiciónTaxativa extends Condición {
 	
 	@JsonProperty
 	private Double valorDeReferencia;
+
+	public CondiciónTaxativa() {}
 
 	@JsonCreator
 	CondiciónTaxativa(

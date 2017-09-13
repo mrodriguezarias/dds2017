@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -23,17 +24,18 @@ public class Metodología extends Entidad {
 	private String nombre;
 	
 	@JsonProperty
-	@OneToMany @JoinColumn(name="metodologia_id")
+	@OneToMany(cascade = CascadeType.ALL) @JoinColumn(name="metodologia_id")
 	List<CondiciónTaxativa> condicionesTaxativas;
 	
 	@JsonProperty
-	@OneToMany @JoinColumn(name="metodologia_id")
+	@OneToMany(cascade = CascadeType.ALL) @JoinColumn(name="metodologia_id")
 	List<CondiciónComparativa> condicionesComparativas;
 	
 	@JsonProperty
-	@OneToMany @JoinColumn(name="metodologia_id")
+	@OneToMany(cascade = CascadeType.ALL) @JoinColumn(name="metodologia_id")
 	List<CondiciónTaxocomparativa> condicionesTaxocomparativas;
 	
+	public Metodología() {}
 	@JsonCreator
 	Metodología(
 			@JsonProperty("nombre") String nombre,

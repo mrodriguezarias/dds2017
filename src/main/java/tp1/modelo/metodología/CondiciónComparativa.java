@@ -3,6 +3,7 @@ package tp1.modelo.metodología;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -12,10 +13,13 @@ import tp1.modelo.Empresa;
 import tp1.modelo.indicador.Indicador;
 
 @Entity
+@DiscriminatorValue("CondiciónComparativa")
 public final class CondiciónComparativa extends Condición {
 	
 	@JsonProperty
 	private Prioridad prioridad;
+
+	public CondiciónComparativa() {}
 
 	@JsonCreator
 	CondiciónComparativa(
