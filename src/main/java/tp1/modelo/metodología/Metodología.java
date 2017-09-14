@@ -28,17 +28,17 @@ public class Metodología extends Entidad {
 	
 
 	@JsonProperty
-	@OneToMany(cascade = CascadeType.ALL) 
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval= true) 
 	@JoinColumn(name="metodologia_id") @Where(clause = "tipo = 'COMP'")
 	List<CondiciónComparativa> condicionesComparativas;
 	
 	@JsonProperty
-	@OneToMany(cascade = CascadeType.ALL) 
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval= true)  
 	@JoinColumn(name="metodologia_id") @Where(clause = "tipo = 'TAX'")
 	List<CondiciónTaxativa> condicionesTaxativas;
 		
 	@JsonProperty
-	@OneToMany(cascade = CascadeType.ALL) 
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval= true) 
 	@JoinColumn(name="metodologia_id") @Where(clause = "tipo = 'TAXCOMP'")
 	List<CondiciónTaxocomparativa> condicionesTaxocomparativas;
 	

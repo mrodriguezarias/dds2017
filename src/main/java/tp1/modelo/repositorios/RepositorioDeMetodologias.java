@@ -35,12 +35,14 @@ public class RepositorioDeMetodologias {
 	
 	public void remover(Metodología metodologia) {
 		metodologias.remove(metodologia);
+		source.remover(metodologia);
 		guardar();
 	}
 	
 	public void reemplazar(Metodología oldMetodologia, Metodología newMetodologia) {
 		metodologias.remove(oldMetodologia);
 		metodologias.add(newMetodologia);
+		source.actualizar(oldMetodologia, newMetodologia);
 		guardar();
 	}
 

@@ -20,12 +20,12 @@ import tp1.modelo.indicador.Indicador;
 public final class CondiciónTaxocomparativa extends Condición {
 	
 	@JsonProperty
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval= true) 
 	@JoinColumn(name="condiciónTaxativa_id") @Where(clause = "tipo = 'TAX'")
 	private CondiciónTaxativa condiciónTaxativa;
 	
 	@JsonProperty
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval= true) 
 	@JoinColumn(name="CondiciónComparativa_id") @Where(clause = "tipo = 'COMP'")
 	private CondiciónComparativa condiciónComparativa;
 	

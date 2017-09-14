@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityTransaction;
 
+import tp1.modelo.indicador.Indicador;
 import tp1.modelo.metodología.Metodología;
 import tp1.modelo.repositorios.fuentes.FuenteDeMetodologia;
 
@@ -36,5 +37,12 @@ public class FuenteJPADeMetodologia implements FuenteDeMetodologia {
 	private Metodología encontrarOriginal(Metodología metodologia) {
 		return metodologias.stream().filter(m -> m.obtenerNombre().equals(metodologia.obtenerNombre())).findFirst().orElse(null);
 	}
+	
+	@Override
+	public void actualizar(Metodología viejo, Metodología nuevo) {
+		Metodología original = encontrarOriginal(viejo);
+		EntityTransaction transacción = jpa.iniciarTransacción();
+		//TODO ???
+		transacción.commit();
 	
 }

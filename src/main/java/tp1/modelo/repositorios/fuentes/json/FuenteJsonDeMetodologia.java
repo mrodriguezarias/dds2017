@@ -32,4 +32,7 @@ public class FuenteJsonDeMetodologia implements FuenteDeMetodologia {
 		coder.write(metodologias);
 	}
 
+	@Override
+	public void remover(Metodología metodologia) {}
+
 }
