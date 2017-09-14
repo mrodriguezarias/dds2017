@@ -2,9 +2,13 @@ package tp1.modelo.metodología;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.Where;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -16,11 +20,13 @@ import tp1.modelo.indicador.Indicador;
 public final class CondiciónTaxocomparativa extends Condición {
 	
 	@JsonProperty
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="condiciónTaxativa_id") @Where(clause = "tipo = 'TAX'")
 	private CondiciónTaxativa condiciónTaxativa;
 	
 	@JsonProperty
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="CondiciónComparativa_id") @Where(clause = "tipo = 'COMP'")
 	private CondiciónComparativa condiciónComparativa;
 	
 	public CondiciónTaxocomparativa() {}
