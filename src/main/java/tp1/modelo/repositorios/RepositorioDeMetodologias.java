@@ -24,7 +24,6 @@ public class RepositorioDeMetodologias {
 	}
 	
 	public Metodología encontrar(String nombre){
-		
 		return metodologias.stream().filter(c -> c.obtenerNombre().equals(nombre)).findFirst().orElse(null);
 	}
 	
@@ -32,7 +31,7 @@ public class RepositorioDeMetodologias {
 		metodologias.add(metodologia);
 		guardar();
 	}
-	
+
 	public void remover(Metodología metodologia) {
 		metodologias.remove(metodologia);
 		source.remover(metodologia);

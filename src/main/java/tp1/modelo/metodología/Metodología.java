@@ -1,6 +1,5 @@
 package tp1.modelo.metodología;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -132,5 +131,12 @@ public class Metodología extends Entidad {
 	private Empresa obtenerEmpresaDeNombre(String nombre, List<Empresa> empresas) {
 		return empresas.stream().filter(empresa -> empresa.getNombre().equals(nombre)).findFirst().get();
 	}
-	
+
+	public void actualizar(List<CondiciónTaxativa> condicionesTaxativas,
+			List<CondiciónComparativa> condicionesComparativas,
+			List<CondiciónTaxocomparativa> condicionesTaxocomparativas) {
+		this.condicionesTaxativas = condicionesTaxativas;
+		this.condicionesComparativas = condicionesComparativas;
+		this.condicionesTaxocomparativas = condicionesTaxocomparativas;
+	}
 }

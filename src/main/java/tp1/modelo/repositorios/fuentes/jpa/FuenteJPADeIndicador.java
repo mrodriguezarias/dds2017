@@ -42,6 +42,7 @@ public class FuenteJPADeIndicador implements FuenteDeIndicador {
 	@Override
 	public void remover(Indicador indicador) {
 		Indicador original = encontrarOriginal(indicador);
+		indicadores.remove(original);
 		if(original == null) return;
 		EntityTransaction transacción = jpa.iniciarTransacción();
 		jpa.remover(original);

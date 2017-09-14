@@ -3,7 +3,6 @@ package tp1.modelo.repositorios;
 import tp1.modelo.repositorios.fuentes.jpa.FuenteJPADeEmpresa;
 import tp1.modelo.repositorios.fuentes.jpa.FuenteJPADeIndicador;
 import tp1.modelo.repositorios.fuentes.jpa.FuenteJPADeMetodologia;
-import tp1.modelo.repositorios.fuentes.json.FuenteJsonDeMetodologia;
 
 public class Repositorios {
 	

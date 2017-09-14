@@ -8,7 +8,9 @@ public interface FuenteDeMetodologia {
 	
 	public List<Metodología> cargar();
 		
-	public void guardar(List<Metodología> metodologias);
+	public default void guardar(List<Metodología> metodologias) {}
+	
+	public default void persistir(List<Metodología> metodologías) {}
 	
 	public default void remover(Metodología metodologia) {}
 

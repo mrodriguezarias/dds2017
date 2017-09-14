@@ -28,11 +28,15 @@ public class FuenteJsonDeMetodologia implements FuenteDeMetodologia {
 
 	@Override
 	public void guardar(List<Metodología> metodologias) {
-
 		coder.write(metodologias);
 	}
 
 	@Override
 	public void remover(Metodología metodologia) {}
+
+	@Override
+	public void persistir(List<Metodología> metodologías) {
+		guardar(metodologías);
+	}
 
 }
