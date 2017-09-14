@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 
 import org.uqbar.commons.model.annotations.Observable;
@@ -17,7 +18,8 @@ import tp1.modelo.Entidad;
 import tp1.modelo.indicador.Indicador;
 
 @Observable
-@Entity(name="Condiciones") @Inheritance @DiscriminatorColumn(name="tipo")
+@Entity(name="Condiciones")
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE) @DiscriminatorColumn(name="tipo")
 public abstract class Condición extends Entidad {
 	
 	@JsonProperty

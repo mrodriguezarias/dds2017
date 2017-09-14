@@ -13,7 +13,7 @@ import tp1.modelo.Empresa;
 import tp1.modelo.indicador.Indicador;
 
 @Entity
-@DiscriminatorValue("CondiciónComparativa")
+@DiscriminatorValue("COMP")
 public final class CondiciónComparativa extends Condición {
 	
 	@JsonProperty

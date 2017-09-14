@@ -1,5 +1,6 @@
 package tp1.modelo.metodología;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.Where;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -23,19 +26,25 @@ public class Metodología extends Entidad {
 	@JsonProperty
 	private String nombre;
 	
+
 	@JsonProperty
-	@OneToMany(cascade = CascadeType.ALL) @JoinColumn(name="metodologia_id")
-	List<CondiciónTaxativa> condicionesTaxativas;
-	
-	@JsonProperty
-	@OneToMany(cascade = CascadeType.ALL) @JoinColumn(name="metodologia_id")
+	@OneToMany(cascade = CascadeType.ALL) 
+	@JoinColumn(name="metodologia_id") @Where(clause = "tipo = 'COMP'")
 	List<CondiciónComparativa> condicionesComparativas;
 	
 	@JsonProperty
-	@OneToMany(cascade = CascadeType.ALL) @JoinColumn(name="metodologia_id")
+	@OneToMany(cascade = CascadeType.ALL) 
+	@JoinColumn(name="metodologia_id") @Where(clause = "tipo = 'TAX'")
+	List<CondiciónTaxativa> condicionesTaxativas;
+		
+	@JsonProperty
+	@OneToMany(cascade = CascadeType.ALL) 
+	@JoinColumn(name="metodologia_id") @Where(clause = "tipo = 'TAXCOMP'")
 	List<CondiciónTaxocomparativa> condicionesTaxocomparativas;
 	
-	public Metodología() {}
+	@SuppressWarnings("unused")
+	private Metodología() {}
+	
 	@JsonCreator
 	Metodología(
 			@JsonProperty("nombre") String nombre,
@@ -46,6 +55,18 @@ public class Metodología extends Entidad {
 		this.condicionesTaxativas = condicionesTaxativas;
 		this.condicionesComparativas = condicionesComparativas;
 		this.condicionesTaxocomparativas = condicionesTaxocomparativas;
+	}
+
+	public List<CondiciónComparativa> getCondicionesComparativas() {
+		return condicionesComparativas;
+	}
+
+	public List<CondiciónTaxativa> getCondicionesTaxativas() {
+		return condicionesTaxativas;
+	}
+
+	public List<CondiciónTaxocomparativa> getCondicionesTaxocomparativas() {
+		return condicionesTaxocomparativas;
 	}
 
 	public String obtenerNombre() {

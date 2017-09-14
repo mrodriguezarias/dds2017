@@ -8,19 +8,19 @@ import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.sym.Name;
 
 import tp1.modelo.Empresa;
 import tp1.modelo.indicador.Indicador;
 
 @Entity
-@DiscriminatorValue("CondiciónTaxativa")
+@DiscriminatorValue("TAX")
 public final class CondiciónTaxativa extends Condición {
 	
 	@JsonProperty
 	private Double valorDeReferencia;
 
-	public CondiciónTaxativa() {}
+	@SuppressWarnings("unused")
+	private CondiciónTaxativa() {}
 
 	@JsonCreator
 	CondiciónTaxativa(

@@ -25,17 +25,10 @@ public class AdministradorJPA<T> implements WithGlobalEntityManager {
 		return entityManager().find(tipo, id);
 	}
 	
-	public List<T> obtenerTodos() {
-		return obtenerTodos("");
-	}
-	
 	@SuppressWarnings("unchecked")
-	public List<T> obtenerTodos(String constructor) {
+	public List<T> obtenerTodos() {
 		String tabla = tipo.getAnnotation(Entity.class).name();
 		String hql = String.format("SELECT e FROM %s e", tabla);
-		if(!constructor.isEmpty()) {
-			hql = String.format("SELECT %s FROM %s e", constructor, tabla);
-		}
 		Query consulta = entityManager().createQuery(hql);
 		List<Entidad> entidades = consulta.getResultList();
 		List<T> lista = new ArrayList<>();

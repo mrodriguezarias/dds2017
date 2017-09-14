@@ -12,7 +12,7 @@ import tp1.modelo.Empresa;
 import tp1.modelo.indicador.Indicador;
 
 @Entity
-@DiscriminatorValue("CondiciónTaxocomparativa")
+@DiscriminatorValue("TAXCOMP")
 public final class CondiciónTaxocomparativa extends Condición {
 	
 	@JsonProperty
