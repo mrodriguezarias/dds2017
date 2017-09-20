@@ -21,6 +21,7 @@ public class ConstructorDeMetodología {
 	
 	public ConstructorDeMetodología(Metodología metodologia){
 		/*~ Para construir una metodologia en base al estado de una anterior ~*/
+		this.nombre = metodologia.obtenerNombre();
 		this.condicionesTaxativas = new ArrayList<>(metodologia.getCondicionesTaxativas());
 		this.condicionesComparativas = new ArrayList<>(metodologia.getCondicionesComparativas());
 		this.condicionesTaxocomparativas = new ArrayList<>(metodologia.getCondicionesTaxocomparativas());

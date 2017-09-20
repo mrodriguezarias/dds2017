@@ -19,9 +19,14 @@ public class FuenteJPADeMetodologia implements FuenteDeMetodologia {
 	}
 
 	@Override
-	public void persistir(List<Metodología> metodologías) {
+	public void guardar(List<Metodología> metodologías) {
 		EntityTransaction transacción = jpa.iniciarTransacción();
-		metodologias.forEach(m-> jpa.persistir(m));
+		metodologías.forEach(metodología-> {
+			if(encontrarOriginal(metodología) == null) {
+				jpa.persistir(metodología);
+				metodologias.add(metodología);
+			}
+		});
 		transacción.commit();
 	}
 	
