@@ -6,6 +6,7 @@ import java.util.List;
 import tp1.modelo.indicador.ConstructorDeIndicador;
 import tp1.modelo.indicador.Indicador;
 import tp1.modelo.indicador.ConstructorDeIndicador.ExcepciónDeFórmulaInválida;
+import tp1.modelo.repositorios.RepositorioDeIndicadores;
 import tp1.modelo.repositorios.Repositorios;
 import tp1.modelo.repositorios.fuentes.FuenteDeIndicador;
 
@@ -22,7 +23,7 @@ public class FuenteDeIndicadorDePrueba implements FuenteDeIndicador {
 	}
 
 	@Override
-	public void guardar(List<Indicador> indicadores) {
+	public void guardar(RepositorioDeIndicadores repositorio, List<Indicador> indicadores) {
 		
 	}
 	

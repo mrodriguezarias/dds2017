@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityTransaction;
 
 import tp1.modelo.metodología.Metodología;
+import tp1.modelo.repositorios.RepositorioDeMetodologias;
 import tp1.modelo.repositorios.fuentes.FuenteDeMetodologia;
 
 public class FuenteJPADeMetodologia implements FuenteDeMetodologia {
@@ -19,7 +20,7 @@ public class FuenteJPADeMetodologia implements FuenteDeMetodologia {
 	}
 
 	@Override
-	public void guardar(List<Metodología> metodologías) {
+	public void guardar(RepositorioDeMetodologias repositorio, List<Metodología> metodologías) {
 		EntityTransaction transacción = jpa.iniciarTransacción();
 		metodologías.forEach(metodología-> {
 			if(encontrarOriginal(metodología) == null) {
@@ -28,6 +29,7 @@ public class FuenteJPADeMetodologia implements FuenteDeMetodologia {
 			}
 		});
 		transacción.commit();
+		repositorio.setMetodologias(this.metodologias);
 	}
 	
 	public void remover(Metodología metodologia) {

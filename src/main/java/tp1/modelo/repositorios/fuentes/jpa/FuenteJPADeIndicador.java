@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityTransaction;
 
 import tp1.modelo.indicador.Indicador;
+import tp1.modelo.repositorios.RepositorioDeIndicadores;
 import tp1.modelo.repositorios.fuentes.FuenteDeIndicador;
 
 public class FuenteJPADeIndicador implements FuenteDeIndicador {
@@ -28,7 +29,7 @@ public class FuenteJPADeIndicador implements FuenteDeIndicador {
 	}
 
 	@Override
-	public void guardar(List<Indicador> indicators) {
+	public void guardar(RepositorioDeIndicadores repositorio,List<Indicador> indicators) {
 		EntityTransaction transacción = jpa.iniciarTransacción();
 		indicators.forEach(indicador -> {
 			if(encontrarOriginal(indicador) == null) {
@@ -37,6 +38,7 @@ public class FuenteJPADeIndicador implements FuenteDeIndicador {
 			}
 		});
 		transacción.commit();
+		repositorio.setIndicators(this.indicadores);
 	}
 
 	@Override

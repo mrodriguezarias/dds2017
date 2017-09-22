@@ -3,6 +3,7 @@ package tp1.modelo.repositorios.fuentes.json;
 import java.util.List;
 
 import tp1.modelo.metodología.Metodología;
+import tp1.modelo.repositorios.RepositorioDeMetodologias;
 import tp1.modelo.repositorios.fuentes.FuenteDeMetodologia;
 
 public class FuenteJsonDeMetodologia implements FuenteDeMetodologia {
@@ -27,16 +28,8 @@ public class FuenteJsonDeMetodologia implements FuenteDeMetodologia {
 	}
 
 	@Override
-	public void guardar(List<Metodología> metodologias) {
+	public void guardar(RepositorioDeMetodologias repositorio, List<Metodología> metodologias) {
 		coder.write(metodologias);
-	}
-
-	@Override
-	public void remover(Metodología metodologia) {}
-
-	@Override
-	public void persistir(List<Metodología> metodologías) {
-		guardar(metodologías);
 	}
 
 }

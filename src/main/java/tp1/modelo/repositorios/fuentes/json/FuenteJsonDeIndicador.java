@@ -3,6 +3,7 @@ package tp1.modelo.repositorios.fuentes.json;
 import java.util.List;
 
 import tp1.modelo.indicador.Indicador;
+import tp1.modelo.repositorios.RepositorioDeIndicadores;
 import tp1.modelo.repositorios.fuentes.FuenteDeIndicador;
 
 public class FuenteJsonDeIndicador implements FuenteDeIndicador {
@@ -27,7 +28,7 @@ public class FuenteJsonDeIndicador implements FuenteDeIndicador {
 	}
 
 	@Override
-	public void guardar(List<Indicador> indicators) {
+	public void guardar(RepositorioDeIndicadores repositorio, List<Indicador> indicators) {
 		
 		coder.write(indicators);		
 	}
