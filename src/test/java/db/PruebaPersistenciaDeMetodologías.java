@@ -9,16 +9,16 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import tp1.modelo.indicador.Indicador;
-import tp1.modelo.metodología.Condición;
-import tp1.modelo.metodología.CondiciónComparativa;
-import tp1.modelo.metodología.CondiciónTaxativa;
-import tp1.modelo.metodología.ConstructorDeCondiciónComparativa;
-import tp1.modelo.metodología.ConstructorDeCondiciónTaxativa;
-import tp1.modelo.metodología.ConstructorDeMetodología;
-import tp1.modelo.metodología.Metodología;
-import tp1.modelo.repositorios.RepositorioDeMetodologias;
-import tp1.modelo.repositorios.Repositorios;
+import model.indicador.Indicador;
+import model.metodología.Condición;
+import model.metodología.CondiciónComparativa;
+import model.metodología.CondiciónTaxativa;
+import model.metodología.ConstructorDeCondiciónComparativa;
+import model.metodología.ConstructorDeCondiciónTaxativa;
+import model.metodología.ConstructorDeMetodología;
+import model.metodología.Metodología;
+import model.repositorios.RepositorioDeMetodologias;
+import model.repositorios.Repositorios;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PruebaPersistenciaDeMetodologías {

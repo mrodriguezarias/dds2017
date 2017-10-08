@@ -8,15 +8,15 @@
 	<persistence-unit name="db" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		
-		<class>tp1.modelo.Empresa</class>
-		<class>tp1.modelo.Cuenta</class>
-		<class>tp1.modelo.CuentaDeEmpresa</class>
-		<class>tp1.modelo.indicador.Indicador</class>
-		<class>tp1.modelo.metodología.Metodología</class>
-		<class>tp1.modelo.metodología.Condición</class>
-		<class>tp1.modelo.metodología.CondiciónTaxativa</class>
-		<class>tp1.modelo.metodología.CondiciónComparativa</class>
-		<class>tp1.modelo.metodología.CondiciónTaxocomparativa</class>
+		<class>model.Empresa</class>
+		<class>model.Cuenta</class>
+		<class>model.CuentaDeEmpresa</class>
+		<class>model.indicador.Indicador</class>
+		<class>model.metodología.Metodología</class>
+		<class>model.metodología.Condición</class>
+		<class>model.metodología.CondiciónTaxativa</class>
+		<class>model.metodología.CondiciónComparativa</class>
+		<class>model.metodología.CondiciónTaxocomparativa</class>
 
 		<properties>
 			<property name="hibernate.archive.autodetection" value="class" />

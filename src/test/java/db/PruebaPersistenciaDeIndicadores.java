@@ -8,9 +8,9 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import tp1.modelo.indicador.Indicador;
-import tp1.modelo.repositorios.RepositorioDeIndicadores;
-import tp1.modelo.repositorios.Repositorios;
+import model.indicador.Indicador;
+import model.repositorios.RepositorioDeIndicadores;
+import model.repositorios.Repositorios;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PruebaPersistenciaDeIndicadores {
