@@ -1,0 +1,15 @@
+{{#partial "body"}}
+<form action="/indicadores" method="POST">
+    {{#each indicadores}}
+    <label>Nombre: <input type="text" id="nombre" value="{{name}}"/></label><br />
+    <label>Descripción: <input type="text" id="descripcion" value="{{description}}"/></label><br />
+    <label>Fórmula: <input type="text" id="formula" value="{{formula}}"/></label><br />
+    {{/each}}
+    <input type="submit" id="guardar" />
+</form>
+
+<script src="alta-indicadores.js"></script>
+
+{{/partial}}
+
+{{>layout.hbs}}

@@ -3,18 +3,24 @@ package main;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
-import static spark.SparkBase.port;
-import static spark.SparkBase.staticFileLocation;
+import static spark.Spark.port;
+import static spark.Spark.staticFileLocation;
 
 import controllers.HomeController;
+import controllers.CuentaController;
+import controllers.IndicadorController;
 import controllers.SessionController;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
-public class Routes {
+import com.google.gson.Gson;
+
+public class Routes	{
 	
 	public static void main(String[] args) {
+		Gson gson = new Gson();
+
 		System.out.println("Iniciando servidor");
-		
+
 		HandlebarsTemplateEngine engine = new HandlebarsTemplateEngine();
 		
 		port(8080);
@@ -27,5 +33,13 @@ public class Routes {
 		get("/login", session::showLogin, engine);
 		post("/login", session::validateLogin);
 		get("/logout", session::logout);
+
+		CuentaController cuentas = new CuentaController();
+		get("/cuentas", cuentas::getAll, engine);
+
+		get("/empresas/:nombre/cuentas", cuentas::getCuentasByNombreDeEmpresaAndPeriodo, gson::toJson);
+
+		IndicadorController indicadores = new IndicadorController();
+		get("/indicadores", indicadores::show, engine);
 	}
 }

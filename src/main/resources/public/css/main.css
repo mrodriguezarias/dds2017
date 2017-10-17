@@ -37,3 +37,24 @@
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 }
+
+#combo-empresas {
+    float: left;
+}
+
+#combo-periodos {
+    float: right;
+}
+
+#combo-periodos, #combo-empresas    {
+    width: 25%;
+    margin: 2.5em 0;
+}
+
+table *    {
+    text-align: center;
+}
+
+#cuentas    {
+    width: 100%;
+}

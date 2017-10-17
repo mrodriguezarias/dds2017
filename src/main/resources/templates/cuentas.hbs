@@ -1,0 +1,44 @@
+{{#partial "body"}}
+<!--<div class="jumbotron">-->
+    <div class="container">
+        <select class="form-control" id="combo-empresas">
+            <option value="0">Seleccione una empresa...</option>
+            {{#each empresas}}
+                <option value="{{nombre}}">{{nombre}}</option>
+            {{/each}}
+        </select>
+        <select class="form-control" id="combo-periodos">
+            <option value="0">Seleccione un período...</option>
+            {{#each periodos}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+
+        <table id="cuentas" class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>Empresa</th>
+                    <th>Cuenta</th>
+                    <th>Período</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each empresas}}
+                    {{#each cuentas}}
+                <tr>
+                    <td>{{companyName}}</td>
+                    <td>{{name}}</td>
+                    <td>{{period}}</td>
+                    <td>{{value}}</td>
+
+                </tr>
+                    {{/each}}
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+<!--</div>-->
+{{/partial}}
+
+{{> layout.hbs }}

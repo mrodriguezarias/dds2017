@@ -43,8 +43,8 @@ public class Empresa extends Entidad {
 		return cuentas.stream().anyMatch(x -> x.getName().equals(nombre));
 	}
 
-	public List<CuentaDeEmpresa> obtenerCuentas() {
-		return cuentas;
+	public List<CuentaDeEmpresa> getCuentas() {
+		return cuentas.stream().distinct().collect(Collectors.toList());
 	}
 	
 	public List<CuentaDeEmpresa> obtenerCuentas(short período) {
