@@ -33,7 +33,7 @@ $(function()    {
                     $("#nombre").val(indicador.name);
                     $("#descripcion").val(indicador.description);
                     $("#formula").val(indicador.formula);
-                }git
+                }
         });
         guardarIndicador("put", nombreIndicadorSeleccionado);
     });
