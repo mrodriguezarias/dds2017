@@ -1,11 +1,5 @@
 package main;
 
-import static spark.Spark.get;
-import static spark.Spark.post;
-
-import static spark.Spark.port;
-import static spark.Spark.staticFileLocation;
-
 import controllers.HomeController;
 import controllers.CuentaController;
 import controllers.IndicadorController;
@@ -13,6 +7,8 @@ import controllers.SessionController;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
 import com.google.gson.Gson;
+
+import static spark.Spark.*;
 
 public class Routes	{
 	
@@ -41,5 +37,12 @@ public class Routes	{
 
 		IndicadorController indicadores = new IndicadorController();
 		get("/indicadores", indicadores::show, engine);
+		post("/indicadores", indicadores::crear);
+
+        get("/indicadores/:nombre", indicadores::getIndicador, gson::toJson);
+        put("/indicadores", indicadores::modificar);
+		delete("/indicadores/:nombre", indicadores::borrar);
+
+		get("/api/indicadores", indicadores::all, gson::toJson);
 	}
 }

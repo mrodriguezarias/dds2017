@@ -1,3 +1,5 @@
+{{#partial "head"}}<script src="./js/cuentas.js" defer></script>{{/partial}}
+
 {{#partial "body"}}
 <!--<div class="jumbotron">-->
     <div class="container">
@@ -17,21 +19,20 @@
         <table id="cuentas" class="table table-responsive">
             <thead>
                 <tr>
-                    <th>Empresa</th>
-                    <th>Cuenta</th>
-                    <th>Período</th>
-                    <th>Valor</th>
+                    <th class="col-md-3">Empresa</th>
+                    <th class="col-md-3">Cuenta</th>
+                    <th class="col-md-3">Período</th>
+                    <th class="col-md-3">Valor</th>
                 </tr>
             </thead>
             <tbody>
                 {{#each empresas}}
                     {{#each cuentas}}
                 <tr>
-                    <td>{{companyName}}</td>
-                    <td>{{name}}</td>
-                    <td>{{period}}</td>
-                    <td>{{value}}</td>
-
+                    <td class="col-md-3">{{companyName}}</td>
+                    <td class="col-md-3">{{name}}</td>
+                    <td class="col-md-3">{{period}}</td>
+                    <td class="col-md-3">{{value}}</td>
                 </tr>
                     {{/each}}
                 {{/each}}

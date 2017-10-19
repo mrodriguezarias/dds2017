@@ -51,6 +51,6 @@ public class AdministradorJPA<T> implements WithGlobalEntityManager {
 	}
 	
 	public void remover(T objeto) {
-		entityManager().remove(objeto);
+		entityManager().remove(entityManager().merge(objeto)); // TUVE QUE METER EL MERGE PORQUE ME TIRABA UN ERROR "Removing a detached instance"
 	}
 }

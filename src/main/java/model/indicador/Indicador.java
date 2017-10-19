@@ -64,6 +64,10 @@ public class Indicador extends Entidad implements Medida,Calculable {
 		} catch (ParseFailedException e) {}
 	}
 
+	public String getFormula()	{	return formula;	}
+
+	public String getDescription()	{	return description;	}
+
 	public String obtenerFórmula() {
 		return formula;
 	}
