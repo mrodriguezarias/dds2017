@@ -1,17 +1,18 @@
 package controllers;
 
+import model.Empresa;
 import model.indicador.ConstructorDeIndicador;
 import model.indicador.ConstructorDeIndicador.ExcepciónDeFórmulaInválida;
 import model.indicador.Indicador;
 import model.repositorios.RepositorioDeIndicadores;
 import model.repositorios.Repositorios;
-import spark.ModelAndView;
-import spark.Request;
-import spark.Response;
-import spark.Route;
+import org.eclipse.ui.internal.Model;
+import spark.*;
 
+import javax.jws.WebParam;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class IndicadorController {
 
@@ -25,6 +26,8 @@ public class IndicadorController {
 
         map.put("indicadores", indicadores);
 
+        map.put("aplicable", "Indicador");
+
         return new ModelAndView(map, "indicadores.hbs");
     }
 
@@ -36,10 +39,7 @@ public class IndicadorController {
     public Indicador getIndicador(Request req, Response resp)   {
         String nombreIndicador = req.params("nombre");
         Indicador indicador = repositorio.encontrar(nombreIndicador);
-        if(indicador != null) {
-            resp.status(200);
-            return indicador;
-        }
+        if(indicador != null) return indicador;
         else resp.status(404);
         return null;
     }
@@ -75,7 +75,6 @@ public class IndicadorController {
         Indicador indicadorBorrado = repositorio.encontrar(nombreIndicador);
         if(indicadorBorrado != null) {
             repositorio.remover(indicadorBorrado);
-            response.status(200);
         }
         else response.status(204);
         return response;
@@ -100,7 +99,6 @@ public class IndicadorController {
             try {
                 Indicador nuevoIndicador = constructorDeIndicador.construir();
                 repositorio.reemplazar(indicadorViejo, nuevoIndicador);
-                response.status(200);
             } catch(ExcepciónDeFórmulaInválida excepcion) {
                 excepcion.printStackTrace();
                 response.status(500);
@@ -109,5 +107,43 @@ public class IndicadorController {
         else    response.status(204);
 
         return response;
+    }
+
+    public double aplicar(Request request, Response response) {
+        String nombreIndicador = request.params("indicador");
+        String nombreEmpresa = request.params("empresa");
+        Short periodo = Short.valueOf(request.params("periodo"));
+
+        if(repositorio.existeIndicador(nombreIndicador))    {
+            Indicador indicador = repositorio.encontrar(nombreIndicador);
+            Empresa empresa = Repositorios.obtenerRepositorioDeEmpresas().encontrar(nombreEmpresa);
+
+            if(indicador.esVálidoParaContexto(empresa, periodo)) return indicador.obtenerValor(empresa, periodo);
+        }
+        response.status(204);
+        return 0;
+    }
+
+    public ModelAndView showEvaluarIndicador(Request request, Response response)    {
+        HashMap<String, Object> map = new HashMap<>();
+        List<Empresa> empresas = Repositorios.obtenerRepositorioDeEmpresas().todos();
+        List<Short> periodos = Repositorios.obtenerRepositorioDeEmpresas().getAllPeriodos();
+
+        map.put("empresas", empresas);
+        map.put("periodos", periodos);
+        map.put("aplicable", "Indicador");
+        map.put("ruta", "."); // la única forma que se me ocurrió de solucionar el problema de los paths de los JS y CSS no encontrados por el nivel de profunidad de la ruta
+
+        return new ModelAndView(map, "aplicar-indicador.hbs");
+    }
+
+    public List<Indicador> getIndicadoresByEmpresaAndPeriodo(Request request, Response response)    {
+        String nombreEmpresa = request.params("nombre");
+        Short periodo = Short.valueOf(request.queryParams("periodo"));
+        Empresa empresa = Repositorios.obtenerRepositorioDeEmpresas().encontrar(nombreEmpresa);
+
+        List<Indicador> indicadoresPosibles = repositorio.todos().stream().filter(unIndicador -> unIndicador.esVálidoParaContexto(empresa, periodo)).collect(Collectors.toList());
+
+        return indicadoresPosibles;
     }
 }

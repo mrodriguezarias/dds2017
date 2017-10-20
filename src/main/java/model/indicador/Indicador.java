@@ -109,5 +109,4 @@ public class Indicador extends Entidad implements Medida,Calculable {
 				.map(m -> m.getName()).collect(Collectors.toSet())
 				.containsAll(calculable.getCuentas());
 	}
-	
 }

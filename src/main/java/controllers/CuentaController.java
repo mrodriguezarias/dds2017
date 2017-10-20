@@ -25,9 +25,7 @@ public class CuentaController {
         HashMap<String, Object> map = new HashMap<>();
         List<Empresa> empresas = Repositorios.obtenerRepositorioDeEmpresas().todos();
 
-        List<Short> periodos = empresas.stream().map(unaEmpresa -> unaEmpresa.obtenerPeríodos())
-                .flatMap(unaListaDePeriodos -> unaListaDePeriodos.stream()).distinct()
-                .sorted(Collections.reverseOrder()).collect(Collectors.toList());
+        List<Short> periodos = Repositorios.obtenerRepositorioDeEmpresas().getAllPeriodos();
 
         map.put("empresas", empresas);
         map.put("periodos", periodos);
@@ -40,8 +38,6 @@ public class CuentaController {
         Short periodo = Short.valueOf(request.queryParams("periodo"));
 
         List<CuentaDeEmpresa> cuentas = Repositorios.obtenerRepositorioDeEmpresas().encontrar(nombreEmpresa).obtenerCuentas(periodo);
-
-        cuentas.forEach(unaCuenta -> System.out.println(unaCuenta.getValueString()));
 
         return cuentas;
     }

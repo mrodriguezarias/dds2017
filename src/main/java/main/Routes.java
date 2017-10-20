@@ -39,10 +39,15 @@ public class Routes	{
 		get("/indicadores", indicadores::show, engine);
 		post("/indicadores", indicadores::crear);
 
-        get("/indicadores/:nombre", indicadores::getIndicador, gson::toJson);
+        get("/indicadores/aplicar", indicadores::showEvaluarIndicador, engine);
+		get("/indicadores/:nombre", indicadores::getIndicador, gson::toJson);
         put("/indicadores", indicadores::modificar);
 		delete("/indicadores/:nombre", indicadores::borrar);
 
 		get("/api/indicadores", indicadores::all, gson::toJson);
+
+		get("/indicadores/:indicador/empresas/:empresa/periodos/:periodo", indicadores::aplicar, gson::toJson);
+
+		get("/empresas/:nombre/indicadores", indicadores::getIndicadoresByEmpresaAndPeriodo, gson::toJson);
 	}
 }

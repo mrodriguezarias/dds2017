@@ -2,12 +2,12 @@ $(function()    {
     var nombreIndicadorSeleccionado;
 
     $("#indicadores").on("change", function()   {
-        $("#modificar-indicador, #borrar-indicador").prop("disabled", false);
+        $("#modificar-indicador, #borrar-indicador, #aplicar").prop("disabled", false);
         nombreIndicadorSeleccionado = $(this).val()[0];
     });
 
     $("#agregar-indicador").click(function(){
-        $("#titulo-modal-indicador").html("Crear Indicador");
+        $("#titulo-modal").find("span").html("Crear");
         $("#nombre").val("");
         $("#descripcion").val("");
         $("#formula").val("");
@@ -24,7 +24,7 @@ $(function()    {
     });
 
     $("#modificar-indicador").on("click", function()    {
-        $("#titulo-modal-indicador").html("Editar Indicador");
+        $("#titulo-modal").find("span").html("Editar");
         $.ajax({
                 url: $(location).attr("href") + "/" + nombreIndicadorSeleccionado,
                 method: "get",
@@ -52,7 +52,7 @@ function guardarIndicador(method, nombreViejo) {
                 formula: $("#formula").val()
             },
             success: function(respuesta)    {
-                $("#modal-indicador").modal("hide");
+                $("#modal").modal("hide");
                 actualizarIndicadores();
             }
         });
