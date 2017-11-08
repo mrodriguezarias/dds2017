@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import model.CuentaDeEmpresa;
 import model.Empresa;
+import model.repositorios.RepositorioDeEmpresas;
 import model.repositorios.fuentes.FuenteDeEmpresa;
 
 public class FuenteJsonDeEmpresa implements FuenteDeEmpresa {
@@ -37,5 +38,8 @@ public class FuenteJsonDeEmpresa implements FuenteDeEmpresa {
 		});
 		return companies;
 	}
+
+	@Override
+	public void guardar(RepositorioDeEmpresas repositorio, List<Empresa> empresas) { }
 
 }

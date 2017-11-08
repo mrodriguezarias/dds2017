@@ -84,7 +84,7 @@ public class CodificadorJson {
 	}
 
 	private File getResource(String name) {
-		ClassLoader classLoader = File.class.getClassLoader();
+		ClassLoader classLoader = CodificadorJson.class.getClassLoader();
 		File file;
 
 		try {
@@ -93,7 +93,7 @@ public class CodificadorJson {
 			String message = String.format("Error al intentar leer el recurso \"%s\"", name);
 			throw new RuntimeException(message);
 		}
-
+		
 		return file;
 	}
 }

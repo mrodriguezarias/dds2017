@@ -4,8 +4,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import model.Cuenta;
 import model.Empresa;
-import model.indicador.Indicador;
 import model.repositorios.fuentes.FuenteDeEmpresa;
 
 public class RepositorioDeEmpresas {
@@ -37,5 +37,10 @@ public class RepositorioDeEmpresas {
 				.flatMap(unaListaDePeriodos -> unaListaDePeriodos.stream()).distinct()
 				.sorted(Collections.reverseOrder()).collect(Collectors.toList());
 		return periodos;
+	}
+	
+	public List<Cuenta> obtenerCuentas()	{
+		return companies.stream().map(e -> e.getCuentas())
+				.flatMap(cs -> cs.stream().map(c -> c.obtenerCuenta())).distinct().collect(Collectors.toList());
 	}
 }

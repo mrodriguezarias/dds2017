@@ -1,5 +1,6 @@
 package model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
@@ -14,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 @Observable @Entity(name="CuentasDeEmpresas")
 public class CuentaDeEmpresa extends Entidad implements Medida {
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	private Cuenta cuenta;
 	
 	@JsonProperty("company")
@@ -79,9 +80,23 @@ public class CuentaDeEmpresa extends Entidad implements Medida {
 		return period;
 	}
 	
+	public Cuenta obtenerCuenta() {
+		return cuenta;
+	}
+	
 	@Dependencies("value")
 	public String getValueString() {
 		return ""; //fixme
 		//return Util.significantDigits(getValue());
+	}
+	
+	public void actualizar(String companyName, short period, double value) {
+		this.companyName = companyName;
+		this.period = period;
+		this.value = value;
+	}
+
+	public void establecerCuenta(Cuenta cuenta) {
+		this.cuenta = cuenta;
 	}
 }

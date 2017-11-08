@@ -1,5 +1,6 @@
 package model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import org.uqbar.commons.model.annotations.Observable;
@@ -7,6 +8,7 @@ import org.uqbar.commons.model.annotations.Observable;
 @Observable @Entity(name="Cuentas")
 public class Cuenta extends Entidad {
 	
+	@Column(unique=true)
 	private String nombre;
 	
 	private String descripción;

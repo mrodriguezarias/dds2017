@@ -4,18 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import org.uqbar.commons.model.annotations.Observable;
 
+import model.repositorios.Repositorios;
+
 @Observable @Entity(name="Empresas")
 public class Empresa extends Entidad {
 	
 	private String nombre;
 	
-	@OneToMany @JoinColumn(name="empresa_id")
+	@OneToMany(cascade=CascadeType.ALL) @JoinColumn(name="empresa_id")
 	private List<CuentaDeEmpresa> cuentas;
 	
 	@SuppressWarnings("unused")
@@ -59,5 +62,24 @@ public class Empresa extends Entidad {
 	
 	public List<Short> obtenerPeríodos() {
 		return cuentas.stream().map(cuenta -> cuenta.getPeriod()).distinct().sorted().collect(Collectors.toList());
+	}
+	
+	public void actualizar(List<CuentaDeEmpresa> cuentas) {
+		cuentas.forEach(cuenta -> {
+			CuentaDeEmpresa original = this.cuentas.stream().filter(c -> cuenta.getName()
+					.equals(c.getName()) && cuenta.getCompanyName().equals(c.getCompanyName())
+							&& cuenta.getPeriod() == c.getPeriod()).findFirst().orElse(null);
+			System.out.println(String.format("original%s es null", original == null ? "" : " no"));
+			if(original == null) {
+				Cuenta cuentaOrig = Repositorios.obtenerRepositorioDeEmpresas().obtenerCuentas().stream()
+					.filter(c -> c.getNombre().equals(cuenta.obtenerCuenta().getNombre())).findFirst().orElse(null);
+				if(cuentaOrig != null) {
+					cuenta.establecerCuenta(cuentaOrig);
+				}
+				this.cuentas.add(cuenta);
+			} else {
+				original.actualizar(cuenta.getCompanyName(), cuenta.getPeriod(), cuenta.getValue());
+			}
+		});
 	}
 }

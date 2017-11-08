@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import model.CuentaDeEmpresa;
 import model.Empresa;
+import model.repositorios.RepositorioDeEmpresas;
 import model.repositorios.Repositorios;
 import model.repositorios.fuentes.FuenteDeEmpresa;
 
@@ -91,4 +92,7 @@ public class FuenteDeEmpresaDePrueba implements FuenteDeEmpresa {
 		}
 		return true;
 	}
+
+	@Override
+	public void guardar(RepositorioDeEmpresas repositorio, List<Empresa> empresas) { }
 }
