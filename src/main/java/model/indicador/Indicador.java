@@ -19,6 +19,8 @@ import model.indicador.AnalizadorSintáctico.ParseFailedException;
 @Entity(name="Indicadores")
 public class Indicador extends Entidad implements Medida,Calculable {
 	
+//	private Long idUsuario; TODO cero que falta esto de la entrega anterior
+	
 	@JsonProperty
 	@Column(unique=true)
 	private String name;

@@ -5,6 +5,7 @@ import java.util.List;
 
 import model.indicador.ConstructorDeIndicador;
 import model.indicador.Indicador;
+import model.indicador.IndicadorCalculado;
 import model.indicador.ConstructorDeIndicador.ExcepciónDeFórmulaInválida;
 import model.repositorios.RepositorioDeIndicadores;
 import model.repositorios.Repositorios;
@@ -53,5 +54,11 @@ public class FuenteDeIndicadorDePrueba implements FuenteDeIndicador {
 	public void remover(Indicador indicador) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<IndicadorCalculado> cargarCalculados() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

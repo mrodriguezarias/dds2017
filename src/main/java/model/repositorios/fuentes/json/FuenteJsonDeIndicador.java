@@ -3,6 +3,7 @@ package model.repositorios.fuentes.json;
 import java.util.List;
 
 import model.indicador.Indicador;
+import model.indicador.IndicadorCalculado;
 import model.repositorios.RepositorioDeIndicadores;
 import model.repositorios.fuentes.FuenteDeIndicador;
 
@@ -42,6 +43,12 @@ public class FuenteJsonDeIndicador implements FuenteDeIndicador {
 	public void remover(Indicador indicador) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<IndicadorCalculado> cargarCalculados() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

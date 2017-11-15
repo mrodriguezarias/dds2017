@@ -113,12 +113,13 @@ public class IndicadorController {
         String nombreIndicador = request.params("indicador");
         String nombreEmpresa = request.params("empresa");
         Short periodo = Short.valueOf(request.params("periodo"));
+        double valor;
 
-        if(repositorio.existeIndicador(nombreIndicador))    {
+        if(repositorio.existeIndicador(nombreIndicador))  {
             Indicador indicador = repositorio.encontrar(nombreIndicador);
-            Empresa empresa = Repositorios.obtenerRepositorioDeEmpresas().encontrar(nombreEmpresa);
-
-            if(indicador.esVálidoParaContexto(empresa, periodo)) return indicador.obtenerValor(empresa, periodo);
+            valor = repositorio.getValorIndicador(indicador, nombreEmpresa, periodo);
+            if(valor != 0) return valor;
+            
         }
         response.status(204);
         return 0;

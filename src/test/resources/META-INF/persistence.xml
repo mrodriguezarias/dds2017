@@ -12,6 +12,7 @@
 		<class>model.Cuenta</class>
 		<class>model.CuentaDeEmpresa</class>
 		<class>model.indicador.Indicador</class>
+		<class>model.indicador.IndicadorCalculado</class>
 		<class>model.metodología.Metodología</class>
 		<class>model.metodología.Condición</class>
 		<class>model.metodología.CondiciónTaxativa</class>

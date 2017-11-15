@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import model.indicador.Indicador;
+import model.indicador.IndicadorCalculado;
 import model.repositorios.fuentes.FuenteDeIndicador;
 
 public class RepositorioDeIndicadores {
@@ -13,18 +14,28 @@ public class RepositorioDeIndicadores {
 
 	public List<String> nombres;
 	public List<Indicador> indicators;
+	public List<IndicadorCalculado> indicadoresCalculados;
+
 
 	public RepositorioDeIndicadores(FuenteDeIndicador source) {
 		this.source = source;
 		this.nombres = source.obtenerNombres();
 	}
 	
+	public List<IndicadorCalculado> getIndicadoresCalculados() {
+		return indicadoresCalculados;
+	}
+
+	public void setIndicadoresCalculados(List<IndicadorCalculado> indicadoresCalculados) {
+		this.indicadoresCalculados = indicadoresCalculados;
+	}
 	public void setIndicators(List<Indicador> indicators) {
 		this.indicators = new ArrayList<>(indicators);
 	}
 	
 	public void crearIndicadores() { 
 		this.indicators = new ArrayList<>(source.cargar());
+		this.indicadoresCalculados = new ArrayList<>(source.cargarCalculados());
 	}
 	public List<Indicador> todos() {
 		return indicators;
@@ -63,6 +74,19 @@ public class RepositorioDeIndicadores {
 
 	private void actualizarNombres() {
 		this.nombres = this.indicators.stream().map(i -> i.getName()).collect(Collectors.toList());
+	}
+	
+	public double getValorIndicador(Indicador indicador, String empresa, Short periodo) {
+		
+		IndicadorCalculado calculado = this.indicadoresCalculados.stream().
+													filter(x -> x.getIdIndicador() == indicador.getId() 
+															 && x.getEmpresa().equals(empresa)
+															 && x.getPeriodo() == periodo).findFirst().orElse(null);
+		if(calculado != null) {
+			return calculado.getValor();
+		}
+		
+		return 0;
 	}
 
 }
