@@ -49,15 +49,20 @@ public class FuenteJPADeIndicador implements FuenteDeIndicador {
 
 	@Override
 	public void guardar(RepositorioDeIndicadores repositorio,List<Indicador> indicators) {
+		List<Indicador> nuevos = new ArrayList<>();
+		
 		EntityTransaction transacción = jpa.iniciarTransacción();
 		indicators.forEach(indicador -> {
 			if(encontrarOriginal(indicador) == null) {
 				jpa.persistir(indicador);
-				guardarCalculados(indicador);
 				this.indicadores.add(indicador);
+				nuevos.add(indicador);
 			}
 		});
 		transacción.commit();
+		
+		
+		nuevos.forEach(i-> guardarCalculados(i));
 		
 		repositorio.setIndicators(this.indicadores);
 		repositorio.setIndicadoresCalculados(this.indicadoresCalculados);
@@ -91,6 +96,7 @@ public class FuenteJPADeIndicador implements FuenteDeIndicador {
 		if(original == null) return;
 		this.indicadores.remove(original);
 		EntityTransaction transacción = jpa.iniciarTransacción();
+		jpa.merge(original);
 		jpa.remover(original);
 		transacción.commit();
 		
@@ -102,7 +108,10 @@ public class FuenteJPADeIndicador implements FuenteDeIndicador {
 		List<IndicadorCalculado> calculados = this.indicadoresCalculados.stream().filter(i -> i.getIdIndicador() == indicador.getId()).collect(Collectors.toList());
 		calculados.forEach(x -> this.indicadoresCalculados.remove(x));
 		EntityTransaction transacción = jpaCalculados.iniciarTransacción();
-		calculados.forEach(x -> jpaCalculados.remover(x));
+		calculados.forEach(x -> {
+			jpaCalculados.merge(x);
+			jpaCalculados.remover(x);
+		});
 		transacción.commit();
 	}
 	
@@ -114,12 +123,30 @@ public class FuenteJPADeIndicador implements FuenteDeIndicador {
 	@Override
 	public void actualizar(Indicador viejo, Indicador nuevo) {
 		Indicador original = encontrarOriginal(viejo);
+		removerCalculados(viejo);
 		EntityTransaction transacción = jpa.iniciarTransacción();
 		original.actualizar(nuevo.getName(), nuevo.obtenerDescripción(), nuevo.obtenerFórmula());
+		jpa.merge(original);
 		transacción.commit();
 		
-		removerCalculados(viejo);
-		guardarCalculados(nuevo); // ya que pudo haber cambiado la formula
+		guardarCalculados(original); // ya que pudo haber cambiado la formula
+	}
+	
+	@Override
+	public double getValorIndicador(Indicador indicador, String empresa, Short periodo) {
+		
+		Indicador original = encontrarOriginal(indicador);
+		
+		IndicadorCalculado calculado = this.indicadoresCalculados.stream().
+				filter(x -> x.getIdIndicador() == original.getId()).
+				filter(x -> x.getEmpresa().equals(empresa)).
+				filter(x->  x.getPeriodo().equals(periodo)).findFirst().orElse(null);
+		
+		if(calculado != null) {
+			System.out.println(calculado.getValor());
+			return calculado.getValor();
+		}
+		return 0;
 	}
 
 	

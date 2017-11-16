@@ -46,6 +46,10 @@ public class AdministradorJPA<T> implements WithGlobalEntityManager {
 		transacción.commit();
 	}
 	
+	public void merge(T objeto) { 
+		entityManager().merge(objeto);
+	}
+	
 	public void persistir(T objeto) {
 		entityManager().persist(objeto);
 	}

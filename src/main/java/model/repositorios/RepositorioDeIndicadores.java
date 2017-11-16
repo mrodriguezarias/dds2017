@@ -78,15 +78,7 @@ public class RepositorioDeIndicadores {
 	
 	public double getValorIndicador(Indicador indicador, String empresa, Short periodo) {
 		
-		IndicadorCalculado calculado = this.indicadoresCalculados.stream().
-													filter(x -> x.getIdIndicador() == indicador.getId() 
-															 && x.getEmpresa().equals(empresa)
-															 && x.getPeriodo() == periodo).findFirst().orElse(null);
-		if(calculado != null) {
-			return calculado.getValor();
-		}
-		
-		return 0;
+		return this.source.getValorIndicador(indicador, empresa, periodo);
 	}
 
 }

@@ -22,4 +22,5 @@ public interface FuenteDeIndicador {
 
 	public default void actualizar(Indicador original, Indicador nuevo) {}
 	
+	public default double getValorIndicador(Indicador indicador, String empresa, Short periodo) {return 0;}
 }
